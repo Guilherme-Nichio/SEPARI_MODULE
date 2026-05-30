@@ -1,0 +1,1494 @@
+/* =========================================================================
+   SEPARI v3.12 — REDESIGN OVERRIDES
+   Carregado por ÚLTIMO. Sobrescreve regras das versões anteriores sem
+   alterar os arquivos originais (mais fácil de reverter / auditar).
+
+   Cobertura:
+   1.  Status badges — paleta unificada (sem azul/roxo)
+   2.  Remover UPPERCASE excessivo
+   3.  Espaçamento topo (navbar não cola mais no conteúdo)
+   4.  Navbar — fix overflow no mobile, user-badge contido
+   5.  Hero "Sobre" — manifesto editorial claro
+   6.  Hero "Servicos" — blueprint técnico
+   7.  Hero "Equipamentos" — showcase de produto
+   8.  Pedidos — timeline visual + cards refinados
+   ========================================================================= */
+
+
+/* =========================================================================
+   1. STATUS BADGES — paleta unificada (teal/âmbar/verde/vermelho/cinza)
+   Elimina o azul de "open" e o roxo de "in_progress" que estavam fora
+   do padrão visual da marca.
+   ========================================================================= */
+.status-badge,
+.status-pending, .status-open,
+.status-in_progress, .status-approved,
+.status-answered, .status-rejected,
+.status-closed {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px;
+  font-size: 0.78rem !important;
+  font-weight: 600 !important;
+  padding: 5px 11px !important;
+  border-radius: 999px !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+/* Aguarda ação (pendente / aberta) → âmbar */
+.status-pending,
+.status-open {
+  background: rgba(245, 158, 11, 0.10) !important;
+  color: #92400e !important;
+  border: 1px solid rgba(245, 158, 11, 0.30) !important;
+}
+
+/* Em andamento (em análise) → teal escuro */
+.status-in_progress {
+  background: rgba(0, 131, 127, 0.10) !important;
+  color: #006260 !important;
+  border: 1px solid rgba(0, 131, 127, 0.30) !important;
+}
+
+/* Concluído positivo (aprovada / respondida) → verde */
+.status-approved,
+.status-answered {
+  background: rgba(16, 185, 129, 0.10) !important;
+  color: #047857 !important;
+  border: 1px solid rgba(16, 185, 129, 0.30) !important;
+}
+
+/* Negado (rejeitada) → vermelho */
+.status-rejected {
+  background: rgba(239, 68, 68, 0.10) !important;
+  color: #b91c1c !important;
+  border: 1px solid rgba(239, 68, 68, 0.30) !important;
+}
+
+/* Finalizado neutro (fechada) → cinza */
+.status-closed {
+  background: rgba(100, 116, 139, 0.10) !important;
+  color: #475569 !important;
+  border: 1px solid rgba(100, 116, 139, 0.30) !important;
+}
+
+
+/* =========================================================================
+   2. REMOVER UPPERCASE EXCESSIVO
+   Mantemos uppercase APENAS em labels técnicos minúsculos
+   (section-label, gauge-label, hero-readout-label) onde faz sentido
+   estético "industrial". Tudo o mais volta para case normal.
+   ========================================================================= */
+.footer-col h4,
+.data-table thead th,
+.catalog-sidebar h3,
+.catalog-sidebar h4,
+.sector-tile-cat,
+.sector-clean-cat,
+.admin-sidebar-brand-label,
+.admin-sidebar-cat,
+.admin-topbar-title p,
+.parts-stats-bar .count,
+.part-card-stock,
+.account-stat-label,
+.my-machine-card-sn-label,
+.machine-cta-card-items-title,
+.brand-strip-label,
+.mmd-hero-meta-label,
+.my-machine-card-v2-brand,
+.info-block-eyebrow,
+.admin-detail-group-title,
+.fact-strip-label,
+.marquee,
+.marquee-title,
+.page-intro-crumbs,
+.page-intro-eyebrow,
+.page-intro-deco-head-text-eyebrow,
+.section-label-text,
+.section-label-num,
+.section-label-count {
+  text-transform: none !important;
+  letter-spacing: 0.02em !important;
+}
+
+/* Ajustes pontuais — voltam ao tamanho normal de leitura */
+.footer-col h4 {
+  font-size: 0.92rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+}
+
+.data-table thead th {
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+}
+
+.admin-sidebar-cat {
+  font-size: 0.78rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.03em !important;
+  color: rgba(255, 255, 255, 0.55) !important;
+}
+
+.info-block-eyebrow {
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+}
+
+.page-intro-crumbs {
+  font-size: 0.84rem !important;
+  font-weight: 500 !important;
+}
+
+.page-intro-eyebrow {
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em !important;
+}
+
+
+/* =========================================================================
+   3. ESPAÇAMENTO TOPO — conteúdo não cola mais com a navbar
+   A navbar tem altura efetiva de ~70-80px quando scrolled e fica fixed.
+   ========================================================================= */
+.dashboard {
+  padding-top: 140px !important;
+}
+.admin-shell {
+  padding-top: 130px !important;
+}
+.peca-page {
+  padding-top: 140px !important;
+}
+
+/* Quando ClientNav está presente (ele já reserva 88px) o conteúdo
+   abaixo precisa só de respiro */
+.client-nav + main .dashboard,
+.client-nav + main .peca-page {
+  padding-top: 36px !important;
+}
+
+@media (max-width: 768px) {
+  .dashboard { padding-top: 120px !important; }
+  .admin-shell { padding-top: 110px !important; }
+  .peca-page { padding-top: 120px !important; }
+  .client-nav + main .dashboard,
+  .client-nav + main .peca-page {
+    padding-top: 24px !important;
+  }
+}
+
+
+/* =========================================================================
+   4. NAVBAR — fix overflow mobile e user-badge contido
+   (Override do v43 cuida do max-width — não força aqui)
+   ========================================================================= */
+@media (max-width: 768px) {
+  .navbar-wrapper {
+    padding: 0 12px !important;
+  }
+  .navbar {
+    padding: 10px 12px !important;
+    gap: 8px !important;
+  }
+  .navbar .logo img {
+    height: 24px !important;
+  }
+  .nav-actions {
+    gap: 6px !important;
+  }
+  /* user-badge contido — não deixa o nome estourar */
+  .user-badge {
+    max-width: none !important;
+    padding: 4px !important;
+    gap: 0 !important;
+  }
+  .user-badge span:not(.user-avatar),
+  .user-badge svg:not(.user-avatar svg) {
+    display: none !important;
+  }
+  .user-badge .user-avatar {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 0.82rem !important;
+  }
+  /* Menu mobile — ocupa só largura segura */
+  .nav-links {
+    left: 12px !important;
+    right: 12px !important;
+    width: auto !important;
+    max-width: none !important;
+  }
+}
+@media (max-width: 420px) {
+  .navbar .logo img { height: 22px !important; }
+  .btn.btn-sm { padding: 8px 14px !important; font-size: 0.82rem !important; }
+}
+
+
+/* =========================================================================
+   5. HERO "SOBRE" — manifesto editorial claro
+   Override total do .page-intro quando dentro de .page-intro-sobre
+   ========================================================================= */
+.page-intro-sobre {
+  background: linear-gradient(180deg, #FAF8F2 0%, #F4F0E6 100%) !important;
+  color: var(--text) !important;
+  padding: clamp(140px, 16vw, 200px) 0 clamp(80px, 10vw, 120px) !important;
+  position: relative;
+  overflow: hidden;
+}
+.page-intro-sobre::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 50%;
+  height: 100%;
+  background: radial-gradient(ellipse at top right, rgba(0,169,157,0.10) 0%, transparent 60%);
+  pointer-events: none;
+}
+.page-intro-sobre::after {
+  content: 'SOBRE';
+  position: absolute;
+  right: -3vw;
+  bottom: -3vw;
+  font-size: clamp(14rem, 28vw, 36rem);
+  font-weight: 900;
+  color: rgba(0, 99, 96, 0.04);
+  letter-spacing: -0.05em;
+  line-height: 0.8;
+  pointer-events: none;
+  user-select: none;
+  font-family: 'Inter', sans-serif;
+}
+.page-intro-sobre .container { position: relative; z-index: 2; }
+
+.sobre-hero-crumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.86rem;
+  color: var(--text-light);
+  margin-bottom: 60px;
+  font-weight: 500;
+}
+.sobre-hero-crumbs a {
+  color: var(--teal-dark);
+  text-decoration: none;
+}
+.sobre-hero-crumbs a:hover { text-decoration: underline; }
+.sobre-hero-crumbs .sep::before { content: '/'; color: var(--text-muted); }
+
+.sobre-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 60px;
+  max-width: 1100px;
+}
+
+.sobre-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--teal-dark);
+  margin-bottom: 28px;
+}
+.sobre-hero-eyebrow::before {
+  content: '';
+  width: 40px;
+  height: 2px;
+  background: var(--teal);
+  display: block;
+}
+
+.sobre-hero-title {
+  font-size: clamp(2.4rem, 6.2vw, 5.4rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  margin: 0 0 36px;
+  color: var(--text);
+}
+.sobre-hero-title em {
+  font-style: italic;
+  font-weight: 700;
+  color: var(--teal-dark);
+  font-family: 'Inter', serif;
+}
+.sobre-hero-title .accent {
+  color: var(--teal-dark);
+  position: relative;
+  display: inline-block;
+}
+.sobre-hero-title .accent::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 0.08em;
+  height: 0.22em;
+  background: rgba(0, 169, 157, 0.18);
+  z-index: -1;
+}
+
+.sobre-hero-lead {
+  font-size: clamp(1.05rem, 1.4vw, 1.28rem);
+  line-height: 1.7;
+  color: var(--text-light);
+  margin: 0 0 44px;
+  max-width: 740px;
+}
+
+.sobre-hero-meta {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  padding-top: 36px;
+  border-top: 1px solid rgba(0, 99, 96, 0.15);
+  max-width: 880px;
+}
+.sobre-hero-meta-item {
+  padding: 0 24px;
+  border-left: 1px solid rgba(0, 99, 96, 0.12);
+}
+.sobre-hero-meta-item:first-child { padding-left: 0; border-left: none; }
+.sobre-hero-meta-label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-light);
+  margin-bottom: 6px;
+}
+.sobre-hero-meta-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.sobre-hero-ctas {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 56px;
+}
+
+@media (max-width: 768px) {
+  .sobre-hero-crumbs { margin-bottom: 32px; }
+  .sobre-hero-meta {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px 0;
+    padding-top: 28px;
+  }
+  .sobre-hero-meta-item {
+    padding: 0 14px;
+  }
+  .sobre-hero-meta-item:nth-child(3) {
+    border-left: none;
+    padding-left: 0;
+    padding-top: 24px;
+    border-top: 1px solid rgba(0, 99, 96, 0.12);
+    grid-column: 1;
+  }
+  .sobre-hero-meta-item:nth-child(4) {
+    border-left: 1px solid rgba(0, 99, 96, 0.12);
+    padding-top: 24px;
+    border-top: 1px solid rgba(0, 99, 96, 0.12);
+  }
+}
+
+
+/* =========================================================================
+   6. HERO "SERVICOS" — blueprint técnico (escuro + grid de processo)
+   ========================================================================= */
+.page-intro-servicos {
+  background: linear-gradient(135deg, #050D14 0%, #0A1F2C 45%, #0F2A3A 100%) !important;
+  color: white !important;
+  padding: clamp(140px, 16vw, 200px) 0 clamp(80px, 10vw, 110px) !important;
+  position: relative;
+  overflow: hidden;
+}
+.page-intro-servicos::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(94, 234, 212, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(94, 234, 212, 0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse 90% 70% at 20% 60%, black 0%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 20% 60%, black 0%, transparent 75%);
+  pointer-events: none;
+}
+.page-intro-servicos::after {
+  content: '';
+  position: absolute;
+  top: 20%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(0, 169, 157, 0.20) 0%, transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+.page-intro-servicos .container { position: relative; z-index: 2; }
+
+.servicos-hero-crumbs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 40px;
+}
+.servicos-hero-crumbs a {
+  color: #5eead4;
+  text-decoration: none;
+}
+.servicos-hero-crumbs a:hover { color: white; }
+.servicos-hero-crumbs .sep {
+  width: 12px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.30);
+}
+.servicos-hero-crumbs .current { color: white; }
+
+.servicos-hero-top {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: flex-end;
+  margin-bottom: 60px;
+}
+.servicos-hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  background: rgba(94, 234, 212, 0.08);
+  border: 1px solid rgba(94, 234, 212, 0.25);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #5eead4;
+  margin-bottom: 26px;
+}
+.servicos-hero-tag-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #5eead4;
+  box-shadow: 0 0 0 3px rgba(94, 234, 212, 0.20);
+  animation: separi-pulse-dot 2.4s ease-in-out infinite;
+}
+@keyframes separi-pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(94, 234, 212, 0.20); }
+  50% { box-shadow: 0 0 0 7px rgba(94, 234, 212, 0.05); }
+}
+
+.servicos-hero-title {
+  font-size: clamp(2.4rem, 6vw, 5rem);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  margin: 0 0 28px;
+  color: white;
+  max-width: 880px;
+}
+.servicos-hero-title em {
+  font-style: normal;
+  background: linear-gradient(135deg, #5eead4 0%, #14b8a6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #14b8a6;
+}
+
+.servicos-hero-lead {
+  font-size: clamp(1.02rem, 1.3vw, 1.2rem);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.70);
+  margin: 0 0 38px;
+  max-width: 680px;
+}
+
+.servicos-hero-ctas {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 60px;
+}
+
+/* Process strip — 3 etapas técnicas */
+.servicos-hero-process {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  padding: 32px 0 0;
+  border-top: 1px solid rgba(94, 234, 212, 0.15);
+  position: relative;
+}
+.servicos-hero-process::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(90deg, #5eead4, transparent);
+}
+.servicos-hero-step {
+  position: relative;
+  padding: 0 24px;
+  border-left: 1px solid rgba(94, 234, 212, 0.10);
+}
+.servicos-hero-step:first-child {
+  padding-left: 0;
+  border-left: none;
+}
+.servicos-hero-step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(94, 234, 212, 0.10);
+  border: 1px solid rgba(94, 234, 212, 0.30);
+  color: #5eead4;
+  font-weight: 700;
+  font-size: 0.92rem;
+  margin-bottom: 16px;
+  font-family: 'Inter', monospace;
+}
+.servicos-hero-step-title {
+  font-size: 1.04rem;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 8px;
+  letter-spacing: -0.01em;
+}
+.servicos-hero-step-desc {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.62);
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .servicos-hero-top {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+@media (max-width: 700px) {
+  .servicos-hero-process {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .servicos-hero-step {
+    padding: 24px 0 0;
+    border-left: none;
+    border-top: 1px solid rgba(94, 234, 212, 0.10);
+  }
+  .servicos-hero-step:first-child {
+    padding-top: 0;
+    border-top: none;
+  }
+}
+
+
+/* =========================================================================
+   7. HERO "EQUIPAMENTOS" — showcase de produto destacado
+   ========================================================================= */
+.page-intro-equipamentos {
+  background: linear-gradient(160deg, #0F172A 0%, #1E293B 60%, #0F172A 100%) !important;
+  color: white !important;
+  padding: clamp(140px, 16vw, 200px) 0 clamp(80px, 10vw, 110px) !important;
+  position: relative;
+  overflow: hidden;
+}
+.page-intro-equipamentos::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 60%;
+  height: 100%;
+  background: radial-gradient(ellipse at top left, rgba(0, 169, 157, 0.18) 0%, transparent 60%);
+  pointer-events: none;
+}
+.page-intro-equipamentos::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  right: -10%;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(0, 169, 157, 0.10) 0%, transparent 60%);
+  pointer-events: none;
+}
+.page-intro-equipamentos .container { position: relative; z-index: 2; }
+
+.equip-hero-crumbs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 50px;
+}
+.equip-hero-crumbs a { color: #5eead4; text-decoration: none; }
+.equip-hero-crumbs a:hover { color: white; }
+.equip-hero-crumbs .sep {
+  width: 12px; height: 1px;
+  background: rgba(255, 255, 255, 0.30);
+}
+.equip-hero-crumbs .current { color: white; }
+
+.equip-hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.equip-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px;
+  background: rgba(0, 169, 157, 0.12);
+  border: 1px solid rgba(94, 234, 212, 0.25);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #5eead4;
+  margin-bottom: 26px;
+}
+
+.equip-hero-title {
+  font-size: clamp(2.4rem, 5.8vw, 4.8rem);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  margin: 0 0 24px;
+  color: white;
+}
+.equip-hero-title em {
+  font-style: normal;
+  background: linear-gradient(135deg, #5eead4 0%, #14b8a6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.equip-hero-lead {
+  font-size: clamp(1rem, 1.25vw, 1.18rem);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.72);
+  margin: 0 0 36px;
+  max-width: 580px;
+}
+
+.equip-hero-ctas {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.equip-hero-brands {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(94, 234, 212, 0.15);
+  flex-wrap: wrap;
+}
+.equip-hero-brands-label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.50);
+}
+.equip-hero-brands-list {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.equip-hero-brands-list span {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.88);
+  letter-spacing: -0.01em;
+}
+
+/* Showcase card — produto em destaque */
+.equip-hero-showcase {
+  position: relative;
+  background: linear-gradient(160deg, rgba(94, 234, 212, 0.06) 0%, rgba(15, 118, 110, 0.10) 100%);
+  border: 1px solid rgba(94, 234, 212, 0.20);
+  border-radius: 24px;
+  padding: 34px;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+.equip-hero-showcase::before {
+  content: '';
+  position: absolute;
+  top: -2px; left: -2px;
+  right: -2px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #5eead4, transparent);
+}
+.equip-hero-showcase-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 11px;
+  background: rgba(0, 169, 157, 0.18);
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #5eead4;
+  margin-bottom: 22px;
+}
+.equip-hero-showcase-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: white;
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+.equip-hero-showcase-sub {
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0 0 28px;
+  line-height: 1.55;
+}
+
+.equip-hero-showcase-specs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.equip-hero-showcase-spec {
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(94, 234, 212, 0.10);
+  border-radius: 12px;
+}
+.equip-hero-showcase-spec-label {
+  font-size: 0.74rem;
+  color: rgba(255, 255, 255, 0.50);
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+.equip-hero-showcase-spec-value {
+  font-size: 1.02rem;
+  color: white;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.equip-hero-showcase-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 18px;
+  background: rgba(94, 234, 212, 0.10);
+  border: 1px solid rgba(94, 234, 212, 0.30);
+  border-radius: 999px;
+  color: #5eead4;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.equip-hero-showcase-cta:hover {
+  background: rgba(94, 234, 212, 0.20);
+  color: white;
+}
+
+@media (max-width: 980px) {
+  .equip-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+  .equip-hero-showcase { padding: 26px; }
+}
+@media (max-width: 480px) {
+  .equip-hero-showcase-specs {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* =========================================================================
+   8. MEUS PEDIDOS / PEDIDO DETAIL — timeline visual e cards refinados
+   ========================================================================= */
+.pedido-card-v2 {
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+  position: relative;
+}
+.pedido-card-v2:hover {
+  border-color: rgba(0, 169, 157, 0.30);
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+}
+.pedido-card-v2.has-response {
+  border-color: rgba(0, 169, 157, 0.40);
+  box-shadow: 0 4px 20px rgba(0, 169, 157, 0.08);
+}
+.pedido-card-v2.has-response::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--teal-light), var(--teal-dark));
+}
+
+.pedido-card-head {
+  padding: 22px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  background: linear-gradient(180deg, #FBFCFC 0%, white 100%);
+  border-bottom: 1px solid var(--gray-200);
+}
+.pedido-card-head-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+.pedido-card-id {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-light);
+  font-family: 'Inter', monospace;
+  letter-spacing: 0.02em;
+}
+.pedido-card-id strong {
+  color: var(--text);
+  font-weight: 700;
+}
+.pedido-card-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.94rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.pedido-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* Timeline visual de progresso do pedido */
+.pedido-timeline {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  padding: 24px;
+  background: #FBFCFC;
+  border-bottom: 1px solid var(--gray-200);
+  position: relative;
+}
+.pedido-timeline-step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 8px;
+}
+.pedido-timeline-step::after {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  right: -50%;
+  height: 2px;
+  background: var(--gray-200);
+  z-index: 0;
+}
+.pedido-timeline-step:last-child::after { display: none; }
+.pedido-timeline-step.done::after,
+.pedido-timeline-step.current::after {
+  background: var(--teal);
+}
+.pedido-timeline-circle {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid var(--gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  position: relative;
+  z-index: 1;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+}
+.pedido-timeline-step.done .pedido-timeline-circle {
+  background: var(--teal-dark);
+  border-color: var(--teal-dark);
+  color: white;
+}
+.pedido-timeline-step.current .pedido-timeline-circle {
+  background: white;
+  border-color: var(--teal);
+  color: var(--teal-dark);
+  box-shadow: 0 0 0 4px rgba(0, 169, 157, 0.15);
+}
+.pedido-timeline-step.current .pedido-timeline-circle::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 169, 157, 0.20);
+  animation: pedido-pulse 2s ease-in-out infinite;
+}
+@keyframes pedido-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.15); opacity: 0; }
+}
+.pedido-timeline-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-light);
+  line-height: 1.3;
+}
+.pedido-timeline-step.done .pedido-timeline-label,
+.pedido-timeline-step.current .pedido-timeline-label {
+  color: var(--text);
+}
+.pedido-timeline-sub {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Bloco de resposta refinado */
+.pedido-response {
+  padding: 26px 24px;
+  background: linear-gradient(135deg, rgba(0, 169, 157, 0.04) 0%, rgba(0, 169, 157, 0.01) 100%);
+  border-bottom: 1px solid var(--gray-200);
+}
+.pedido-response-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.pedido-response-avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--teal-light), var(--teal-dark));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 169, 157, 0.25);
+}
+.pedido-response-meta {
+  flex: 1;
+}
+.pedido-response-title {
+  font-size: 1.04rem;
+  font-weight: 700;
+  color: var(--teal-darker);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 3px;
+}
+.pedido-response-date {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+.pedido-response-body {
+  padding: 20px 22px;
+  background: white;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 169, 157, 0.18);
+  color: var(--text);
+  font-size: 0.96rem;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+.pedido-response-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+/* Bloco de espera (sem resposta ainda) */
+.pedido-pending-strip {
+  padding: 18px 24px;
+  background: rgba(245, 158, 11, 0.06);
+  border-bottom: 1px solid var(--gray-200);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #92400e;
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+.pedido-pending-strip svg {
+  flex-shrink: 0;
+  color: #d97706;
+}
+
+/* Itens da cotação */
+.pedido-items {
+  padding: 24px;
+}
+.pedido-items-title {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--text-light);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pedido-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  background: #FAFBFC;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  margin-bottom: 10px;
+  transition: border-color 0.2s ease;
+}
+.pedido-item:hover { border-color: rgba(0, 169, 157, 0.25); }
+.pedido-item-img {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  background: white;
+  border: 1px solid var(--gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.pedido-item-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.pedido-item-info { flex: 1; min-width: 0; }
+.pedido-item-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text);
+  margin: 0 0 3px;
+}
+.pedido-item-code {
+  font-size: 0.82rem;
+  color: var(--teal-dark);
+  font-weight: 600;
+  font-family: monospace;
+}
+.pedido-item-type-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: rgba(0, 169, 157, 0.10);
+  color: var(--teal-dark);
+  padding: 2px 7px;
+  border-radius: 999px;
+  margin-right: 6px;
+}
+.pedido-item-qty {
+  background: white;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--gray-200);
+  font-weight: 700;
+  font-size: 0.86rem;
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+@media (max-width: 700px) {
+  .pedido-card-head { padding: 18px; }
+  .pedido-card-actions { width: 100%; justify-content: stretch; }
+  .pedido-card-actions .btn { flex: 1; }
+  .pedido-timeline {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 12px;
+    padding: 20px;
+  }
+  .pedido-timeline-step::after { display: none; }
+  .pedido-response { padding: 20px 18px; }
+  .pedido-items { padding: 18px; }
+}
+
+
+/* =========================================================================
+   9. AJUSTES PEQUENOS - hero da home e outros
+   ========================================================================= */
+/* Remove o texto "Atendimento 24/7" se aparecer em qualquer lugar */
+[data-hide-247] { display: none !important; }
+
+/* Heros internos antigos (page-intro) — se ainda existirem em alguma
+   página não-refeita, mantém o visual antigo mas com padding-top maior */
+.page-intro:not(.page-intro-sobre):not(.page-intro-servicos):not(.page-intro-equipamentos) {
+  padding-top: clamp(140px, 16vw, 190px);
+}
+
+/* Botão de outline-light em fundos claros (Sobre) — versão dark */
+.page-intro-sobre .btn.btn-outline-light {
+  border-color: rgba(0, 99, 96, 0.30);
+  color: var(--teal-darker);
+}
+.page-intro-sobre .btn.btn-outline-light:hover {
+  background: rgba(0, 169, 157, 0.06);
+  border-color: var(--teal);
+}
+.page-intro-sobre .btn.btn-primary {
+  background: var(--teal-dark);
+  color: white;
+}
+.page-intro-sobre .btn.btn-primary:hover {
+  background: var(--teal-darker);
+}
+
+
+/* =========================================================================
+   10. STATS CARDS — para o cabeçalho de Meus Pedidos e outros dashboards
+   ========================================================================= */
+.account-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.account-stat-card {
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: 14px;
+  padding: 18px 20px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.account-stat-card:hover {
+  border-color: rgba(0, 169, 157, 0.30);
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
+}
+.account-stat-value {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1;
+  letter-spacing: -0.025em;
+  margin-bottom: 6px;
+}
+@media (max-width: 700px) {
+  .account-stats {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .account-stat-card { padding: 14px 16px; }
+  .account-stat-value { font-size: 1.5rem; }
+}
+
+
+/* =========================================================================
+   11. TABS — filtros de Meus Pedidos
+   ========================================================================= */
+.tabs {
+  display: flex;
+  gap: 6px;
+  padding: 4px;
+  background: var(--bg-subtle);
+  border-radius: 999px;
+  width: fit-content;
+  max-width: 100%;
+}
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 16px;
+  background: transparent;
+  border: none;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.tab:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.6);
+}
+.tab.active {
+  background: white;
+  color: var(--teal-dark);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+}
+.tab-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 20px;
+  padding: 0 6px;
+  background: rgba(0, 169, 157, 0.12);
+  color: var(--teal-dark);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.tab.active .tab-count {
+  background: var(--teal-dark);
+  color: white;
+}
+
+
+/* =========================================================================
+   12. GRIDS BALANCEADOS — workshop-grid (7 itens) e sectors-v2-grid (11 itens)
+   Antes faziam wrap deixando 1 card sozinho em uma linha. Agora cada
+   breakpoint usa um número de colunas que distribui bem (sem órfão isolado).
+   ========================================================================= */
+
+/* Workshop = 7 itens. Divisões boas: 7×1, 4+3, 2+2+2+1 (último expand) */
+.workshop-grid {
+  display: grid !important;
+  gap: 16px !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+}
+@media (min-width: 1280px) {
+  .workshop-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+}
+@media (max-width: 900px) {
+  .workshop-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+@media (max-width: 540px) {
+  .workshop-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+/* Quando há 7 itens em 3 colunas, o último (7º) fica sozinho na 3ª linha.
+   Expandir esse último pra ocupar todas as colunas. */
+.workshop-grid > *:nth-child(7):last-child {
+  grid-column: 1 / -1;
+}
+.workshop-grid > *:nth-child(7):last-child .workshop-card {
+  /* Card destacado quando expande */
+  max-width: 100%;
+}
+
+/* Sectors = 11 itens. Em qualquer grid sobram 1, 2 ou 3 órfãos.
+   Estratégia: 4 cols (4+4+3) que distribui bem em todas as larguras. */
+.sectors-v2-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 16px !important;
+}
+@media (min-width: 1280px) {
+  .sectors-v2-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+}
+@media (max-width: 900px) {
+  .sectors-v2-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+@media (max-width: 540px) {
+  .sectors-v2-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+/* 11 itens em 2 cols = 5 linhas + 1 sozinho. Expandir o 11º (último). */
+.sectors-v2-grid > *:nth-child(11):last-child {
+  grid-column: 1 / -1;
+}
+
+
+/* =========================================================================
+   13. DARK CARDS — "Da sua planta à nossa bancada" (Servicos)
+   Antes as classes .card-dark, .dark-list, .card-dark-icon não tinham CSS
+   e a seção ficava sem estilo. Agora ela tem visual coerente com a banner-dark.
+   ========================================================================= */
+.card-dark {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.04) 0%, rgba(0, 169, 157, 0.06) 100%);
+  border: 1px solid rgba(94, 234, 212, 0.20);
+  border-radius: 20px;
+  padding: 36px 32px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.35s cubic-bezier(.16,1,.3,1), border-color 0.35s ease, box-shadow 0.35s ease;
+}
+.card-dark::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #5eead4, transparent);
+  opacity: 0.6;
+}
+.card-dark:hover {
+  transform: translateY(-4px);
+  border-color: rgba(94, 234, 212, 0.40);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+.card-dark-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: rgba(0, 169, 157, 0.15);
+  border: 1px solid rgba(94, 234, 212, 0.30);
+  color: #5eead4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  flex-shrink: 0;
+  box-shadow: 0 8px 24px rgba(0, 169, 157, 0.18);
+}
+.card-dark h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 20px;
+  color: white;
+}
+.dark-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+.dark-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.96rem;
+  line-height: 1.55;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed rgba(94, 234, 212, 0.12);
+}
+.dark-list li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.dark-list li svg {
+  color: #5eead4;
+  flex-shrink: 0;
+  margin-top: 3px;
+  background: rgba(94, 234, 212, 0.15);
+  border-radius: 50%;
+  padding: 2px;
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 768px) {
+  .card-dark { padding: 28px 24px; }
+  .card-dark h3 { font-size: 1.2rem; }
+}
+
+
+/* =========================================================================
+   14. BOTÃO "btn-outline-light" NO HERO CLARO DA PÁGINA SOBRE
+   O CSS original deixa cor branca no botão, invisível no fundo creme.
+   Override com alta especificidade.
+   ========================================================================= */
+.page-intro-sobre .sobre-hero-ctas .btn-outline-light,
+.sobre-hero-ctas .btn.btn-outline-light {
+  background: white !important;
+  color: var(--teal-darker, #003f3e) !important;
+  border: 1px solid rgba(0, 99, 96, 0.30) !important;
+  font-weight: 600;
+}
+.page-intro-sobre .sobre-hero-ctas .btn-outline-light:hover,
+.sobre-hero-ctas .btn.btn-outline-light:hover {
+  background: var(--teal-dark, #006260) !important;
+  color: white !important;
+  border-color: var(--teal-dark, #006260) !important;
+}
+.page-intro-sobre .sobre-hero-ctas .btn-primary,
+.sobre-hero-ctas .btn.btn-primary {
+  background: var(--teal-dark, #006260) !important;
+  color: white !important;
+  border: 1px solid var(--teal-dark, #006260) !important;
+}
+.page-intro-sobre .sobre-hero-ctas .btn-primary:hover,
+.sobre-hero-ctas .btn.btn-primary:hover {
+  background: var(--teal-darker, #003f3e) !important;
+  border-color: var(--teal-darker, #003f3e) !important;
+}
+
+
+/* =========================================================================
+   15. IMAGE-FRAME COM FOTO REAL
+   Adicionado <img class="image-frame-photo"> dentro do .image-frame
+   para que a página de Serviços possa exibir foto real em vez do ícone.
+   Se a imagem falhar (onError), o ícone permanece visível como fallback.
+   ========================================================================= */
+.image-frame {
+  position: relative;
+  overflow: hidden;
+}
+.image-frame-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+  border-radius: inherit;
+}
+/* Float badge (texto sobre a imagem) precisa ficar acima */
+.image-frame .float-badge {
+  z-index: 3;
+}
+/* Quando a foto está carregada, o ícone gigante fica menor e em transparência */
+.image-frame:has(.image-frame-photo) .main-icon {
+  display: none;
+}

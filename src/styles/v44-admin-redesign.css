@@ -1,0 +1,682 @@
+/* =====================================================================
+   v44 — ADMIN REDESIGN (full-screen corporate)
+   Carregado por ÚLTIMO: redefine o layout do painel admin.
+   Painel lateral fixo + área de conteúdo 100% da tela.
+   ===================================================================== */
+
+/* Garante que o <main> do admin ocupe tudo sem padding herdado */
+.main-admin { padding: 0 !important; margin: 0 !important; }
+
+/* ---------- SHELL ---------- */
+.admin-shell {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background: var(--bg-subtle);
+  /* zera o que o CSS legado aplicava */
+  padding: 0 !important;
+  margin: 0 !important;
+  position: relative;
+}
+
+/* ---------- SIDEBAR ---------- */
+.admin-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 268px;
+  background: var(--grey-darker);
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  z-index: 1200;
+  box-shadow: 2px 0 24px -10px rgba(0,0,0,0.5);
+  /* zera estilos legados */
+  border-radius: 0 !important;
+  padding: 0 !important;
+  max-height: none !important;
+  overflow: hidden;
+}
+.admin-sidebar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,169,157,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,169,157,.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  opacity: 0.5;
+}
+.admin-sidebar > * { position: relative; z-index: 1; }
+
+.admin-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 20px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin: 0;
+  flex-shrink: 0;
+}
+.admin-sidebar-brand a { display: inline-flex; align-items: center; }
+.admin-sidebar-brand img {
+  height: 24px;
+  filter: brightness(0) invert(1);
+  opacity: 0.95;
+}
+.admin-sidebar-brand-tag {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--teal-light);
+  background: rgba(0,169,157,0.14);
+  border: 1px solid rgba(0,169,157,0.3);
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+.admin-sidebar-close {
+  display: none;
+  margin-left: auto;
+  background: rgba(255,255,255,0.06);
+  border: none;
+  color: rgba(255,255,255,0.8);
+  width: 34px; height: 34px;
+  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.admin-sidebar-close:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+.admin-sidebar-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 12px 16px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.18) transparent;
+}
+.admin-sidebar-scroll::-webkit-scrollbar { width: 8px; }
+.admin-sidebar-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.16);
+  border-radius: 8px;
+}
+.admin-nav-group { margin-bottom: 6px; }
+
+.admin-sidebar-cat {
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.38);
+  padding: 14px 12px 7px;
+}
+
+.admin-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.admin-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 13px;
+  border-radius: 9px;
+  color: rgba(255,255,255,0.72);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background .18s, color .18s;
+  position: relative;
+  text-decoration: none;
+  width: 100%;
+}
+.admin-nav-item:hover {
+  background: rgba(255,255,255,0.05);
+  color: var(--white);
+}
+.admin-nav-item.active {
+  background: linear-gradient(90deg, rgba(0,169,157,0.22), rgba(0,169,157,0.06));
+  color: var(--white);
+}
+.admin-nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 8px; bottom: 8px;
+  width: 3px;
+  background: var(--teal-light);
+  border-radius: 0 3px 3px 0;
+}
+.admin-nav-item svg { flex-shrink: 0; opacity: 0.75; }
+.admin-nav-item.active svg { opacity: 1; color: var(--teal-light); }
+.admin-nav-badge {
+  margin-left: auto;
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: var(--teal-light);
+  color: var(--grey-darker);
+  padding: 2px 8px;
+  border-radius: 9px;
+  min-width: 22px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* ---------- SIDEBAR FOOTER ---------- */
+.admin-sidebar-footer {
+  flex-shrink: 0;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding: 14px;
+  background: rgba(0,0,0,0.2);
+}
+.admin-sidebar-user {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 12px;
+}
+.admin-sidebar-user-avatar {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--teal), var(--teal-light));
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700;
+  font-size: 0.98rem;
+  flex-shrink: 0;
+}
+.admin-sidebar-user-info { min-width: 0; }
+.admin-sidebar-user-name {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.admin-sidebar-user-role {
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.admin-sidebar-footer-actions {
+  display: flex;
+  gap: 8px;
+}
+.admin-footer-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.82);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .18s, color .18s;
+}
+.admin-footer-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+.admin-footer-btn.danger:hover {
+  background: rgba(239,68,68,0.16);
+  border-color: rgba(239,68,68,0.4);
+  color: #fca5a5;
+}
+
+/* ---------- MAIN ---------- */
+.admin-main {
+  flex: 1;
+  min-width: 0;
+  width: auto !important;
+  margin-left: 268px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ---------- TOPBAR ---------- */
+.admin-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: nowrap;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: saturate(180%) blur(10px);
+  border-bottom: 1px solid var(--gray-200);
+  padding: 14px 28px;
+  margin: 0 !important;
+  border-radius: 0 !important;
+}
+.admin-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+.admin-topbar-title h1 {
+  font-size: 1.4rem;
+  margin: 0 0 2px;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--text);
+}
+.admin-topbar-title p {
+  font-size: 0.86rem;
+  color: var(--text-light);
+  margin: 0;
+  font-weight: 400;
+}
+.admin-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+.admin-topbar-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--teal-dark);
+  text-decoration: none;
+  padding: 7px 12px;
+  border-radius: 8px;
+  transition: background .18s;
+}
+.admin-topbar-link:hover { background: var(--gray-100); }
+.admin-topbar-user {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 5px 12px 5px 5px;
+  background: var(--gray-100);
+  border-radius: 999px;
+}
+.admin-topbar-user-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--teal), var(--teal-light));
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+.admin-topbar-user-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  max-width: 160px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Botão hambúrguer (apenas mobile) */
+.admin-mobile-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 42px; height: 42px;
+  padding: 0 !important;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 10px;
+  color: var(--text);
+  cursor: pointer;
+  flex-shrink: 0;
+  margin: 0 !important;
+}
+
+/* ---------- CONTENT ---------- */
+.admin-content {
+  flex: 1;
+  padding: 28px;
+  max-width: 1600px;
+  width: 100%;
+}
+
+/* Overlay mobile */
+.admin-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(6,11,20,0.55);
+  z-index: 1100;
+  opacity: 0;
+  transition: opacity .25s;
+}
+
+/* =====================================================================
+   RESPONSIVO — sidebar vira off-canvas
+   ===================================================================== */
+@media (max-width: 1024px) {
+  .admin-sidebar {
+    transform: translateX(-100%);
+    transition: transform .28s cubic-bezier(.16,1,.3,1);
+    width: 280px;
+  }
+  .admin-sidebar.open { transform: translateX(0); }
+  .admin-sidebar-close { display: inline-flex; }
+  .admin-main { margin-left: 0; }
+  .admin-mobile-toggle { display: inline-flex; }
+  .admin-overlay.show { display: block; opacity: 1; }
+  .admin-content { padding: 20px 16px; }
+  .admin-topbar { padding: 12px 16px; }
+  .admin-topbar-link { display: none; }
+}
+
+@media (max-width: 560px) {
+  .admin-topbar-title h1 { font-size: 1.15rem; }
+  .admin-topbar-title p {
+    font-size: 0.78rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 52vw;
+  }
+  .admin-topbar-user-name { display: none; }
+  .admin-topbar-user { padding: 4px; }
+  .admin-content { padding: 16px 12px; }
+}
+
+/* =====================================================================
+   PLACEHOLDER DE IMAGEM — texto "...imagem" centralizado
+   Aplica a todos os blocos onde uma imagem entraria depois.
+   ===================================================================== */
+.img-preset-text,
+.equip-image-frame-placeholder,
+.info-block-visual-placeholder,
+.peca-image-placeholder,
+.part-card-image-placeholder,
+.mmd-hero-photo-placeholder,
+.my-machine-card-v2-photo-placeholder {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  color: var(--text-muted) !important;
+  background: var(--gray-100);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-align: center;
+  opacity: 1 !important;
+}
+/* Esconde quaisquer ícones SVG legados dentro desses placeholders */
+.equip-image-frame-placeholder svg,
+.info-block-visual-placeholder svg,
+.info-block-visual-placeholder .info-block-visual-placeholder-icon,
+.info-block-visual-placeholder .info-block-visual-placeholder-title,
+.info-block-visual-placeholder .info-block-visual-placeholder-hint,
+.mmd-hero-photo-placeholder svg,
+.my-machine-card-v2-photo-placeholder svg {
+  display: none !important;
+}
+/* Frames do Equipamentos: placeholder absoluto precisa ficar VISÍVEL
+   (o CSS legado usava z-index:-1, que o escondia atrás do frame) */
+.equip-image-frame-placeholder {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+}
+/* A tag descritiva continua acima do placeholder */
+.equip-image-frame-tag { z-index: 3 !important; }
+
+/* =====================================================================
+   HERO HOME — visual animado de centrífuga (lado direito, 1ª seção)
+   ===================================================================== */
+.hero-v6-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 460px;
+  padding: 10px;
+}
+.hero-v6-stage-glow {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(0,169,157,0.30), rgba(0,169,157,0.06) 45%, transparent 70%);
+  filter: blur(8px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-v6-centrifuge {
+  position: relative;
+  width: 360px;
+  height: 360px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hcf-ring {
+  position: absolute;
+  border-radius: 50%;
+  inset: 0;
+  margin: auto;
+}
+.hcf-ring-1 {
+  width: 360px; height: 360px;
+  border: 1px dashed rgba(94,234,212,0.28);
+  animation: hcf-spin 26s linear infinite;
+}
+.hcf-ring-2 {
+  width: 280px; height: 280px;
+  border: 1px solid rgba(94,234,212,0.16);
+  box-shadow: inset 0 0 40px rgba(0,169,157,0.10);
+  animation: hcf-spin 18s linear infinite reverse;
+}
+.hcf-ring-3 {
+  width: 190px; height: 190px;
+  border: 2px solid rgba(94,234,212,0.22);
+  box-shadow: 0 0 30px rgba(0,169,157,0.20), inset 0 0 22px rgba(0,169,157,0.18);
+}
+/* Varredura tipo radar/rotação da centrífuga */
+.hcf-sweep {
+  position: absolute;
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  inset: 0; margin: auto;
+  background: conic-gradient(from 0deg,
+    rgba(94,234,212,0.0) 0deg,
+    rgba(94,234,212,0.0) 250deg,
+    rgba(94,234,212,0.10) 320deg,
+    rgba(94,234,212,0.45) 360deg);
+  -webkit-mask: radial-gradient(circle, transparent 84px, #000 86px);
+          mask: radial-gradient(circle, transparent 84px, #000 86px);
+  animation: hcf-spin 4.2s linear infinite;
+}
+
+/* Núcleo — pilha de discos do separador */
+.hcf-core {
+  position: relative;
+  width: 132px; height: 132px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 38%, #0c2f33, #061318 70%);
+  border: 1px solid rgba(94,234,212,0.3);
+  box-shadow: 0 0 50px rgba(0,169,157,0.35), inset 0 0 30px rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.hcf-core-disc {
+  position: absolute;
+  width: 96px; height: 96px;
+  border-radius: 50%;
+  border: 1px solid rgba(94,234,212,0.22);
+  box-shadow: inset 0 0 0 8px rgba(94,234,212,0.05), inset 0 0 0 16px rgba(94,234,212,0.04), inset 0 0 0 24px rgba(94,234,212,0.03);
+  animation: hcf-spin 9s linear infinite;
+}
+.hcf-core-disc.d2 {
+  width: 60px; height: 60px;
+  animation-duration: 6s;
+  animation-direction: reverse;
+  box-shadow: inset 0 0 0 5px rgba(94,234,212,0.07), inset 0 0 0 10px rgba(94,234,212,0.05);
+}
+.hcf-core-dot {
+  position: absolute;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #7df5e4, #00a99d 70%);
+  box-shadow: 0 0 18px rgba(94,234,212,0.9);
+  animation: hcf-pulse 2.4s ease-in-out infinite;
+}
+
+/* Partículas em órbita (separação) */
+.hcf-orbit {
+  position: absolute;
+  inset: 0; margin: auto;
+  border-radius: 50%;
+}
+.hcf-orbit i {
+  position: absolute;
+  top: -3px; left: 50%;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #5eead4;
+  box-shadow: 0 0 12px rgba(94,234,212,0.9);
+  transform: translateX(-50%);
+}
+.hcf-orbit-a { width: 230px; height: 230px; animation: hcf-spin 7s linear infinite; }
+.hcf-orbit-b { width: 300px; height: 300px; animation: hcf-spin 11s linear infinite reverse; }
+.hcf-orbit-b i { background: #38e0c8; width: 5px; height: 5px; }
+.hcf-orbit-c { width: 168px; height: 168px; animation: hcf-spin 5s linear infinite; }
+.hcf-orbit-c i { background: #a7f3e9; width: 5px; height: 5px; }
+
+@keyframes hcf-spin { to { transform: rotate(360deg); } }
+@keyframes hcf-pulse {
+  0%, 100% { transform: scale(1);   opacity: 1; }
+  50%      { transform: scale(1.35); opacity: 0.75; }
+}
+
+@media (max-width: 980px) {
+  .hero-v6-stage { min-height: 380px; }
+  .hero-v6-centrifuge { width: 300px; height: 300px; transform: scale(0.92); }
+}
+@media (max-width: 560px) {
+  .hero-v6-stage { min-height: 320px; padding: 0; }
+  .hero-v6-centrifuge { transform: scale(0.78); }
+  .hero-v6-stage-glow { width: 320px; height: 320px; }
+}
+
+/* Respeita quem prefere menos animação */
+@media (prefers-reduced-motion: reduce) {
+  .hcf-ring-1, .hcf-ring-2, .hcf-sweep, .hcf-core-disc,
+  .hcf-orbit-a, .hcf-orbit-b, .hcf-orbit-c, .hcf-core-dot {
+    animation: none !important;
+  }
+}
+
+/* =====================================================================
+   FIX — preview de upload sem "super zoom" (mostra a foto inteira)
+   ===================================================================== */
+.photo-drop img {
+  object-fit: contain !important;
+  background: #0b1220;
+}
+.extras-grid-item img { object-fit: cover; }  /* miniatura mantém recorte */
+
+/* =====================================================================
+   ADMIN — galeria de fotos da máquina (principal + extras)
+   ===================================================================== */
+.admin-photo-main {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--r-md);
+  border: 1px solid var(--gray-200);
+  overflow: hidden;
+  background: #0b1220;
+  cursor: zoom-in;
+}
+.admin-photo-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.admin-photo-thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.admin-photo-thumb {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid var(--gray-200);
+  background: #0b1220;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: border-color .15s, transform .15s;
+}
+.admin-photo-thumb:hover { transform: translateY(-2px); }
+.admin-photo-thumb.active { border-color: var(--teal); }
+.admin-photo-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.admin-photo-thumb-tag {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-align: center;
+  color: #fff;
+  background: rgba(0,131,127,0.85);
+  padding: 2px 0;
+}
+.admin-photo-count {
+  margin-top: 10px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.admin-photo-empty {
+  aspect-ratio: 4/3;
+  background: var(--bg-subtle);
+  border-radius: var(--r-md);
+  border: 1px solid var(--gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+}
+
+/* =====================================================================
+   FIX — ClientNav colado na navbar (mais respiro abaixo da navbar)
+   ===================================================================== */
+.client-nav { padding-top: 104px !important; }
+@media (max-width: 768px) {
+  .client-nav { padding-top: 92px !important; }
+}
