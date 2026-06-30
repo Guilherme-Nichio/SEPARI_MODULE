@@ -1,0 +1,179 @@
+/* =========================================================================
+   SEPARI — v67 — Revamp 2 (carregado por último)
+   Pedidos do cliente:
+   · caixas com a MESMA altura em todas as grades
+   · divisões de seção com FORMAS (trapézio / corte diagonal)
+   · mais respiro, menos "grudado / com zoom"
+   · placeholder de imagem = só o caminho, sem borda/demarcação
+   · página do fabricante sem monograma + chamada de serviços/kits
+   · página Separi sem specs (cards limpos)
+   ========================================================================= */
+
+/* ───────────── 0. "ZOOM" EM TELAS GRANDES ─────────────
+   O root crescia para 17/19px em telas largas, inflando tudo. Mantemos um
+   crescimento muito mais sutil para a página não parecer "ampliada". */
+@media (min-width: 1920px) { html { font-size: 16px; } }
+@media (min-width: 2560px) { html { font-size: 17px; } }
+
+/* ───────────── 1. ALTURAS IGUAIS NAS GRADES ─────────────
+   Cada cartão é embrulhado num <Reveal>. Fazemos o Reveal esticar na célula
+   da grade e o cartão preencher 100% da altura → todas as caixas iguais. */
+.highlight-grid > .reveal,
+.mn-lines > .reveal,
+.mn-why > .reveal,
+.fam-calls > .reveal,
+.fb-calls > .reveal,
+.fb-gens > .reveal,
+.locacao-grid > .reveal,
+.fbs-grid > .reveal,
+.reman-benefits > .reveal,
+.recon-tiers > .reveal,
+.sb-team > .reveal,
+.app-equip-grid > .reveal,
+.select-grid > .reveal,
+.process-grid > .reveal {
+  display: flex;
+  height: 100%;
+}
+.highlight-grid > .reveal > *,
+.mn-lines > .reveal > *,
+.mn-why > .reveal > *,
+.fam-calls > .reveal > *,
+.fb-calls > .reveal > *,
+.fb-gens > .reveal > *,
+.locacao-grid > .reveal > *,
+.fbs-grid > .reveal > *,
+.reman-benefits > .reveal > *,
+.recon-tiers > .reveal > *,
+.sb-team > .reveal > *,
+.app-equip-grid > .reveal > *,
+.select-grid > .reveal > *,
+.process-grid > .reveal > * {
+  width: 100%;
+  height: 100%;
+}
+/* cartões que precisam distribuir conteúdo de cima a baixo */
+.fbs-card, .fb-gen, .mn-why-card, .fam-call, .mn-line, .fb-call, .locacao-card,
+.sb-team-card, .highlight-card { display: flex; flex-direction: column; height: 100%; }
+
+/* ───────────── 2. FORMAS / DIVISÕES EM TRAPÉZIO ─────────────
+   Heros escuros terminam num corte diagonal; uma seção clara recebe um topo
+   em trapézio. Dão o "jogo de formas" pedido, sem poluir. */
+.mn-clip-bottom, .fb-clip-bottom {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 56px));
+}
+@media (max-width: 600px) {
+  .mn-clip-bottom, .fb-clip-bottom { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 30px)); }
+}
+/* topo em trapézio na seção de linhas (Separi) */
+.mn-clip-top {
+  clip-path: polygon(0 40px, 9% 0, 91% 0, 100% 40px, 100% 100%, 0 100%);
+  margin-top: -24px;
+}
+@media (max-width: 600px) { .mn-clip-top { clip-path: none; margin-top: 0; } }
+
+/* faixa decorativa trapezoidal sob títulos de seção (acento de marca) */
+.section-title .text-gradient { position: relative; }
+
+/* ───────────── 3. MAIS RESPIRO (menos "grudado") ─────────────
+   Espaço entre o cabeçalho da seção e o conteúdo, e grades menos apertadas. */
+.mb-50 { margin-bottom: clamp(40px, 5vw, 68px) !important; }
+.text-lg { line-height: 1.62; }
+.section-intro { margin-bottom: clamp(32px, 4vw, 52px); }
+.highlight-grid { gap: clamp(20px, 2.4vw, 30px); }
+.mn-lines, .mn-why, .fam-calls, .fb-calls { gap: clamp(20px, 2.4vw, 30px); }
+.max-width-text { line-height: 1.62; }
+
+/* ───────────── 4. PLACEHOLDER DE IMAGEM = SÓ O CAMINHO ─────────────
+   Sem borda, sem caixa, sem demarcação. Apenas o texto do caminho. */
+.imgslot.is-empty {
+  background: transparent !important;
+  border: none !important;
+}
+.imgslot-ph {
+  color: var(--text-muted);
+}
+.imgslot-ph code {
+  background: transparent; color: var(--teal-dark); padding: 0;
+}
+/* molduras antigas com borda tracejada / fundo: tiram a demarcação */
+.equip-image-frame, .bowls-frame { border: none !important; background: transparent !important; }
+.equip-image-frame-placeholder { border: none !important; background: transparent !important; color: var(--text-muted); }
+.highlight-card-media { background: var(--paper-2); }
+.highlight-card-path code { background: transparent; color: var(--teal-dark); }
+
+/* nas mídias escuras dos cartões (separadoras/centrífugas/linhas) mantemos a
+   caixa escura como ÁREA DE IMAGEM do cartão, mas o caminho fica legível */
+.fam-call-img .imgslot-ph code,
+.mn-line-img .imgslot-ph code,
+.mn-hero-img .imgslot-ph code { color: #7fe9dd; }
+
+/* ───────────── 5. PÁGINA SEPARI — cartões de linha sem specs ───────────── */
+.mn-line { text-decoration: none; color: inherit; }
+.mn-line-icon {
+  display: inline-grid; place-items: center; width: 46px; height: 46px; border-radius: 12px;
+  background: var(--teal-pale); color: var(--teal-dark); margin-bottom: 14px;
+}
+.mn-line-body { padding: 24px; display: flex; flex-direction: column; flex: 1; }
+.mn-line-name {
+  font-family: var(--font-display); font-weight: 600; font-size: 1.24rem; color: var(--ink);
+  letter-spacing: -0.01em; margin-bottom: 10px;
+}
+.mn-line-lead { color: var(--ink-soft); font-size: 0.94rem; line-height: 1.55; margin-bottom: 18px; }
+.mn-line-link {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: auto;
+  font-family: var(--font-display); font-weight: 600; font-size: 0.9rem; color: var(--teal-dark);
+  transition: gap .25s var(--ease-out);
+}
+.mn-line:hover .mn-line-link { gap: 10px; }
+
+.mn-intro { text-align: center; max-width: 720px; margin: 0 auto; }
+.mn-intro .eyebrow { justify-content: center; }
+.mn-intro .section-title { margin-bottom: 22px; }
+.mn-intro p + p { margin-top: 16px; }
+.container-narrow { max-width: 900px; }
+
+/* ───────────── 6. FABRICANTE — hero sem monograma + chamadas ───────────── */
+/* hero agora é coluna única, texto à esquerda, respirando */
+.fb-hero--branded .fb-hero-text { max-width: 760px; }
+.fb-hero--branded .fb-title { font-size: clamp(2.4rem, 5vw, 3.6rem); }
+
+/* chamada serviços + kits */
+.fb-calls { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.fb-call {
+  display: flex; gap: 18px; align-items: flex-start; text-decoration: none; color: inherit;
+  background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 28px;
+  transition: border-color .3s var(--ease-out), transform .3s var(--ease-out);
+}
+.fb-call:hover { border-color: var(--teal-light); transform: translateY(-3px); }
+.fb-call-icon {
+  flex: 0 0 auto; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 14px;
+  background: var(--teal-pale); color: var(--teal-dark);
+}
+.fb-call-body h3 {
+  font-family: var(--font-display); font-weight: 600; font-size: 1.2rem; color: var(--ink);
+  margin-bottom: 8px; letter-spacing: -0.01em;
+}
+.fb-call-body p { color: var(--ink-soft); font-size: 0.92rem; line-height: 1.55; margin-bottom: 14px; }
+.fb-call-go {
+  display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-display);
+  font-weight: 600; font-size: 0.9rem; color: var(--teal-dark); transition: gap .25s var(--ease-out);
+}
+.fb-call:hover .fb-call-go { gap: 11px; }
+@media (max-width: 760px) { .fb-calls { grid-template-columns: 1fr; } }
+
+/* tabela setores × modelos — modelos agora são links */
+.fb-sector-name {
+  text-decoration: none; transition: color .2s var(--ease-out);
+}
+.fb-sector-name:hover { color: var(--teal-dark); }
+.fb-sector-model {
+  text-decoration: none; transition: background .2s var(--ease-out), color .2s var(--ease-out);
+}
+.fb-sector-model:hover { background: var(--teal); color: #fff; }
+.fb-sector-photo { display: block; }
+.fb-sector-go { text-decoration: none; }
+
+/* ───────────── 7. POLIMENTO FINAL ─────────────
+   sombras discretas e cantos consistentes para sensação "clean". */
+.fam-call, .mn-line, .mn-why-card, .fb-call, .fb-gen, .fbs-card { box-shadow: none; }

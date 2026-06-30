@@ -1,0 +1,437 @@
+/* =====================================================================
+   SEPARI v49 — Aplicações, Remanufaturados, Sumário de Serviços e
+   gate do catálogo. Layout mais aberto, menos "caixinhas".
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   1) PÁGINA DE APLICAÇÃO — HERO COM VISUAL FLUTUANTE
+   --------------------------------------------------------------------- */
+.app-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 160px 0 90px;
+  background:
+    radial-gradient(ellipse at 12% -10%, var(--cat-bg, rgba(0,169,157,.12)) 0%, transparent 50%),
+    linear-gradient(180deg, var(--bg-subtle) 0%, var(--white) 100%);
+}
+.app-hero-glow {
+  position: absolute; top: -160px; right: -60px;
+  width: 480px; height: 480px;
+  background: var(--cat-bg, rgba(0,169,157,.14));
+  filter: blur(70px); border-radius: 50%; pointer-events: none;
+}
+.app-hero-crumbs {
+  display: flex; align-items: center; gap: 9px;
+  font-size: 0.85rem; color: var(--text-muted);
+  margin-bottom: 34px; flex-wrap: wrap;
+}
+.app-hero-crumbs a { color: var(--text-light); }
+.app-hero-crumbs a:hover { color: var(--cat-color, var(--teal-dark)); }
+.app-hero-crumbs .sep { color: var(--gray-300); }
+.app-hero-crumbs .current { color: var(--cat-color, var(--teal-dark)); font-weight: 600; }
+
+.app-hero-grid {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: 56px; align-items: center; min-height: 340px;
+  position: relative; z-index: 2;
+}
+.app-hero-tag {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 8px 16px; border-radius: var(--r-pill);
+  background: var(--cat-bg, rgba(0,169,157,.08));
+  color: var(--cat-color, var(--teal-dark));
+  font-weight: 700; font-size: 0.78rem;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.app-hero-tag-icon { display: inline-flex; }
+.app-hero-tag-icon svg { width: 16px; height: 16px; }
+.app-hero-title {
+  font-size: clamp(2.2rem, 4.8vw, 3.4rem);
+  line-height: 1.08; font-weight: 800; letter-spacing: -0.02em;
+  margin: 24px 0 0; color: var(--text); max-width: 14ch;
+}
+.app-hero-lead {
+  font-size: 1.16rem; line-height: 1.7;
+  color: var(--text-light); margin: 22px 0 0; max-width: 52ch;
+}
+.app-hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+
+/* Visual flutuante */
+.app-hero-visual {
+  position: relative; height: 340px;
+  display: flex; align-items: center; justify-content: center;
+}
+.app-hero-blob {
+  position: absolute; border-radius: 50%;
+  background: var(--cat-bg, rgba(0,169,157,.14)); filter: blur(8px);
+}
+.app-hero-blob-1 { width: 260px; height: 260px; opacity: .7; animation: appFloatA 9s ease-in-out infinite; }
+.app-hero-blob-2 { width: 150px; height: 150px; right: 8%; bottom: 6%;
+  background: var(--cat-color, var(--teal)); opacity: .10; filter: blur(20px);
+  animation: appFloatB 11s ease-in-out infinite; }
+.app-hero-ring {
+  position: absolute; border-radius: 50%;
+  border: 1.5px dashed var(--cat-color, var(--teal)); opacity: .28;
+}
+.app-hero-ring-1 { width: 250px; height: 250px; animation: appSpin 26s linear infinite; }
+.app-hero-ring-2 { width: 320px; height: 320px; opacity: .16; animation: appSpin 40s linear infinite reverse; }
+.app-hero-medallion {
+  position: relative; z-index: 3;
+  width: 132px; height: 132px; border-radius: 34px;
+  background: var(--white);
+  box-shadow: 0 24px 60px -18px var(--cat-color, rgba(0,131,127,.4)), 0 0 0 1px rgba(15,23,42,.04);
+  display: flex; align-items: center; justify-content: center;
+  animation: appFloatA 7s ease-in-out infinite;
+}
+.app-hero-medallion::after {
+  content: ''; position: absolute; inset: 0; border-radius: 34px;
+  background: var(--cat-bg, rgba(0,169,157,.10));
+}
+.app-hero-medallion-icon { position: relative; z-index: 1; color: var(--cat-color, var(--teal-dark)); display: flex; }
+.app-hero-medallion-icon svg { width: 60px; height: 60px; }
+.app-hero-chip {
+  position: absolute; z-index: 4;
+  width: 46px; height: 46px; border-radius: 14px;
+  background: rgba(255,255,255,.85); backdrop-filter: blur(6px);
+  box-shadow: 0 10px 26px -10px rgba(15,23,42,.28);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--cat-color, var(--teal-dark));
+}
+.app-hero-chip-a { top: 14%; left: 6%;  animation: appFloatB 6s ease-in-out infinite; }
+.app-hero-chip-b { bottom: 16%; left: 14%; animation: appFloatA 8s ease-in-out infinite .4s; }
+.app-hero-chip-c { top: 20%; right: 8%; width: 40px; height: 40px; animation: appFloatB 7s ease-in-out infinite .6s; }
+.app-hero-dot { position: absolute; border-radius: 50%; background: var(--cat-color, var(--teal)); }
+.app-hero-dot-1 { width: 9px; height: 9px; top: 8%; right: 30%; opacity: .5; animation: appFloatA 5s ease-in-out infinite; }
+.app-hero-dot-2 { width: 6px; height: 6px; bottom: 10%; right: 26%; opacity: .35; animation: appFloatB 6.5s ease-in-out infinite; }
+.app-hero-dot-3 { width: 12px; height: 12px; bottom: 30%; left: 2%; opacity: .25; animation: appFloatA 9s ease-in-out infinite; }
+
+@keyframes appFloatA { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+@keyframes appFloatB { 0%,100% { transform: translateY(0); } 50% { transform: translateY(12px); } }
+@keyframes appSpin   { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .app-hero-blob, .app-hero-ring, .app-hero-medallion, .app-hero-chip, .app-hero-dot { animation: none !important; }
+}
+
+/* ---------------------------------------------------------------------
+   2) PÁGINA DE APLICAÇÃO — PROCESSO (timeline, sem caixas)
+   --------------------------------------------------------------------- */
+.app-process { position: relative; }
+.app-process-step {
+  display: flex; gap: 18px; align-items: flex-start;
+  padding: 0 0 28px; position: relative;
+}
+.app-process-step:last-child { padding-bottom: 0; }
+.app-process-step:not(:last-child)::before {
+  content: ''; position: absolute; left: 19px; top: 44px; bottom: 4px;
+  width: 2px; background: linear-gradient(var(--teal-light), transparent);
+}
+.app-process-step-num {
+  flex-shrink: 0; position: relative; z-index: 1;
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 2px solid var(--teal); background: var(--white);
+  color: var(--teal-dark); font-weight: 800; font-size: 0.95rem;
+  display: flex; align-items: center; justify-content: center;
+}
+.app-process-step p { margin: 6px 0 0; color: var(--text-light); line-height: 1.65; font-size: 1rem; }
+
+/* Modelos */
+.app-models { margin-top: 28px; }
+.app-models-label {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.78rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 12px;
+}
+.app-models-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* Outras aplicações — chips leves */
+.app-other-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px;
+}
+.app-other-chip {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 6px; text-decoration: none; color: var(--text);
+  font-weight: 600; border-bottom: 1px solid var(--gray-200);
+  transition: 0.2s var(--ease-out);
+}
+.app-other-chip:hover { border-color: var(--cat-color, var(--teal)); padding-left: 8px; color: var(--cat-color, var(--teal-dark)); }
+.app-other-chip-icon {
+  width: 40px; height: 40px; flex-shrink: 0; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--cat-bg, rgba(0,169,157,.08)); color: var(--cat-color, var(--teal-dark));
+}
+.app-other-chip-icon svg { width: 20px; height: 20px; }
+.app-other-chip-name { flex: 1; font-size: 0.94rem; }
+.app-other-chip > svg { color: var(--text-muted); flex-shrink: 0; }
+
+/* ---------------------------------------------------------------------
+   3) SHOWCASE DE APLICAÇÕES NA PÁGINA DE PRODUTOS (distinto da Home)
+   --------------------------------------------------------------------- */
+.app-showcase-head {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 30px;
+  align-items: end; margin-bottom: 40px;
+}
+.app-showcase-head p { color: var(--text-light); margin: 0; }
+.app-showcase { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.app-showcase-card {
+  display: flex; align-items: stretch;
+  background: var(--white); border: 1px solid var(--gray-200);
+  border-radius: var(--r-md); overflow: hidden;
+  text-decoration: none; color: inherit; transition: 0.25s var(--ease-out);
+}
+.app-showcase-card:hover {
+  transform: translateY(-3px); box-shadow: var(--shadow-lg);
+  border-color: var(--cat-color, var(--teal));
+}
+.app-showcase-card-media {
+  position: relative; flex-shrink: 0; width: 92px;
+  background: var(--cat-bg, rgba(0,169,157,.08));
+  display: flex; align-items: center; justify-content: center;
+}
+.app-showcase-card-icon { color: var(--cat-color, var(--teal-dark)); display: flex; }
+.app-showcase-card-icon svg { width: 30px; height: 30px; }
+.app-showcase-card-index {
+  position: absolute; top: 8px; left: 10px;
+  font-size: 0.72rem; font-weight: 800; color: var(--cat-color, var(--teal-dark)); opacity: .5;
+}
+.app-showcase-card-body { padding: 18px 20px; flex: 1; min-width: 0; }
+.app-showcase-card-tag {
+  display: inline-block; font-size: 0.68rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--cat-color, var(--teal-dark)); background: var(--cat-bg, rgba(0,169,157,.08));
+  padding: 3px 9px; border-radius: var(--r-pill); margin-bottom: 8px;
+}
+.app-showcase-card-body h3 { font-size: 1.08rem; margin: 0 0 6px; color: var(--text); }
+.app-showcase-card-body p {
+  font-size: 0.9rem; color: var(--text-light); line-height: 1.5; margin: 0 0 12px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.app-showcase-card-cta {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 0.85rem; font-weight: 700; color: var(--cat-color, var(--teal-dark));
+}
+.app-showcase-card-cta svg { transition: transform 0.2s var(--ease-out); }
+.app-showcase-card:hover .app-showcase-card-cta svg { transform: translateX(3px); }
+
+/* ---------------------------------------------------------------------
+   4) REMANUFATURADOS — diferenciais (abertos) + subabas + cards
+   --------------------------------------------------------------------- */
+.reman-benefits {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px;
+  margin-bottom: 42px;
+}
+.reman-benefit { display: flex; gap: 13px; align-items: flex-start; }
+.reman-benefit-icon {
+  width: 42px; height: 42px; flex-shrink: 0; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--teal-pale); color: var(--teal-dark);
+}
+.reman-benefit strong { display: block; font-size: 0.95rem; margin-bottom: 4px; color: var(--text); }
+.reman-benefit p { margin: 0; font-size: 0.84rem; color: var(--text-light); line-height: 1.5; }
+
+.reman-tabs { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 26px; }
+.reman-tab {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 10px 20px; border-radius: var(--r-pill);
+  border: 1px solid var(--gray-200); background: var(--white);
+  color: var(--text-light); font-weight: 600; font-size: 0.92rem;
+  cursor: pointer; transition: 0.2s var(--ease-out);
+}
+.reman-tab:hover { border-color: var(--teal-light); color: var(--teal-dark); }
+.reman-tab.active { background: var(--grad-teal); color: var(--white); border-color: transparent; box-shadow: var(--shadow-glow); }
+.reman-tab.active svg { color: var(--white); }
+
+.reman-panel-blurb {
+  text-align: center; max-width: 720px; margin: 0 auto 28px;
+  color: var(--text-light); font-size: 1rem; line-height: 1.6;
+}
+.reman-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.reman-card {
+  background: var(--white); border: 1px solid var(--gray-200);
+  border-radius: var(--r-md); padding: 22px;
+  display: flex; flex-direction: column; gap: 8px; transition: 0.2s var(--ease-out);
+}
+.reman-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.reman-card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.reman-card-brand { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.reman-card-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 0.68rem; font-weight: 700; color: var(--teal-dark);
+  background: var(--teal-pale); padding: 3px 9px; border-radius: var(--r-pill);
+}
+.reman-card h4 { font-size: 1.18rem; margin: 2px 0; color: var(--text); }
+.reman-card p { font-size: 0.88rem; color: var(--text-light); line-height: 1.5; margin: 0; flex: 1; }
+.reman-card-foot {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  margin-top: 8px; padding-top: 12px; border-top: 1px solid var(--gray-100);
+}
+.reman-card-app { display: inline-flex; align-items: center; gap: 5px; font-size: 0.78rem; color: var(--text-muted); }
+.btn-xs { padding: 6px 12px !important; font-size: 0.8rem !important; }
+.reman-panel-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; justify-content: center; margin-top: 30px; }
+.reman-panel-cta-note { font-size: 0.86rem; color: var(--text-muted); }
+
+/* ---------------------------------------------------------------------
+   5) SERVIÇOS — SUMÁRIO FIXO COM TRILHO DE PROGRESSO
+   --------------------------------------------------------------------- */
+.svc-toc-layout { padding: 56px 0 20px; }
+.svc-toc-grid { display: grid; grid-template-columns: 232px 1fr; gap: 56px; align-items: start; }
+.svc-toc { position: sticky; top: 100px; align-self: start; }
+
+.svc-toc-heading {
+  font-size: 0.72rem; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.09em; color: var(--text-muted); margin-bottom: 20px;
+}
+.svc-toc-list { list-style: none; margin: 0; padding: 0; position: relative; }
+.svc-toc-list::before {
+  content: ''; position: absolute; left: 11px; top: 10px; bottom: 16px;
+  width: 2px; background: var(--gray-200); border-radius: 2px;
+}
+.svc-toc-list::after {
+  content: ''; position: absolute; left: 11px; top: 10px;
+  width: 2px; height: var(--toc-progress, 0%); max-height: calc(100% - 26px);
+  background: linear-gradient(var(--teal-light), var(--teal));
+  border-radius: 2px; transition: height 0.35s var(--ease-out);
+}
+.svc-toc-link {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 9px 0; position: relative; z-index: 1;
+}
+.svc-toc-marker {
+  flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--white); border: 2px solid var(--gray-300);
+  margin-top: 1px; transition: 0.2s var(--ease-out);
+}
+.svc-toc-marker-dot { width: 7px; height: 7px; border-radius: 50%; background: transparent; transition: 0.2s var(--ease-out); }
+.svc-toc-body { display: flex; flex-direction: column; padding-top: 1px; }
+.svc-toc-label { font-size: 0.92rem; font-weight: 600; color: var(--text-light); transition: 0.2s; }
+.svc-toc-desc { font-size: 0.76rem; color: var(--text-muted); margin-top: 2px; }
+
+.svc-toc-item.is-done .svc-toc-marker { border-color: var(--teal); }
+.svc-toc-item.is-done .svc-toc-marker-dot { background: var(--teal); }
+.svc-toc-item.is-active .svc-toc-marker { border-color: var(--teal); box-shadow: 0 0 0 5px var(--teal-pale); }
+.svc-toc-item.is-active .svc-toc-marker-dot { background: var(--teal); width: 9px; height: 9px; }
+.svc-toc-item.is-active .svc-toc-label { color: var(--teal-dark); font-weight: 700; }
+.svc-toc-link:hover .svc-toc-label { color: var(--teal-dark); }
+
+/* Conteúdo que rola: blocos abertos (sem "caixinhas"), só ritmo e divisores */
+.svc-toc-content { min-width: 0; }
+.svc-toc-content > section.section-padding {
+  padding-top: 44px; padding-bottom: 44px;
+  border: none; border-radius: 0; margin-bottom: 0;
+}
+.svc-toc-content > section.bg-white,
+.svc-toc-content > section.bg-subtle { background: transparent; }
+.svc-toc-content > section + section:not(.banner-dark) { border-top: 1px solid var(--gray-200); }
+.svc-toc-content > section.banner-dark { border-radius: var(--r-lg); margin: 8px 0; }
+.svc-toc-content > section > .container { padding-left: 0; padding-right: 0; max-width: none; }
+.svc-toc-content > section .grid-2.gap-60 { gap: 38px; }
+
+@media (max-width: 980px) {
+  .svc-toc-grid { grid-template-columns: 1fr; gap: 0; }
+  .svc-toc { display: none; }
+  .svc-toc-content > section.section-padding { padding-top: 36px; padding-bottom: 36px; }
+}
+
+/* ---------------------------------------------------------------------
+   6) CATÁLOGO DE PEÇAS — gate de login (aberto, sem caixa pesada)
+   --------------------------------------------------------------------- */
+.pecas-gate { max-width: 580px; margin: 50px auto 0; text-align: center; padding: 20px; }
+.pecas-gate-icon {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--teal-pale); color: var(--teal-dark);
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;
+}
+.pecas-gate h2 { font-size: 1.55rem; margin-bottom: 12px; color: var(--text); }
+.pecas-gate p { color: var(--text-light); line-height: 1.7; margin-bottom: 26px; }
+.pecas-gate-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+/* ---------------------------------------------------------------------
+   7) RESPONSIVO geral
+   --------------------------------------------------------------------- */
+@media (max-width: 980px) {
+  .app-hero { padding: 130px 0 60px; }
+  .app-hero-grid { grid-template-columns: 1fr; gap: 30px; }
+  .app-hero-visual { height: 280px; order: -1; }
+  .app-hero-title { max-width: none; }
+  .reman-benefits { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .reman-grid { grid-template-columns: repeat(2, 1fr); }
+  .app-showcase-head { grid-template-columns: 1fr; gap: 14px; align-items: start; }
+}
+@media (max-width: 720px) {
+  .app-showcase { grid-template-columns: 1fr; }
+  .reman-grid { grid-template-columns: 1fr; }
+  .reman-benefits { grid-template-columns: 1fr; }
+  .app-hero-visual { height: 230px; }
+  .app-hero-medallion { width: 108px; height: 108px; }
+  .app-hero-medallion-icon svg { width: 48px; height: 48px; }
+}
+@media (max-width: 480px) {
+  .app-showcase-card { flex-direction: column; }
+  .app-showcase-card-media { width: 100%; height: 70px; }
+}
+
+/* ---------------------------------------------------------------------
+   8) APLICAÇÃO v2 — processo (título + texto), desafios e foco (abertos)
+   --------------------------------------------------------------------- */
+.app-process-step-text strong { display: block; font-size: 1.04rem; color: var(--text); margin-bottom: 4px; }
+.app-process-step-text p { margin: 0; color: var(--text-light); line-height: 1.65; font-size: 0.98rem; }
+
+/* Desafios em lista aberta (sem caixa), com linha de acento no topo */
+.app-challenges { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+.app-challenge { padding-top: 18px; border-top: 2px solid var(--gray-200); }
+.app-challenge-icon {
+  display: inline-flex; width: 40px; height: 40px; border-radius: 12px;
+  align-items: center; justify-content: center;
+  background: rgba(239,68,68,0.08); color: var(--danger, #ef4444); margin-bottom: 14px;
+}
+.app-challenge h4 { font-size: 1.06rem; margin: 0 0 6px; color: var(--text); }
+.app-challenge p { font-size: 0.92rem; color: var(--text-light); line-height: 1.55; margin: 0; }
+
+/* Foco da manutenção: duas colunas de linhas sublinhadas (editorial) */
+.app-focus { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 56px; max-width: 880px; margin: 0 auto; }
+.app-focus-item { display: flex; align-items: center; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--gray-200); }
+.app-focus-num { font-size: 0.95rem; font-weight: 800; color: var(--teal); width: 26px; flex-shrink: 0; }
+.app-focus-text { font-size: 1rem; color: var(--text); font-weight: 500; line-height: 1.4; }
+
+@media (max-width: 860px) {
+  .app-challenges { grid-template-columns: 1fr; gap: 22px; }
+  .app-focus { grid-template-columns: 1fr; gap: 0; }
+}
+
+/* ---------------------------------------------------------------------
+   9) PRODUTOS — primeira seção com mais respiro (texto sem aperto)
+   --------------------------------------------------------------------- */
+.page-intro-equipamentos {
+  padding: clamp(160px, 17vw, 220px) 0 clamp(100px, 12vw, 140px) !important;
+}
+.equip-hero-crumbs { margin-bottom: 42px; }
+.equip-hero-grid {
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: 72px;
+  align-items: center;
+}
+.equip-hero-eyebrow { margin-bottom: 30px; }
+.equip-hero-title {
+  font-size: clamp(2.5rem, 5.2vw, 4.4rem);
+  line-height: 1.07;
+  letter-spacing: -0.02em;
+  margin: 0 0 28px;
+}
+.equip-hero-lead {
+  font-size: clamp(1.05rem, 1.2vw, 1.22rem);
+  line-height: 1.78;
+  max-width: 660px;
+  margin: 0 0 40px;
+}
+.equip-hero-brands { margin-top: 4px; }
+
+/* Em telas largas, a seção ganha presença (não fica "curta") */
+@media (min-width: 981px) {
+  .equip-hero-grid { min-height: 540px; }
+}
+@media (max-width: 980px) {
+  .equip-hero-grid { grid-template-columns: 1fr; gap: 44px; }
+  .equip-hero-title { line-height: 1.1; }
+}

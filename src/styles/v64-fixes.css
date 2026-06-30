@@ -1,0 +1,387 @@
+/* =====================================================================
+   v64 — Pacote de correções e ajustes guiados
+   Importado por último: sobrescreve versões anteriores.
+   ===================================================================== */
+
+/* util compartilhado: introdução de seção (era usado sem definição) */
+.section-intro {
+  max-width: 720px;
+  margin-top: 12px;
+  font-size: 1.04rem;
+  line-height: 1.6;
+  color: var(--text-light, #4a5a64);
+}
+.text-center .section-intro,
+.mb-50 .section-intro { margin-left: auto; margin-right: auto; }
+
+/* botão fantasma com leitura teal (usado nas chamadas de cadastro) */
+.btn-ghost-teal {
+  background: var(--teal-pale);
+  color: var(--teal-dark);
+  border: 1px solid transparent;
+}
+.btn-ghost-teal:hover {
+  background: #d3ece9;
+  color: var(--teal-darker);
+}
+
+/* =====================================================================
+   1. PEÇAS — Kits de serviço
+   - fonte maior nas "bolinhas" (anéis concêntricos)
+   - sem a linha azul à esquerda dos quadrados
+   ===================================================================== */
+.kit-ring-tag { font-size: 0.96rem !important; font-weight: 800 !important; }
+.kit-ring-1 > .kit-ring-tag { font-size: 1.02rem !important; }
+.kit-ring-2 > .kit-ring-tag,
+.kit-ring-3 > .kit-ring-tag { top: 16px; }
+
+.kit-rings-item,
+.kit-rings-item-1,
+.kit-rings-item-2,
+.kit-rings-item-3 {
+  border-left: 1px solid var(--gray-200) !important;
+}
+
+/* =====================================================================
+   2. PRODUTOS — barra de seções fixa alinhada certinho abaixo da navbar
+   ===================================================================== */
+.prod-subnav { top: 80px; }
+@media (max-width: 600px) { .prod-subnav { top: 76px; } }
+
+/* =====================================================================
+   3. SOBRE — Missão / Visão (animação SEPARI à esquerda, texto à direita)
+   ===================================================================== */
+.sb-mv2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+.sb-mv2-brand { position: relative; }
+.sb-wordcycle {
+  display: flex;
+  align-items: baseline;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.6rem, 7vw, 5.4rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+.sb-wordcycle-fixed { color: var(--teal); }
+.sb-wordcycle-suffix {
+  background: linear-gradient(120deg, var(--teal-light), var(--teal-dark));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+  white-space: nowrap;
+}
+.sb-wordcycle-caret {
+  display: inline-block; width: 4px; height: 0.92em;
+  margin-left: 6px; border-radius: 2px;
+  background: var(--teal-light);
+  animation: sbCaretBlink 1s steps(1) infinite;
+  transform: translateY(0.06em);
+}
+@keyframes sbCaretBlink { 0%,50% { opacity: 1; } 50.01%,100% { opacity: 0; } }
+.sb-mv2-brand-sub {
+  margin-top: 18px;
+  max-width: 34ch;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ink-soft, #4a5a64);
+}
+
+.sb-mv2-content {
+  background: #fff;
+  border: 1px solid var(--line, #e7edee);
+  border-radius: 20px;
+  padding: clamp(24px, 3vw, 38px);
+  box-shadow: 0 30px 60px -36px rgba(15,23,42,0.28);
+}
+.sb-mv2-item { position: relative; }
+.sb-mv2-tag {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.74rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--teal-dark);
+  padding: 4px 12px; border-radius: 999px;
+  background: var(--teal-pale);
+  margin-bottom: 12px;
+}
+.sb-mv2-item p {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.1rem, 1.5vw, 1.4rem);
+  line-height: 1.35; letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.sb-mv2-divider {
+  display: block; height: 1px; margin: 24px 0;
+  background: linear-gradient(90deg, var(--teal-light), transparent);
+}
+@media (max-width: 820px) {
+  .sb-mv2 { grid-template-columns: 1fr; gap: 32px; }
+  .sb-mv2-brand-sub { max-width: none; }
+}
+
+/* =====================================================================
+   4. PÁGINA DO MODELO (peças por máquina)
+   ===================================================================== */
+/* hero mais rico, porém clean, com o nome do modelo bem claro */
+.mq-hero-rich { position: relative; overflow: hidden; }
+.mq-hero-rich .container { position: relative; z-index: 2; }
+.mq-hero-glow {
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 50% 60% at 82% 12%, rgba(0,199,184,0.30), transparent 60%),
+    radial-gradient(ellipse 60% 70% at 8% 100%, rgba(0,98,96,0.45), transparent 62%);
+}
+.mq-hero-grid-bg {
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 52px 52px;
+  -webkit-mask-image: radial-gradient(ellipse 75% 70% at 25% 0%, #000, transparent 70%);
+  mask-image: radial-gradient(ellipse 75% 70% at 25% 0%, #000, transparent 70%);
+}
+.mq-hero-rich .mq-title {
+  color: #fff;
+  text-shadow: 0 2px 30px rgba(0,0,0,0.25);
+}
+
+/* carrossel de componentes — caixas do mesmo tamanho, PNG saltando do topo */
+.mqc-head {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 24px; flex-wrap: wrap; margin-bottom: 18px;
+}
+.mqc-nav { display: flex; gap: 10px; flex-shrink: 0; }
+.mqc-nav-btn {
+  width: 44px; height: 44px; display: grid; place-items: center;
+  border-radius: 50%; cursor: pointer;
+  background: #fff; border: 1px solid var(--gray-200); color: var(--teal-dark);
+  transition: all .2s var(--ease-out);
+}
+.mqc-nav-btn:hover { border-color: var(--teal-light); background: var(--teal-pale); transform: translateY(-2px); }
+
+.mqc-carousel { position: relative; }
+.mqc-track {
+  display: flex; gap: 22px;
+  overflow-x: auto; scroll-snap-type: x mandatory;
+  padding: 64px 4px 16px;            /* espaço no topo pro PNG saltar */
+  scrollbar-width: none;
+}
+.mqc-track::-webkit-scrollbar { display: none; }
+.mqc-card {
+  position: relative;
+  flex: 0 0 clamp(230px, 24vw, 264px);
+  scroll-snap-align: start;
+  display: flex; flex-direction: column;
+  padding: 64px 22px 22px;           /* topo reservado pra metade do PNG */
+  border-radius: 20px;
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  text-decoration: none;
+  transition: transform .25s var(--ease-out), box-shadow .25s, border-color .25s;
+}
+.mqc-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--teal-light);
+  box-shadow: 0 26px 50px -28px rgba(0,131,127,0.4);
+}
+.mqc-pop {
+  position: absolute; top: 0; left: 50%;
+  width: clamp(112px, 12vw, 132px); height: clamp(112px, 12vw, 132px);
+  transform: translate(-50%, -50%);  /* metade pra fora do topo */
+  display: grid; place-items: center;
+  z-index: 2;
+}
+.mqc-pop img {
+  width: 100%; height: 100%; object-fit: contain;
+  filter: drop-shadow(0 18px 26px rgba(8,18,22,0.28));
+  transition: transform .3s var(--ease-out);
+}
+.mqc-card:hover .mqc-pop img { transform: translateY(-4px) scale(1.04); }
+.mqc-pop.is-empty .mqc-pop-ph {
+  width: 100%; height: 100%; border-radius: 50%;
+  display: grid; place-items: center;
+  background: radial-gradient(circle at 40% 35%, #eef5f4, #dfeceb);
+  border: 1px dashed var(--teal-light);
+  color: var(--teal-dark);
+}
+.mqc-card-body { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.mqc-card-body h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.08rem; color: var(--ink); }
+.mqc-card-body p { font-size: 0.88rem; color: var(--text-light); line-height: 1.5; flex: 1; }
+.mqc-card-go {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 8px;
+  font-family: var(--font-display); font-weight: 600; font-size: 0.84rem; color: var(--teal-dark);
+}
+.mqc-card:hover .mqc-card-go { gap: 9px; }
+@media (max-width: 600px) { .mqc-card { flex-basis: 78vw; } }
+
+/* chamada cadastro / login / contato (substitui "Aplicação típica") */
+.mq-join {
+  display: grid; grid-template-columns: 1.25fr 0.95fr; gap: clamp(28px, 4vw, 56px);
+  align-items: center;
+  background: linear-gradient(150deg, #f3f9f8, #eafaf7 60%, #eaf5f3);
+  border: 1px solid var(--teal-pale);
+  border-radius: 24px;
+  padding: clamp(28px, 4vw, 52px);
+}
+.mq-join-text h2 {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(1.5rem, 2.6vw, 2.1rem); line-height: 1.12; letter-spacing: -0.02em;
+  color: var(--ink); margin-bottom: 14px;
+}
+.mq-join-text > p { font-size: 1.02rem; line-height: 1.6; color: var(--ink-soft, #46555d); margin-bottom: 18px; }
+.mq-join-feats { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.mq-join-feats li { display: flex; align-items: flex-start; gap: 9px; font-size: 0.95rem; color: var(--text-light); }
+.mq-join-feats svg { color: var(--teal); flex-shrink: 0; margin-top: 2px; }
+.mq-join-actions { display: flex; flex-direction: column; gap: 12px; }
+.mq-join-actions .btn { width: 100%; justify-content: center; }
+@media (max-width: 820px) { .mq-join { grid-template-columns: 1fr; } }
+
+/* relacionados — cards diferentes (sem a tag "Mesma linha e fabricante") */
+.mq-related2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; margin-top: 26px; }
+.mq-rel2 {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 18px; border-radius: 16px;
+  background: #fff; border: 1px solid var(--gray-200);
+  text-decoration: none; transition: all .22s var(--ease-out);
+}
+.mq-rel2:hover { border-color: var(--teal-light); transform: translateY(-3px); box-shadow: 0 18px 36px -20px rgba(8,18,22,0.3); }
+.mq-rel2-ic {
+  flex-shrink: 0; width: 42px; height: 42px; border-radius: 12px;
+  display: grid; place-items: center;
+  background: var(--teal-pale); color: var(--teal-dark);
+}
+.mq-rel2-info { display: flex; flex-direction: column; line-height: 1.2; flex: 1; }
+.mq-rel2-model { font-weight: 700; color: var(--text); }
+.mq-rel2-type { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+.mq-rel2-go { color: var(--teal); display: inline-flex; transition: transform .2s var(--ease-out); }
+.mq-rel2:hover .mq-rel2-go { transform: translateX(4px); }
+
+/* CTA final melhorado */
+.mq-final { position: relative; overflow: hidden; }
+.mq-final-glow {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 40% 60% at 85% 10%, rgba(255,255,255,0.18), transparent 60%),
+    radial-gradient(ellipse 50% 70% at 10% 100%, rgba(0,0,0,0.18), transparent 60%);
+}
+.mq-final-inner { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; text-align: center; }
+.mq-final-kicker {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 0.76rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  color: #bdeee8; background: rgba(255,255,255,0.12);
+  padding: 6px 14px; border-radius: 999px; margin-bottom: 18px;
+}
+.mq-final-inner h2 { font-size: clamp(1.7rem, 3.6vw, 2.4rem); margin-bottom: 12px; }
+
+/* =====================================================================
+   5. PRODUTOS — Linha remanufaturada (disco)
+   ===================================================================== */
+/* núcleo central = linha atual entre setas  ‹ separadoras › */
+.rr-core-cat {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  width: 100%;
+}
+.rr-core-arrow {
+  display: grid; place-items: center; flex-shrink: 0;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(0,169,157,0.35);
+  color: #aef0e9; cursor: pointer;
+  transition: all .2s var(--ease-out);
+}
+.rr-core-arrow:hover { background: rgba(0,169,157,0.25); color: #fff; border-color: var(--teal-light); }
+.rr-core-cat-name {
+  min-width: 9ch; text-align: center;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(0.9rem, 1.4vw, 1.12rem); letter-spacing: -0.01em;
+  color: #fff; text-transform: lowercase;
+  animation: rrCatIn .4s var(--ease-out);
+}
+@keyframes rrCatIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+/* dentro do disco: imagem (PNG transparente) + nome do modelo, sem números */
+.rr-seg-label { width: 78px; height: 78px; margin: -39px 0 0 -39px; }
+.rr-seg-img {
+  display: grid; place-items: center;
+  width: 34px; height: 34px; margin-bottom: 4px;
+  color: #8fd6cf;
+}
+.rr-seg-img img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.35)); }
+.rr-seg-code { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.2px; text-align: center; line-height: 1.05; max-width: 72px; }
+@media (max-width: 520px) {
+  .rr-seg-img { width: 26px; height: 26px; }
+  .rr-seg-code { font-size: 0.54rem; max-width: 56px; }
+}
+
+/* textos ao redor em frase (sem rótulos acima) */
+.rr-orbit-line {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 0.92rem; line-height: 1.4; color: var(--text-light);
+  margin: 0;
+}
+.rr-orbit-line svg { color: var(--teal); flex-shrink: 0; }
+.rr-orbit-line strong { color: var(--text); font-weight: 700; }
+.rr-orbit-top .rr-orbit-model { font-size: clamp(1.4rem, 2.4vw, 1.9rem); }
+
+/* =====================================================================
+   6. PRODUTOS — Bowls de troca (melhorado)
+   ===================================================================== */
+.bowls-layout {
+  display: grid; grid-template-columns: 0.95fr 1.05fr; gap: clamp(28px, 4vw, 56px);
+  align-items: start;
+}
+.bowls-media-col { display: flex; flex-direction: column; gap: 18px; align-items: flex-start; }
+.bowls-frame { width: 100%; margin: 0; }
+.bowls-steps { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+.bowls-step {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 0.95rem; color: var(--text-light); line-height: 1.45;
+}
+.bowls-step-n {
+  flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--teal-pale); color: var(--teal-dark);
+  font-weight: 800; font-size: 0.86rem;
+}
+.bowls-table-col { width: 100%; }
+.bowls-table-title { font-size: 1.12rem; margin-bottom: 16px; color: var(--text); }
+@media (max-width: 880px) { .bowls-layout { grid-template-columns: 1fr; } }
+
+/* =====================================================================
+   7. SERVIÇOS
+   ===================================================================== */
+/* hero sem a arte flutuante: texto ocupa a largura */
+.sv-page .sv-hero-inner { grid-template-columns: 1fr; }
+.sv-page .sv-hero-text { max-width: 760px; }
+
+/* navegador lateral dentro de caixa arredondada com degradê azul escuro */
+.sv-toc {
+  background: linear-gradient(165deg, #0b2b30 0%, #06181a 100%);
+  border: 1px solid rgba(0,169,157,0.28);
+  border-radius: 18px;
+  padding: 20px 18px;
+  box-shadow: 0 24px 50px -28px rgba(0,0,0,0.6);
+  width: clamp(168px, 11vw, 196px);
+}
+.sv-toc-label { color: rgba(255,255,255,0.55); padding-left: 26px; }
+.sv-toc ul::before { background: rgba(255,255,255,0.16); left: 6px; }
+.sv-toc-dot { background: #0b2b30; border-color: rgba(255,255,255,0.32); }
+.sv-toc-text { color: rgba(255,255,255,0.78); }
+.sv-toc-link:hover .sv-toc-text { color: #fff; }
+.sv-toc-link:hover .sv-toc-dot { border-color: var(--teal-light); }
+.sv-toc-link.is-active .sv-toc-dot { background: var(--teal-light); border-color: var(--teal-light); box-shadow: 0 0 0 5px rgba(0,169,157,0.25); }
+.sv-toc-link.is-active .sv-toc-text { color: #6ff0e4; font-weight: 700; }
+
+/* =====================================================================
+   8. Remover etiquetas no canto das imagens em TODO o site
+   (ex.: "CLP / IHM", "Disc-stack", "Solid bowl"...)
+   ===================================================================== */
+.imgslot-tag,
+.equip-image-frame-tag,
+.prod-hero-photo-tag,
+.wp-sheet-media-tag,
+.sv-journey-num { display: none !important; }

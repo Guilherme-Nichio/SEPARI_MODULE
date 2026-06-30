@@ -1,0 +1,729 @@
+/* =====================================================================
+   v63 — Pacote de mudanças
+   Home, Navbar, Footer, Peças, Serviços, Sobre, Produtos e Aplicações.
+   Importado por último: pode sobrescrever versões anteriores.
+   ===================================================================== */
+
+/* ─────────────────────────────────────────────────────────────────────
+   1. NAVBAR — barra fina superior com atalho pro catálogo
+   ───────────────────────────────────────────────────────────────────── */
+.navbar-wrapper.navbar-v3 { flex-direction: column; align-items: stretch; }
+
+.navbar-topstrip {
+  pointer-events: auto;
+  width: 100%;
+  background: linear-gradient(90deg, var(--teal-darker) 0%, var(--teal-dark) 60%, var(--teal) 100%);
+  color: #fff;
+}
+.navbar-topstrip-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 6px clamp(16px, 4vw, 54px);
+}
+.navbar-topstrip-msg {
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  color: rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.navbar-topstrip-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #fff;
+  padding: 4px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: var(--r-pill);
+  transition: background 0.25s var(--ease-out), border-color 0.25s;
+}
+.navbar-topstrip-cta:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+@media (max-width: 600px) {
+  .navbar-topstrip-msg { display: none; }
+  .navbar-topstrip-inner { justify-content: center; padding: 5px 16px; }
+}
+/* a barra fina aumenta a altura do header: reservar mais espaço no ClientNav */
+.client-nav { padding-top: 136px !important; }
+@media (max-width: 768px) { .client-nav { padding-top: 122px !important; } }
+
+/* ─────────────────────────────────────────────────────────────────────
+   2. PRÉ-FOOTER — formulário de contato por email
+   ───────────────────────────────────────────────────────────────────── */
+.prefooter-contact {
+  background:
+    radial-gradient(120% 120% at 100% 0%, rgba(0, 131, 127, 0.06) 0%, transparent 55%),
+    var(--bg-subtle);
+  padding: clamp(56px, 8vw, 96px) 0;
+  border-top: 1px solid var(--gray-200);
+}
+.prefooter-grid {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: clamp(28px, 5vw, 64px);
+  align-items: start;
+}
+.prefooter-eyebrow {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--teal-dark);
+  margin-bottom: 12px;
+}
+.prefooter-intro h2 {
+  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  line-height: 1.15;
+  margin: 0 0 16px;
+  color: var(--text);
+}
+.prefooter-intro > p {
+  color: var(--text-light);
+  font-size: 1.02rem;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+.prefooter-contacts { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.prefooter-contacts li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text);
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+.prefooter-ic {
+  display: grid;
+  place-items: center;
+  width: 34px; height: 34px;
+  border-radius: 10px;
+  background: var(--teal-pale);
+  color: var(--teal-dark);
+  flex-shrink: 0;
+}
+.prefooter-form {
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--r-lg);
+  padding: clamp(20px, 3vw, 32px);
+  box-shadow: var(--shadow-md);
+  display: grid;
+  gap: 16px;
+}
+.prefooter-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.prefooter-field { display: grid; gap: 6px; }
+.prefooter-field span {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-light);
+}
+.prefooter-field input,
+.prefooter-field textarea {
+  width: 100%;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--r-sm);
+  padding: 11px 13px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--text);
+  background: var(--bg);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.prefooter-field textarea { resize: vertical; min-height: 96px; }
+.prefooter-field input::placeholder,
+.prefooter-field textarea::placeholder { color: var(--text-muted); }
+.prefooter-field input:focus,
+.prefooter-field textarea:focus {
+  outline: none;
+  border-color: var(--teal-light);
+  box-shadow: 0 0 0 3px rgba(0, 169, 157, 0.16);
+}
+.prefooter-form .btn { justify-self: start; }
+@media (max-width: 860px) {
+  .prefooter-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 520px) {
+  .prefooter-row { grid-template-columns: 1fr; }
+  .prefooter-form .btn { justify-self: stretch; width: 100%; }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   3. WORKSHOP PROTOCOL — imagem no topo, texto embaixo (Home)
+   ───────────────────────────────────────────────────────────────────── */
+.wp-sheet { display: flex; flex-direction: column; padding: 0 !important; overflow: hidden; }
+.wp-sheet-media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  background: linear-gradient(135deg, #0e2a2a 0%, #06181a 100%);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.wp-sheet-media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+}
+.wp-sheet-media-ph {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.55);
+}
+.wp-sheet-media-ph-icon {
+  display: grid; place-items: center;
+  width: 46px; height: 46px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+}
+.wp-sheet-media-ph code { font-size: 0.72rem; color: rgba(255, 255, 255, 0.5); }
+.wp-sheet-media-tag {
+  position: absolute;
+  z-index: 3;
+  top: 14px; left: 14px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--teal-dark);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: var(--r-pill);
+  letter-spacing: 0.3px;
+}
+.wp-sheet-body { padding: clamp(20px, 3vw, 30px); }
+.wp-sheet-body .wp-sheet-title { margin-top: 10px; }
+
+/* ─────────────────────────────────────────────────────────────────────
+   4. PEÇAS — título legível, navegação de marcas, anéis de kit, chips
+   ───────────────────────────────────────────────────────────────────── */
+/* título do hero (estava escuro sobre fundo escuro) */
+.pcx-hero-dark .pcx-hero-left h1 { color: #fff; }
+.pcx-hero-dark .pcx-hero-left p { color: rgba(255, 255, 255, 0.82); }
+.pcx-hero-kicker { color: var(--teal-light) !important; }
+
+/* navegação rápida de marcas (substitui as métricas) */
+.pcx-hero-brands {
+  margin-top: 34px;
+  padding-top: 26px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+.pcx-hero-brands-label {
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 14px;
+}
+.pcx-hero-brands-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.pcx-brand-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 9px 16px;
+  border-radius: var(--r-pill);
+  transition: background 0.25s var(--ease-out), border-color 0.25s, transform 0.25s;
+}
+.pcx-brand-btn:hover {
+  background: var(--teal);
+  border-color: var(--teal-light);
+  transform: translateY(-2px);
+}
+.pcx-brand-btn svg { opacity: 0.7; }
+
+/* chips de marca na seção "qualidade comprovada" (agora links) */
+.pc-chip-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+}
+.pc-chip-link:hover {
+  background: var(--teal);
+  color: #fff;
+  border-color: var(--teal);
+  transform: translateY(-2px);
+}
+.pc-chip-link svg { opacity: 0.8; }
+
+/* anéis de kit concêntricos (menor → intermediário → maior) */
+.kit-rings {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: clamp(28px, 5vw, 64px);
+  align-items: center;
+}
+.kit-rings-visual {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 360px;
+}
+.kit-ring {
+  position: relative;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 2px solid;
+}
+.kit-ring-3 {
+  width: clamp(280px, 32vw, 360px);
+  height: clamp(280px, 32vw, 360px);
+  background: linear-gradient(155deg, var(--teal-dark), var(--teal-darker));
+  border-color: var(--teal);
+  box-shadow: var(--shadow-lg);
+}
+.kit-ring-2 {
+  width: 70%;
+  height: 70%;
+  background: linear-gradient(155deg, var(--teal) 0%, var(--teal-dark) 100%);
+  border-color: var(--teal-light);
+}
+.kit-ring-1 {
+  width: 62%;
+  height: 62%;
+  background: var(--teal-pale);
+  border-color: #fff;
+}
+.kit-ring-tag {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+}
+.kit-ring-3 > .kit-ring-tag { color: #fff; }
+.kit-ring-2 > .kit-ring-tag { color: #fff; }
+.kit-ring-1 > .kit-ring-tag { color: var(--teal-dark); position: static; transform: none; }
+
+.kit-rings-legend { display: grid; gap: 14px; }
+.kit-rings-item {
+  position: relative;
+  display: flex;
+  gap: 14px;
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-left: 4px solid var(--teal-light);
+  border-radius: var(--r-md);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
+}
+.kit-rings-item-1 { border-left-color: var(--teal-pale); }
+.kit-rings-item-2 { border-left-color: var(--teal); }
+.kit-rings-item-3 { border-left-color: var(--teal-dark); }
+.kit-rings-dot {
+  flex-shrink: 0;
+  width: 14px; height: 14px;
+  margin-top: 4px;
+  border-radius: 50%;
+  background: var(--teal);
+}
+.kit-rings-item-1 .kit-rings-dot { background: var(--teal-pale); border: 2px solid var(--teal); }
+.kit-rings-item-2 .kit-rings-dot { background: var(--teal); }
+.kit-rings-item-3 .kit-rings-dot { background: var(--teal-dark); }
+.kit-rings-item-tag {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--teal-dark);
+  margin-bottom: 2px;
+}
+.kit-rings-item-body strong { display: block; font-size: 1.05rem; color: var(--text); margin-bottom: 4px; }
+.kit-rings-item-body p { color: var(--text-light); font-size: 0.92rem; line-height: 1.5; margin: 0; }
+@media (max-width: 820px) {
+  .kit-rings { grid-template-columns: 1fr; }
+  .kit-rings-visual { min-height: 300px; }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   5. SERVIÇOS — jornada (chegada → entrega) + marca d'água da logo
+   ───────────────────────────────────────────────────────────────────── */
+/* fundo sutil com a logo da Separi (no hero e na faixa da jornada,
+   onde realmente fica visível — seções brancas são opacas) */
+.sv-page { position: relative; }
+.sv-hero { position: relative; overflow: hidden; }
+.sv-hero::after {
+  content: '';
+  position: absolute;
+  right: -4%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(58vw, 620px);
+  aspect-ratio: 1;
+  background-image: url('/logo.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 0;
+}
+.sv-hero > * { position: relative; z-index: 1; }
+#jornada { position: relative; overflow: hidden; }
+#jornada::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width: min(90vw, 1000px);
+  height: 100%;
+  background-image: url('/logo.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: min(60vw, 560px);
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: 0;
+}
+#jornada > .container { position: relative; z-index: 1; }
+
+.sv-journey {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+}
+.sv-journey-step { position: relative; display: flex; flex-direction: column; }
+.sv-journey-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: linear-gradient(135deg, #0e2a2a, #06181a);
+  display: grid;
+  place-items: center;
+  box-shadow: var(--shadow-md);
+}
+.sv-journey-media img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; z-index: 2;
+}
+.sv-journey-media-ph {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  color: rgba(255, 255, 255, 0.5); z-index: 1;
+}
+.sv-journey-media-ph code { font-size: 0.66rem; color: rgba(255, 255, 255, 0.45); }
+.sv-journey-num {
+  position: absolute; z-index: 3;
+  top: 10px; left: 10px;
+  width: 30px; height: 30px;
+  display: grid; place-items: center;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--teal-dark);
+  font-weight: 800; font-size: 0.85rem;
+}
+.sv-journey-body { padding-top: 16px; }
+.sv-journey-icon {
+  display: inline-grid; place-items: center;
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: var(--teal-pale);
+  color: var(--teal-dark);
+  margin-bottom: 10px;
+}
+.sv-journey-body h3 { font-size: 1rem; margin: 0 0 6px; color: var(--text); }
+.sv-journey-body p { font-size: 0.88rem; line-height: 1.5; color: var(--text-light); margin: 0; }
+.sv-journey-connector {
+  position: absolute;
+  top: calc((100% / 4 * 1.5));
+  right: -9px;
+  width: 18px; height: 2px;
+  background: var(--teal-light);
+  opacity: 0.5;
+  display: none;
+}
+@media (max-width: 1024px) {
+  .sv-journey { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .sv-journey { grid-template-columns: 1fr; }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   6. SOBRE — wordmark SEPARI com linha que se divide (Missão/Visão)
+   ───────────────────────────────────────────────────────────────────── */
+.sb-brandmark { text-align: center; margin-bottom: clamp(36px, 6vw, 64px); }
+.sb-brandmark-word {
+  font-family: var(--font-display, inherit);
+  font-weight: 700;
+  font-size: clamp(3rem, 12vw, 8rem);
+  line-height: 0.95;
+  letter-spacing: clamp(2px, 1vw, 10px);
+  margin: 0;
+  background: linear-gradient(180deg, var(--teal) 0%, var(--teal-dark) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.sb-brandmark-split {
+  position: relative;
+  width: min(560px, 90%);
+  height: 78px;
+  margin: 10px auto 0;
+}
+/* tronco central que desce */
+.sb-brandmark-trunk {
+  position: absolute;
+  top: 0; left: 50%;
+  width: 2px; height: 26px;
+  transform: translateX(-50%);
+  background: var(--teal);
+}
+/* dois ramos que se abrem em diagonal */
+.sb-brandmark-fork {
+  position: absolute;
+  top: 26px;
+  width: 46%;
+  height: 2px;
+  background: var(--teal);
+}
+.sb-brandmark-fork-l { left: 4%; transform-origin: right center; transform: rotate(8deg); }
+.sb-brandmark-fork-r { right: 4%; transform-origin: left center; transform: rotate(-8deg); }
+/* rótulos nas pontas */
+.sb-brandmark-node {
+  position: absolute;
+  top: 44px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--teal-dark);
+}
+.sb-brandmark-node::before {
+  content: '';
+  position: absolute;
+  top: -10px; left: 50%;
+  transform: translateX(-50%);
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--teal);
+}
+.sb-brandmark-node-l { left: 12%; }
+.sb-brandmark-node-r { right: 12%; }
+@media (max-width: 560px) {
+  .sb-brandmark-split { height: 70px; }
+  .sb-brandmark-node { font-size: 0.82rem; }
+  .sb-brandmark-node-l { left: 6%; }
+  .sb-brandmark-node-r { right: 6%; }
+}
+
+/* "A nossa evolução" — espaçamento entre as caixas */
+.sb-tl-item { padding-bottom: 40px !important; }
+.sb-tl-item:last-child { padding-bottom: 0 !important; }
+.sb-timeline { display: grid; gap: 6px; }
+
+/* ─────────────────────────────────────────────────────────────────────
+   7. APLICAÇÕES — hero em vídeo (centralizado) + rail sutil de outras
+   ───────────────────────────────────────────────────────────────────── */
+.app-vhero {
+  position: relative;
+  min-height: 86vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: clamp(140px, 16vw, 200px) 20px clamp(80px, 10vw, 120px);
+  overflow: hidden;
+  color: #fff;
+}
+.app-vhero-media { position: absolute; inset: 0; z-index: 0; }
+.app-vhero-video {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.app-vhero-shade {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg, rgba(3, 18, 20, 0.55) 0%, rgba(3, 18, 20, 0.45) 45%, rgba(3, 18, 20, 0.82) 100%),
+    radial-gradient(120% 90% at 50% 0%, rgba(0, 98, 96, 0.45) 0%, transparent 60%);
+}
+.app-vhero-inner { position: relative; z-index: 2; max-width: 880px; }
+.app-vhero-crumbs {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-bottom: 22px;
+  color: rgba(255, 255, 255, 0.7);
+}
+.app-vhero-crumbs a { color: rgba(255, 255, 255, 0.85); }
+.app-vhero-crumbs a:hover { color: #fff; }
+.app-vhero-crumbs .sep { opacity: 0.5; }
+.app-vhero-crumbs .current { color: #fff; font-weight: 600; }
+.app-vhero-title {
+  font-size: clamp(2.2rem, 6vw, 4.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.5px;
+  margin: 0 0 20px;
+  color: #fff;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+.app-vhero-lead {
+  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 680px;
+  margin: 0 auto 32px;
+}
+.app-vhero-ctas { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+.app-vhero-scroll {
+  position: absolute;
+  z-index: 2;
+  bottom: 28px; left: 50%;
+  transform: translateX(-50%);
+  width: 26px; height: 42px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 14px;
+  display: grid;
+  place-items: start center;
+  padding-top: 7px;
+}
+.app-vhero-scroll-dot {
+  width: 4px; height: 8px;
+  border-radius: 2px;
+  background: #fff;
+  animation: appScroll 1.6s var(--ease-in-out) infinite;
+}
+@keyframes appScroll { 0%,100% { transform: translateY(0); opacity: 1; } 50% { transform: translateY(8px); opacity: 0.4; } }
+
+/* Explore outras aplicações — rail sutil */
+.app-other-head { text-align: center; margin-bottom: 36px; }
+.app-other-rail {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 8px;
+  max-width: 920px;
+  margin: 0 auto;
+}
+.app-other-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--gray-200);
+  background: #fff;
+  color: var(--text-light);
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: color 0.22s, border-color 0.22s, background 0.22s, transform 0.22s;
+}
+.app-other-link:hover {
+  color: var(--teal-dark);
+  border-color: var(--teal-light);
+  background: var(--teal-pale);
+  transform: translateY(-2px);
+}
+.app-other-link-ic { display: inline-flex; color: var(--teal); }
+.app-other-link-ic svg { width: 16px; height: 16px; }
+.app-other-link svg:last-child { opacity: 0.55; }
+
+/* padroniza a cor do gradiente de texto dentro das aplicações (identidade Separi) */
+.app-vhero .text-gradient,
+.app-hero .text-gradient { background: var(--grad-teal); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+
+/* ─────────────────────────────────────────────────────────────────────
+   8. PRODUTOS — RotaryReman: trapézios brancos, selecionado destacado
+   ───────────────────────────────────────────────────────────────────── */
+.rr-svg .rr-ring-bg { fill: #eef4f3; }
+.rr-seg-separadoras,
+.rr-seg-clarificadoras,
+.rr-seg-decanters { fill: #ffffff; }
+.rr-seg {
+  stroke: rgba(0, 98, 96, 0.28);
+  stroke-width: 2;
+}
+.rr-seg:hover { fill: var(--teal-pale); }
+.rr-seg.is-active {
+  fill: url(#rrActive);
+  stroke: var(--teal-dark);
+  transform: scale(1.07);
+  transform-origin: 200px 200px;
+  transform-box: view-box;
+  filter: drop-shadow(0 12px 26px rgba(0, 131, 127, 0.5));
+}
+/* rótulos: escuros sobre branco; brancos no segmento ativo (teal) */
+.rr-seg-label { color: var(--teal-dark); }
+.rr-seg-label.is-active { color: #fff; }
+
+/* PRODUTOS — seção de locação */
+.locacao-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+.locacao-card {
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--r-md);
+  padding: 26px 22px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.25s var(--ease-out), box-shadow 0.25s, border-color 0.25s;
+}
+.locacao-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--teal-light);
+}
+.locacao-card-icon {
+  display: inline-grid; place-items: center;
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: var(--teal-pale);
+  color: var(--teal-dark);
+  margin-bottom: 16px;
+}
+.locacao-card h3 { font-size: 1.05rem; margin: 0 0 8px; color: var(--text); }
+.locacao-card p { font-size: 0.9rem; line-height: 1.55; color: var(--text-light); margin: 0; }
+.locacao-cta {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  background: linear-gradient(135deg, var(--teal-dark), var(--teal-darker));
+  border-radius: var(--r-lg);
+  padding: 28px 32px;
+  color: #fff;
+}
+.locacao-cta-text strong { display: block; font-size: 1.15rem; margin-bottom: 4px; }
+.locacao-cta-text p { margin: 0; color: rgba(255, 255, 255, 0.82); }
+@media (max-width: 980px) { .locacao-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px) { .locacao-grid { grid-template-columns: 1fr; } }

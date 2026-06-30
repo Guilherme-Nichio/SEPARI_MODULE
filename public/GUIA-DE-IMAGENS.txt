@@ -1,0 +1,93 @@
+==========================================================================
+GUIA RÁPIDO — COMO TROCAR AS IMAGENS DO SITE SEPARI
+==========================================================================
+
+Toda imagem do site é um "slot": enquanto o arquivo não existe, aparece um
+placeholder com o caminho. Assim que você solta o arquivo na pasta /public
+com o NOME EXATO indicado abaixo, a imagem aparece sozinha (sem mexer no
+código). É só trocar um arquivo por outro mantendo o mesmo nome.
+
+Dica: PNG com fundo transparente onde estiver escrito (PNG). JPG nos demais.
+
+--------------------------------------------------------------------------
+1) LOGO E MARCA
+--------------------------------------------------------------------------
+/public/logo.png                  Logo principal (cabeçalho/rodapé)
+
+--------------------------------------------------------------------------
+2) PRODUTOS (Automação e Bowls)
+--------------------------------------------------------------------------
+/public/produtos/vfd.jpg          Drive de frequência variável (VFD)
+/public/produtos/painel.jpg       Painel de Controlo (CLP/IHM)
+/public/produtos/bowl.jpg         Rotor / Bowl em locação
+
+--------------------------------------------------------------------------
+3) PEÇAS — imagens do componente (PNG sem fundo)
+   Usadas no CARROSSEL "Componentes do seu <modelo>" (saltam do topo da caixa)
+   Caminho: /public/pecas/<slug>.png        (PNG transparente)
+   Os mesmos slugs servem para as miniaturas .jpg da página de Peças.
+--------------------------------------------------------------------------
+/public/pecas/bowl.png
+/public/pecas/bowl-lid.png
+/public/pecas/disc-stack.png
+/public/pecas/distributor.png
+/public/pecas/drum.png
+/public/pecas/chambers.png
+/public/pecas/scroll.png
+/public/pecas/spindle.png
+/public/pecas/bearings.png
+/public/pecas/gearbox.png
+/public/pecas/flat-belt.png
+/public/pecas/friction-coupling.png
+/public/pecas/gasket-kit.png
+/public/pecas/seals.png
+/public/pecas/gravity-disc.png
+/public/pecas/lock-ring.png
+/public/pecas/paring-disc.png
+/public/pecas/operating-water.png
+/public/pecas/wear-protection.png
+
+--------------------------------------------------------------------------
+4) PRODUTOS — Linha remanufaturada (disco giratório)
+   Imagem da máquina dentro de cada fatia do disco (PNG sem fundo)
+   Caminho: /public/produtos/reman/<slug>.png   (PNG transparente)
+--------------------------------------------------------------------------
+/public/produtos/reman/alfa-laval-mrpx-518-hgv.png
+/public/produtos/reman/gea-westfalia-osc-60.png
+/public/produtos/reman/alfa-laval-lopx-707.png
+/public/produtos/reman/alfa-laval-mrpx-418-tgv.png
+/public/produtos/reman/tetra-pak-tetra-centri-c214.png
+/public/produtos/reman/gea-westfalia-mse-300.png
+/public/produtos/reman/gea-westfalia-sc-50.png
+/public/produtos/reman/pieralisi-fpc-25.png
+/public/produtos/reman/alfa-laval-nx-418.png
+
+--------------------------------------------------------------------------
+5) SERVIÇOS — Jornada "Da chegada à entrega" + recursos
+--------------------------------------------------------------------------
+/public/servicos/jornada-chegada.jpg
+/public/servicos/jornada-desmontagem.jpg
+/public/servicos/jornada-orcamento.jpg
+/public/servicos/jornada-execucao.jpg
+/public/servicos/jornada-entrega.jpg
+/public/servicos/preventiva.jpg
+/public/servicos/revisao.jpg
+/public/servicos/video-poster.jpg     Capa do vídeo
+/public/servicos-video.mp4             Vídeo institucional
+
+--------------------------------------------------------------------------
+6) SOBRE — Equipe
+--------------------------------------------------------------------------
+/public/equipe/direcao.jpg
+/public/equipe/engenharia.jpg
+/public/equipe/atendimento.jpg
+
+--------------------------------------------------------------------------
+7) SETORES / APLICAÇÕES
+   Veja a lista completa em /public/aplicacoes/COMO-ADICIONAR-IMAGENS.txt
+   (2 imagens por setor, ex.: laticinios-1.jpg, laticinios-2.jpg)
+--------------------------------------------------------------------------
+
+Observação: trocar a foto por outra é só substituir o arquivo mantendo o
+mesmo nome. Se quiser usar outro nome/caminho, ajuste o "src" no componente
+correspondente em /src.

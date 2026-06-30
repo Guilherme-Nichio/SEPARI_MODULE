@@ -1,0 +1,232 @@
+/* ============================================================
+   v61 — Disco de trapézios + seletor central de categoria
+   Seção "Linha remanufaturada disponível" — Produtos
+   ============================================================ */
+
+.rr {
+  --rr-size: 480px;          /* diâmetro do disco */
+  max-width: 1060px;
+  margin: 0 auto;
+}
+
+/* ---- palco ---- */
+.rr-stage {
+  position: relative;
+  width: 100%;
+  min-height: calc(var(--rr-size) + 170px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 78px 0 36px;
+}
+
+/* ---- textos orbitando o círculo ---- */
+.rr-orbit {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 200px;
+  pointer-events: none;
+}
+.rr-orbit-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: .66rem;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--teal);
+}
+.rr-orbit-value {
+  font-size: 1.04rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+  animation: rrSwap .45s var(--ease-out);
+}
+.rr-orbit-value small {
+  display: block;
+  font-size: .7rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.rr-orbit-top {
+  top: 8px; left: 50%; transform: translateX(-50%);
+  width: auto; align-items: center; text-align: center;
+}
+.rr-orbit-top .rr-orbit-label { color: var(--teal-dark); }
+.rr-orbit-model {
+  font-size: 1.6rem; font-weight: 800; letter-spacing: -.3px;
+  color: var(--text); white-space: nowrap;
+  animation: rrSwap .45s var(--ease-out);
+}
+.rr-orbit-tl { top: 116px; left: max(0px, calc(50% - 452px)); align-items: flex-start; text-align: left; }
+.rr-orbit-tr { top: 116px; right: max(0px, calc(50% - 452px)); align-items: flex-end; text-align: right; }
+.rr-orbit-bl { bottom: 60px; left: max(0px, calc(50% - 452px)); align-items: flex-start; text-align: left; }
+.rr-orbit-br { bottom: 60px; right: max(0px, calc(50% - 452px)); align-items: flex-end; text-align: right; }
+
+@keyframes rrSwap { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ---- marcador do topo ---- */
+.rr-marker {
+  position: absolute;
+  top: 72px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  pointer-events: none;
+}
+.rr-marker-tri {
+  display: block;
+  width: 0; height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 17px solid var(--teal);
+  filter: drop-shadow(0 4px 6px rgba(0,131,127,.4));
+}
+
+/* ---- disco ---- */
+.rr-dial-wrap {
+  position: relative;
+  width: var(--rr-size);
+  height: var(--rr-size);
+  flex: 0 0 auto;
+  touch-action: none;
+  outline: none;
+}
+.rr-dial-wrap:focus-visible { box-shadow: 0 0 0 4px rgba(0,169,157,.35); border-radius: 50%; }
+.rr-dial-wrap.is-dragging { cursor: grabbing; }
+.rr-dial-wrap:not(.is-dragging) { cursor: grab; }
+
+.rr-dial { position: absolute; inset: 0; border-radius: 50%; will-change: transform; }
+.rr-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.rr-svg .rr-ring-bg { fill: #08171c; }
+
+/* segmentos em trapézio */
+.rr-seg {
+  cursor: pointer;
+  stroke: rgba(8,23,28,.9);
+  stroke-width: 2.5;
+  transition: fill .35s var(--ease-out), opacity .35s, filter .35s;
+}
+.rr-seg-separadoras   { fill: #134a48; }
+.rr-seg-clarificadoras{ fill: #0e3f4a; }
+.rr-seg-decanters     { fill: #103840; }
+.rr-seg:hover { fill: #1d6360; }
+.rr-seg.is-active {
+  fill: url(#rrActive);
+  filter: drop-shadow(0 6px 14px rgba(0,131,127,.55));
+}
+
+/* rótulos curtos (sempre verticais) */
+.rr-seg-label {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 64px; height: 64px;
+  margin: -32px 0 0 -32px;
+  display: grid; place-items: center;
+  pointer-events: none;
+  color: #bfe7e2;
+  transition: color .3s;
+}
+.rr-seg-label.is-active { color: #fff; }
+.rr-seg-label-inner { display: flex; flex-direction: column; align-items: center; line-height: 1; will-change: transform; }
+.rr-seg-num { font-size: 1.15rem; font-weight: 800; }
+.rr-seg-code { font-size: .55rem; font-weight: 600; letter-spacing: .3px; margin-top: 3px; opacity: .9; }
+
+/* ---- círculo central = seletor de categoria ---- */
+.rr-core {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 56%; height: 56%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 42% 34%, #0f3038, #06151a);
+  border: 1px solid rgba(0,169,157,.22);
+  box-shadow: inset 0 0 32px rgba(0,0,0,.6), 0 10px 26px -8px rgba(0,0,0,.55);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 6%;
+  text-align: center;
+}
+.rr-core-title {
+  font-size: .64rem; letter-spacing: 2px; text-transform: uppercase;
+  font-weight: 700; color: var(--teal-light);
+}
+.rr-core-options { display: flex; flex-direction: column; gap: 7px; width: 100%; max-width: 188px; }
+.rr-core-opt {
+  display: inline-flex; align-items: center; gap: 8px;
+  width: 100%;
+  padding: 8px 14px;
+  border-radius: var(--r-pill);
+  border: 1px solid rgba(255,255,255,.1);
+  background: rgba(255,255,255,.04);
+  color: #cfe9e5;
+  font-size: .82rem; font-weight: 600;
+  cursor: pointer;
+  transition: all .25s var(--ease-out);
+}
+.rr-core-opt:hover { border-color: var(--teal-light); background: rgba(0,169,157,.12); }
+.rr-core-opt.is-active {
+  background: var(--grad-teal); border-color: transparent; color: #fff;
+  box-shadow: 0 6px 16px -4px rgba(0,131,127,.6);
+}
+.rr-core-opt-ic { display: inline-flex; }
+.rr-core-hint {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: .6rem; color: var(--text-muted); margin-top: 2px;
+}
+
+/* ---- leitura / ações ---- */
+.rr-readout { max-width: 640px; margin: 8px auto 0; text-align: center; }
+.rr-readout-note {
+  font-size: 1.05rem; color: var(--text); font-weight: 600;
+  line-height: 1.5; min-height: 2.4em; animation: rrSwap .45s var(--ease-out);
+}
+.rr-readout-blurb { font-size: .92rem; color: var(--text-light); margin-top: 8px; line-height: 1.55; }
+.rr-readout-actions { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 22px 0 16px; }
+.rr-arrow {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid var(--gray-200); background: var(--white);
+  color: var(--teal-dark); display: grid; place-items: center; cursor: pointer;
+  transition: all .25s var(--ease-out);
+}
+.rr-arrow:hover { background: var(--teal-pale); border-color: var(--teal-light); transform: translateY(-1px); }
+.rr-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+.rr-dot { width: 9px; height: 9px; border-radius: 50%; border: none; background: var(--gray-300); cursor: pointer; transition: all .25s var(--ease-out); }
+.rr-dot:hover { background: var(--teal-light); }
+.rr-dot.is-active { background: var(--teal); transform: scale(1.35); }
+.rr-readout-all { display: inline-flex; align-items: center; gap: 6px; font-size: .9rem; font-weight: 700; color: var(--teal-dark); text-decoration: none; }
+.rr-readout-all:hover { color: var(--teal); }
+.rr-readout-all svg { transition: transform .25s var(--ease-out); }
+.rr-readout-all:hover svg { transform: translateX(3px); }
+
+/* ============================================================ responsivo */
+@media (max-width: 980px) {
+  .rr { --rr-size: 420px; }
+  .rr-stage { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 22px; justify-items: center; min-height: 0; padding: 64px 0 12px; }
+  .rr-dial-wrap { grid-column: 1 / -1; margin: 0 auto; }
+  .rr-marker { position: absolute; }
+  .rr-orbit { position: static; width: auto; align-items: center !important; text-align: center !important; padding: 0 4px; }
+  .rr-orbit-top { grid-column: 1 / -1; order: 0; }
+  .rr-orbit-tl { order: 2; } .rr-orbit-tr { order: 3; }
+  .rr-orbit-bl { order: 4; } .rr-orbit-br { order: 5; }
+}
+@media (max-width: 520px) {
+  .rr { --rr-size: 320px; }
+  .rr-orbit-model { font-size: 1.3rem; }
+  .rr-seg-code { display: none; }
+  .rr-seg-num { font-size: .95rem; }
+  .rr-core-opt { font-size: .72rem; padding: 6px 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rr-dial { transition: none !important; }
+  .rr-orbit-value, .rr-orbit-model, .rr-readout-note { animation: none !important; }
+}

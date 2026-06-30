@@ -1,0 +1,1277 @@
+/* =========================================================================
+   SEPARI v3.13 — FIXES CRÍTICOS + REDESIGN MAQUINA NOVA + ADMIN UX
+   Carregado depois do v42. Sobrescreve quando necessário.
+
+   Cobertura:
+   1.  Overflow horizontal — site não arrasta mais lateralmente no mobile
+   2.  Navbar mobile — fix completo
+   3.  Padding-top do conteúdo do cliente — não cola mais na navbar
+   4.  Wizard "Cadastrar máquina" — design bonito em 3 etapas
+   5.  Admin UX — cards visuais, achabilidade, atalhos
+   6.  Polimento geral
+   ========================================================================= */
+
+
+/* =========================================================================
+   1. OVERFLOW HORIZONTAL — site não arrasta lateralmente no mobile
+   Aplica APENAS em html e body. NÃO mexer em .container ou seções
+   internas (senão o conteúdo cola nas bordas em desktop, pq o
+   container deixa de ter seu max-width centrado de 1280px).
+   ========================================================================= */
+html,
+body {
+  overflow-x: clip;
+  position: relative;
+}
+/* Garante que elementos com largura total nunca excedam viewport,
+   mas SEM mexer no .container que tem max-width próprio centralizado. */
+.navbar-wrapper,
+.client-nav {
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================================
+   2. NAVBAR MOBILE — fix completo
+   O `max-width: calc(100vw - 32px)` que tinha no v42 causava vazamento
+   em alguns devices (100vw inclui scrollbar). Remover, e ajustar paddings.
+   ========================================================================= */
+.navbar {
+  /* Reset do que veio do v42 */
+  max-width: 1180px;
+}
+
+@media (max-width: 768px) {
+  .navbar-wrapper {
+    top: 10px !important;
+    padding: 0 10px !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+  }
+  .navbar {
+    padding: 9px 12px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    gap: 8px !important;
+    border-radius: 16px !important;
+  }
+  .navbar.scrolled {
+    border-radius: 0 !important;
+    padding: 10px 16px !important;
+  }
+  .navbar .logo img {
+    height: 24px !important;
+  }
+  /* nav-links dropdown não pode vazar lateralmente */
+  .nav-links {
+    left: 0 !important;
+    right: 0 !important;
+    width: calc(100% - 20px) !important;
+    max-width: calc(100% - 20px) !important;
+    margin: 0 10px !important;
+    top: calc(100% + 8px) !important;
+  }
+  /* User badge contido */
+  .user-badge {
+    max-width: none !important;
+    padding: 3px !important;
+    gap: 0 !important;
+    border-radius: 999px !important;
+  }
+  .user-badge span:not(.user-avatar),
+  .user-badge > svg {
+    display: none !important;
+  }
+  .user-badge .user-avatar {
+    width: 34px !important;
+    height: 34px !important;
+    font-size: 0.86rem !important;
+  }
+  /* Botões compactos */
+  .nav-actions {
+    gap: 6px !important;
+  }
+  .nav-actions .btn-sm {
+    padding: 8px 12px !important;
+    font-size: 0.82rem !important;
+  }
+  .menu-toggle {
+    padding: 7px !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .navbar-wrapper {
+    top: 8px !important;
+    padding: 0 8px !important;
+  }
+  .navbar {
+    padding: 8px 10px !important;
+    gap: 6px !important;
+  }
+  .navbar .logo img {
+    height: 22px !important;
+  }
+  .nav-actions .btn-sm {
+    padding: 7px 10px !important;
+    font-size: 0.78rem !important;
+  }
+}
+
+
+/* =========================================================================
+   3. PADDING-TOP DO CONTEÚDO DO CLIENTE
+   Quando ClientNav está presente, ele já tem padding-top de 88px (mobile 78px)
+   pra reservar a navbar. Mas o `.dashboard` ainda adiciona padding-top próprio,
+   gerando GAP visual ou COLAGEM. Precisamos coordenar.
+
+   Quando ClientNav NÃO está presente (admin), .dashboard precisa de seu
+   próprio padding-top.
+
+   Quando ClientNav ESTÁ presente, .dashboard só precisa de respiro.
+   ========================================================================= */
+
+/* Sem ClientNav (ex: admin) */
+.dashboard {
+  padding-top: 140px !important;
+}
+
+/* COM ClientNav — ele já reservou espaço da navbar */
+.client-nav + main .dashboard,
+.client-nav + main .peca-page {
+  padding-top: 32px !important;
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding-top: 110px !important;
+  }
+  .client-nav + main .dashboard,
+  .client-nav + main .peca-page {
+    padding-top: 24px !important;
+  }
+}
+
+/* ClientNav — garantir que ele tenha o padding-top correto pra reservar
+   o espaço da navbar fixed */
+.client-nav {
+  padding-top: 88px !important;
+}
+@media (max-width: 768px) {
+  .client-nav {
+    padding-top: 78px !important;
+  }
+}
+
+
+/* =========================================================================
+   4. WIZARD CADASTRO DE MÁQUINA — design refinado
+   ========================================================================= */
+.machine-wizard {
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.machine-wizard-header {
+  text-align: center;
+  margin-bottom: 38px;
+  padding: 0 16px;
+}
+.machine-wizard-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(0, 169, 157, 0.08);
+  border: 1px solid rgba(0, 169, 157, 0.20);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--teal-dark);
+  margin-bottom: 18px;
+}
+.machine-wizard-title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  margin: 0 0 12px;
+  line-height: 1.1;
+}
+.machine-wizard-sub {
+  font-size: 1.04rem;
+  color: var(--text-light);
+  max-width: 580px;
+  margin: 0 auto;
+  line-height: 1.55;
+}
+
+/* Stepper visual */
+.machine-wizard-stepper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 40px;
+  padding: 0 12px;
+}
+.machine-wizard-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  flex: 1;
+  max-width: 180px;
+}
+.machine-wizard-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 22px;
+  left: calc(50% + 22px);
+  right: calc(-50% + 22px);
+  height: 2px;
+  background: var(--gray-200);
+  z-index: 0;
+}
+.machine-wizard-step.done:not(:last-child)::after,
+.machine-wizard-step.current:not(:last-child)::after {
+  background: var(--teal);
+}
+.machine-wizard-step-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid var(--gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-weight: 700;
+  font-size: 1rem;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+.machine-wizard-step.done .machine-wizard-step-circle {
+  background: var(--teal-dark);
+  border-color: var(--teal-dark);
+  color: white;
+}
+.machine-wizard-step.current .machine-wizard-step-circle {
+  background: white;
+  border-color: var(--teal);
+  color: var(--teal-dark);
+  box-shadow: 0 0 0 5px rgba(0, 169, 157, 0.15);
+}
+.machine-wizard-step-label {
+  margin-top: 12px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text-light);
+  text-align: center;
+  line-height: 1.3;
+}
+.machine-wizard-step.done .machine-wizard-step-label,
+.machine-wizard-step.current .machine-wizard-step-label {
+  color: var(--text);
+}
+
+/* Painel do step */
+.machine-wizard-panel {
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: 18px;
+  padding: 36px 38px;
+  box-shadow: 0 4px 24px rgba(15, 23, 42, 0.04);
+  margin-bottom: 24px;
+}
+.machine-wizard-panel-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--gray-200);
+}
+.machine-wizard-panel-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(0, 169, 157, 0.10);
+  color: var(--teal-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.machine-wizard-panel-title {
+  flex: 1;
+  min-width: 0;
+}
+.machine-wizard-panel-title h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 4px;
+  letter-spacing: -0.015em;
+}
+.machine-wizard-panel-title p {
+  font-size: 0.92rem;
+  color: var(--text-light);
+  margin: 0;
+}
+
+/* Foto principal — drop area bonito */
+.photo-drop {
+  position: relative;
+  aspect-ratio: 4/3;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--bg-subtle) 0%, #FAFBFC 100%);
+  border: 2px dashed var(--gray-300);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.photo-drop:hover {
+  border-color: var(--teal);
+  background: rgba(0, 169, 157, 0.03);
+}
+.photo-drop.has-photo {
+  border-style: solid;
+  border-color: var(--teal-dark);
+  background: var(--text);
+}
+.photo-drop img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.photo-drop-placeholder {
+  text-align: center;
+  padding: 24px;
+  color: var(--text-light);
+}
+.photo-drop-placeholder-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(0, 169, 157, 0.10);
+  color: var(--teal-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px;
+}
+.photo-drop-placeholder strong {
+  display: block;
+  font-size: 1rem;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.photo-drop-placeholder span {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+}
+.photo-drop-remove {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.7);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+  backdrop-filter: blur(8px);
+  transition: background 0.2s ease;
+}
+.photo-drop-remove:hover {
+  background: var(--danger);
+}
+
+/* Fotos extras — grid */
+.extras-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+.extras-grid-item {
+  position: relative;
+  aspect-ratio: 1/1;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--gray-200);
+}
+.extras-grid-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.extras-grid-item-actions {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.7));
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 8px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.extras-grid-item:hover .extras-grid-item-actions {
+  opacity: 1;
+}
+.extras-grid-item-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.extras-grid-item-btn.danger {
+  background: var(--danger);
+  color: white;
+}
+.extras-add {
+  aspect-ratio: 1/1;
+  border-radius: 12px;
+  background: var(--bg-subtle);
+  border: 2px dashed var(--gray-300);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  color: var(--text-light);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 8px;
+  transition: all 0.2s ease;
+}
+.extras-add:hover {
+  border-color: var(--teal);
+  color: var(--teal-dark);
+  background: rgba(0, 169, 157, 0.04);
+}
+
+/* Cards de seleção (modelos, aplicações) */
+.select-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+}
+.select-card {
+  padding: 16px 18px;
+  background: white;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.18s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.select-card:hover {
+  border-color: rgba(0, 169, 157, 0.40);
+  background: rgba(0, 169, 157, 0.03);
+}
+.select-card.active {
+  border-color: var(--teal-dark);
+  background: rgba(0, 169, 157, 0.06);
+  box-shadow: 0 0 0 3px rgba(0, 169, 157, 0.10);
+}
+.select-card-title {
+  font-weight: 700;
+  font-size: 0.94rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.select-card-title svg {
+  flex-shrink: 0;
+  color: var(--teal-dark);
+}
+.select-card-sub {
+  font-size: 0.82rem;
+  color: var(--text-light);
+}
+
+/* Wizard footer com botões */
+.machine-wizard-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-200);
+  margin-top: 28px;
+}
+.machine-wizard-actions .btn {
+  min-width: 130px;
+}
+
+/* Manual de PDF */
+.manual-drop {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 22px;
+  background: var(--bg-subtle);
+  border: 1.5px dashed var(--gray-300);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.manual-drop:hover {
+  border-color: var(--teal);
+  background: rgba(0, 169, 157, 0.03);
+}
+.manual-drop.has-file {
+  border-style: solid;
+  border-color: var(--teal-dark);
+  background: rgba(0, 169, 157, 0.04);
+}
+.manual-drop-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(0, 169, 157, 0.12);
+  color: var(--teal-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.manual-drop-info {
+  flex: 1;
+  min-width: 0;
+}
+.manual-drop-info strong {
+  display: block;
+  color: var(--text);
+  font-size: 0.96rem;
+  margin-bottom: 2px;
+}
+.manual-drop-info span {
+  font-size: 0.82rem;
+  color: var(--text-light);
+}
+
+/* Hints inline */
+.wizard-hint {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 16px;
+  background: rgba(0, 169, 157, 0.05);
+  border: 1px solid rgba(0, 169, 157, 0.22);
+  border-radius: 8px;
+  margin-top: 14px;
+}
+.wizard-hint-icon {
+  color: var(--teal-dark);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.wizard-hint-text {
+  font-size: 0.88rem;
+  color: var(--text-light);
+  line-height: 1.55;
+}
+.wizard-hint-text strong {
+  color: var(--text);
+}
+
+/* Resumo final (step 4 / review) */
+.wizard-review {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 20px;
+}
+.wizard-review-item {
+  padding: 14px 16px;
+  background: var(--bg-subtle);
+  border-radius: 12px;
+  border: 1px solid var(--gray-200);
+}
+.wizard-review-item-label {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-bottom: 4px;
+  letter-spacing: 0.02em;
+}
+.wizard-review-item-value {
+  font-size: 0.96rem;
+  color: var(--text);
+  font-weight: 600;
+}
+.wizard-review-item.span-2 { grid-column: span 2; }
+
+@media (max-width: 768px) {
+  .machine-wizard-panel { padding: 24px 22px; }
+  .machine-wizard-panel-head { gap: 10px; padding-bottom: 18px; margin-bottom: 22px; }
+  .machine-wizard-panel-icon { width: 38px; height: 38px; }
+  .machine-wizard-panel-title h2 { font-size: 1.1rem; }
+  .machine-wizard-step-label { font-size: 0.74rem; }
+  .machine-wizard-step-circle { width: 38px; height: 38px; font-size: 0.92rem; }
+  .machine-wizard-step:not(:last-child)::after { top: 19px; left: calc(50% + 19px); right: calc(-50% + 19px); }
+  .machine-wizard-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+  .machine-wizard-actions .btn {
+    width: 100%;
+    min-width: 0;
+  }
+  .wizard-review { grid-template-columns: 1fr; }
+  .wizard-review-item.span-2 { grid-column: span 1; }
+  .select-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 460px) {
+  .machine-wizard-panel { padding: 20px 18px; }
+  .machine-wizard-step-label { font-size: 0; }
+  .machine-wizard-step-label::first-letter { font-size: 0.9rem; }
+  .select-grid { grid-template-columns: 1fr; }
+}
+
+
+/* =========================================================================
+   5. ADMIN — UX MELHOR, KPI cards bonitos e atalhos rápidos
+   ========================================================================= */
+
+/* KPI cards no AdminHome */
+.admin-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.admin-kpi {
+  position: relative;
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: 16px;
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+}
+.admin-kpi::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 3px;
+  background: var(--gray-200);
+  transition: background 0.2s ease;
+}
+.admin-kpi:hover {
+  border-color: rgba(0, 169, 157, 0.25);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  transform: translateY(-2px);
+}
+.admin-kpi:hover::before {
+  background: var(--teal);
+}
+.admin-kpi.urgent::before { background: #f59e0b; }
+.admin-kpi.urgent { border-color: rgba(245, 158, 11, 0.20); background: rgba(245, 158, 11, 0.02); }
+
+.admin-kpi-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.admin-kpi-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(0, 169, 157, 0.10);
+  color: var(--teal-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.admin-kpi.urgent .admin-kpi-icon {
+  background: rgba(245, 158, 11, 0.15);
+  color: #b45309;
+}
+.admin-kpi-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-light);
+}
+.admin-kpi-value {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+.admin-kpi-sub {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.admin-kpi-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--teal-dark);
+  margin-top: auto;
+}
+
+/* Atalhos rápidos */
+.admin-quick-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.admin-quick-action {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  color: var(--text);
+  text-decoration: none;
+  transition: all 0.18s ease;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+.admin-quick-action:hover {
+  border-color: var(--teal);
+  background: rgba(0, 169, 157, 0.03);
+  color: var(--teal-darker);
+  transform: translateY(-1px);
+}
+.admin-quick-action-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--bg-subtle);
+  color: var(--teal-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Section title no admin */
+.admin-section-title {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--text-light);
+  letter-spacing: 0.02em;
+  margin: 28px 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.admin-section-title svg {
+  color: var(--text-muted);
+}
+
+/* Cards de listagem (Últimas cotações / máquinas pendentes) */
+.admin-recent-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 14px;
+}
+.admin-recent-card {
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.admin-recent-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--gray-200);
+  background: linear-gradient(180deg, #FAFBFC 0%, white 100%);
+}
+.admin-recent-card-head h3 {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.admin-recent-card-body {
+  padding: 0;
+}
+.admin-recent-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--gray-200);
+  transition: background 0.15s ease;
+  text-decoration: none;
+  color: inherit;
+}
+.admin-recent-row:last-child { border-bottom: none; }
+.admin-recent-row:hover {
+  background: var(--bg-subtle);
+}
+.admin-recent-row-main {
+  flex: 1;
+  min-width: 0;
+}
+.admin-recent-row-title {
+  font-weight: 600;
+  color: var(--text);
+  font-size: 0.94rem;
+  margin: 0 0 3px;
+}
+.admin-recent-row-sub {
+  font-size: 0.82rem;
+  color: var(--text-light);
+}
+.admin-recent-empty {
+  padding: 36px 20px;
+  text-align: center;
+  color: var(--text-muted);
+}
+.admin-recent-empty svg {
+  margin: 0 auto 8px;
+  display: block;
+  color: var(--success, #10b981);
+}
+
+@media (max-width: 768px) {
+  .admin-kpi-value { font-size: 1.8rem; }
+  .admin-kpi { padding: 16px 18px; }
+}
+
+
+/* =========================================================================
+   6. POLIMENTO GERAL
+   ========================================================================= */
+
+/* Garantir que botões nunca sobreponham na navbar mobile */
+@media (max-width: 768px) {
+  .nav-actions {
+    flex-wrap: nowrap;
+    overflow: hidden;
+  }
+}
+
+/* Form input/select consistente */
+.form-input,
+.form-select,
+.form-textarea {
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 12px 14px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 10px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background: white;
+  color: var(--text);
+  width: 100%;
+}
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 4px rgba(0, 169, 157, 0.10);
+}
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: var(--text-muted);
+}
+.form-help {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+/* Garantir que dropdowns mobile não acrescentem horizontal scroll */
+.dropdown-menu {
+  max-width: 100% !important;
+}
+
+/* =========================================================================
+   7. SOBRE — fotos da equipe (override pra opacity 1)
+   ========================================================================= */
+.team-photo img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  z-index: 1 !important;
+  opacity: 1 !important;
+}
+.team-photo img + svg {
+  opacity: 0.4 !important;
+}
+
+/* =========================================================================
+   8. EQUIPAMENTOS — frames de imagem nas sections
+   ========================================================================= */
+.equip-image-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--bg-subtle);
+  border: 1px solid var(--gray-200);
+  box-shadow: 0 12px 36px rgba(15, 23, 42, 0.08);
+}
+.equip-image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.equip-image-frame-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--bg-subtle) 0%, #f3f4f6 100%);
+  color: var(--text-muted);
+  z-index: -1;
+}
+.equip-image-frame-tag {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--teal-dark);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* =========================================================================
+   9. FIXES MOBILE — v3.11+ (adicionado após troubleshooting)
+   Cobre:
+     9.1  Menu hambúrguer compacto (não cobre tela toda)
+     9.2  Sub-menu de Serviços/Equipamentos em formato de lista indentada
+     9.3  User-menu (perfil/sair) acessível e visível no celular
+     9.4  Sidebar admin escondido no mobile (corrige bug de class name)
+     9.5  Catálogo de peças sem "zoom" (2 colunas no celular)
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   9.1  MENU HAMBÚRGUER COMPACTO
+   ------------------------------------------------------------------------- */
+@media (max-width: 980px) {
+  .navbar-v3 .nav-links {
+    position: fixed !important;
+    top: 72px !important;
+    right: 12px !important;
+    left: auto !important;
+    width: 280px !important;
+    max-width: calc(100vw - 24px) !important;
+    height: auto !important;
+    max-height: calc(100vh - 90px) !important;
+    padding: 12px !important;
+    border-radius: 16px !important;
+    box-shadow: 0 16px 48px rgba(15, 23, 42, 0.18) !important;
+    border: 1px solid rgba(15, 23, 42, 0.06) !important;
+    overflow-y: auto !important;
+    transform: translateX(120%) !important;
+    transition: transform 0.3s cubic-bezier(.16, 1, .3, 1) !important;
+    z-index: 1500 !important;
+    margin: 0 !important;
+  }
+  .navbar-v3 .nav-links.active {
+    transform: translateX(0) !important;
+  }
+
+  /* Reset do transform do desktop que vazava no mobile */
+  .navbar-v3 .dropdown-menu,
+  .navbar-v3 .dropdown:hover .dropdown-menu,
+  .navbar-v3 .dropdown.active .dropdown-menu {
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+  }
+
+  /* -------------------------------------------------------------------------
+     9.2  SUB-MENU (Serviços/Equipamentos) em formato de lista indentada
+     ------------------------------------------------------------------------- */
+  .navbar-v3 .dropdown-menu {
+    position: static !important;
+    display: none;
+    background: rgba(0, 169, 157, 0.04) !important;
+    border: none !important;
+    border-left: 3px solid var(--teal, #00A99D) !important;
+    border-radius: 0 8px 8px 0 !important;
+    box-shadow: none !important;
+    margin: 4px 0 8px 16px !important;
+    padding: 6px 0 !important;
+    width: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  .navbar-v3 .dropdown.active .dropdown-menu {
+    display: block !important;
+  }
+  .navbar-v3 .dropdown-menu a {
+    display: block !important;
+    padding: 9px 14px !important;
+    margin: 1px 6px !important;
+    text-align: left !important;
+    text-decoration: none !important;
+    font-size: 0.9rem !important;
+    line-height: 1.3 !important;
+    color: var(--text-light, #4a5a64) !important;
+    border-radius: 6px !important;
+    transition: background 0.15s, color 0.15s !important;
+  }
+  .navbar-v3 .dropdown-menu a:hover,
+  .navbar-v3 .dropdown-menu a:active {
+    background: rgba(0, 169, 157, 0.1) !important;
+    color: var(--teal-dark, #00857B) !important;
+    padding-left: 14px !important;
+  }
+  .navbar-v3 .dropdown.active > .nav-item {
+    background: rgba(0, 169, 157, 0.08) !important;
+    color: var(--teal-dark, #00857B) !important;
+  }
+  .navbar-v3 .dropdown.active > .nav-item svg {
+    transform: rotate(180deg) !important;
+    transition: transform 0.2s !important;
+  }
+  .navbar-v3 .dropdown > .nav-item svg {
+    transition: transform 0.2s !important;
+  }
+
+  /* -------------------------------------------------------------------------
+     9.3  USER-MENU (perfil) — dropdown fixo abaixo da navbar
+          Resolve "menu não aparece quando clica no avatar" no celular.
+     ------------------------------------------------------------------------- */
+  .user-menu {
+    position: fixed !important;
+    top: 72px !important;
+    right: 12px !important;
+    left: auto !important;
+    min-width: 260px !important;
+    max-width: calc(100vw - 24px) !important;
+    border-radius: 16px !important;
+    padding: 8px !important;
+    box-shadow: 0 16px 48px rgba(15, 23, 42, 0.18) !important;
+    border: 1px solid rgba(15, 23, 42, 0.06) !important;
+    transform: translateY(-8px) !important;
+    z-index: 2000 !important;
+  }
+  .user-menu.open {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  /* -------------------------------------------------------------------------
+     9.4  SIDEBAR ADMIN — oculto no mobile quando colapsado
+          Bug: JSX aplica .collapsed-mobile mas o CSS legado esperava .collapsed
+     ------------------------------------------------------------------------- */
+  .admin-sidebar.collapsed-mobile {
+    display: none !important;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   9.5  CATÁLOGO DE PEÇAS — 2 colunas no celular (em vez de 1 inteira)
+        Resolve "tudo com muito zoom" reportado no mobile.
+   ------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+  .parts-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+  }
+  .part-card-image {
+    aspect-ratio: 4 / 3 !important;
+    height: auto !important;
+    padding: 12px !important;
+  }
+  .part-card-body {
+    padding: 12px !important;
+    gap: 2px !important;
+  }
+  .part-card-name {
+    font-size: 0.88rem !important;
+    line-height: 1.25 !important;
+    margin-bottom: 4px !important;
+  }
+  .part-card-code {
+    font-size: 0.7rem !important;
+  }
+  .part-card-category {
+    font-size: 0.72rem !important;
+    margin-bottom: 4px !important;
+  }
+  .part-card-footer {
+    padding-top: 8px !important;
+    gap: 4px !important;
+    flex-wrap: wrap !important;
+  }
+  .part-card-stock {
+    font-size: 0.65rem !important;
+  }
+  .part-card-footer .btn {
+    padding: 6px 10px !important;
+    font-size: 0.75rem !important;
+  }
+}
+
+/* Em telas muito pequenas (< 360px), mantém 2 colunas mas mais apertado */
+@media (max-width: 360px) {
+  .parts-grid {
+    gap: 8px !important;
+  }
+  .part-card-body {
+    padding: 10px !important;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   9.6  FOOTER COMPACTO NO CELULAR
+        - Reduz padding vertical (era 70px/36px → fica 36px/22px no mobile)
+        - 2 colunas em telas médias (Navegação + Conta lado a lado)
+        - 1 coluna só em telas muito pequenas, mas com gap menor
+        - Fontes e margens proporcionalmente menores
+        - Encolhe parágrafo do brand, compacta linhas de contato
+   ------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .site-footer {
+    padding: 36px 0 20px !important;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 22px 18px !important;
+    margin-bottom: 24px !important;
+  }
+  /* Brand e Contato ocupam linha inteira; Navegação e Conta lado a lado */
+  .footer-brand,
+  .footer-contact {
+    grid-column: 1 / -1 !important;
+  }
+  .footer-logo {
+    height: 22px !important;
+    margin-bottom: 10px !important;
+  }
+  .footer-brand p {
+    font-size: 0.84rem !important;
+    line-height: 1.5 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+  .footer-col h4 {
+    font-size: 0.74rem !important;
+    margin-bottom: 10px !important;
+    letter-spacing: 0.06em !important;
+  }
+  .footer-col a {
+    font-size: 0.86rem !important;
+    margin-bottom: 6px !important;
+  }
+  .footer-contact p {
+    font-size: 0.84rem !important;
+    margin-bottom: 6px !important;
+    line-height: 1.4 !important;
+    gap: 6px !important;
+  }
+  .footer-contact svg {
+    width: 14px !important;
+    height: 14px !important;
+    margin-top: 2px !important;
+  }
+  .footer-contact .btn {
+    padding: 8px 14px !important;
+    font-size: 0.82rem !important;
+    margin-top: 8px !important;
+  }
+  .footer-bottom {
+    padding-top: 16px !important;
+    font-size: 0.74rem !important;
+    gap: 4px !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+  .footer-bottom > span:last-child {
+    font-size: 0.72rem !important;
+  }
+}
+
+/* Telas muito pequenas (< 420px): empilha tudo numa coluna só */
+@media (max-width: 420px) {
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+  .site-footer {
+    padding: 30px 0 18px !important;
+  }
+}
+/* =====================================================================
+   NAV CARET — caret clicável dos itens de navbar com submenu
+   (item-pai navega; caret abre o submenu no mobile)
+   ===================================================================== */
+.navbar-v3 .nav-caret {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px;
+  margin-left: 2px;
+  border-radius: 6px;
+}
+@media (max-width: 980px) {
+  .navbar-v3 .nav-caret {
+    margin-left: auto;   /* empurra o caret pro fim do item em largura total */
+    padding: 8px;        /* área de toque maior no mobile */
+  }
+}

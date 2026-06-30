@@ -1,0 +1,141 @@
+/* =========================================================================
+   SEPARI — v52 POLISH
+   Acabamento amplo em TODAS as páginas:
+   · placeholders "...imagem" viram imagens reais (tonalização de marca)
+   · cartões/seções com hover e respiro consistentes
+   · eyebrows, chips, tabelas, subnav, FAQ e CTAs refinados
+   ========================================================================= */
+
+:root {
+  --duotone: linear-gradient(150deg, rgba(0,131,127,0.30) 0%, rgba(8,30,30,0.5) 100%);
+  --duotone-soft: linear-gradient(150deg, rgba(0,131,127,0.22) 0%, rgba(8,30,30,0.34) 100%);
+}
+
+/* ───────────── IMAGENS DE FALLBACK (preenchem placeholders) ───────────── */
+.info-block-visual {
+  background-image: var(--duotone-soft), var(--ph, none) !important;
+  background-size: cover; background-position: center;
+}
+.info-block-visual-placeholder { display: none !important; }
+.info-block.dark .info-block-visual {
+  background-image: linear-gradient(150deg, rgba(0,131,127,0.34), rgba(8,24,32,0.72)), var(--ph, none) !important;
+}
+
+.equip-image-frame {
+  background-image: var(--duotone-soft), var(--ph, none);
+  background-size: cover; background-position: center;
+  border-color: var(--line);
+}
+.equip-image-frame-placeholder { display: none !important; }
+
+.prod-hero-photo.is-placeholder {
+  background: var(--duotone), var(--ph, none) center/cover !important;
+  border: none !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+.prod-hero-photo.is-placeholder .prod-hero-photo-ph { display: none !important; }
+
+.app-photo.is-placeholder {
+  background-image: var(--duotone-soft), var(--ph, none);
+  background-size: cover; background-position: center;
+}
+.app-photo.is-placeholder .app-photo-ph { display: none !important; }
+.app-photo.is-placeholder .app-photo-overlay { display: block !important; }
+
+/* image-frame (Serviços) sem foto carregada → mostra fallback tonalizado */
+.image-frame:not(:has(.image-frame-photo)) {
+  background-image: var(--duotone-soft),
+    url("/_fallback/servico.jpg");
+  background-size: cover; background-position: center;
+}
+.image-frame:not(:has(.image-frame-photo)) svg.main-icon { opacity: 0.18; }
+
+/* ───────────── EYEBROW (motivo de separadora) ───────────── */
+.eyebrow::before,
+.info-block-eyebrow::before {
+  width: 26px !important;
+  height: 2px !important;
+  background: linear-gradient(90deg, var(--teal), var(--teal-light)) !important;
+  position: relative;
+}
+
+/* ───────────── CARTÕES / SEÇÕES — hover e respiro consistentes ───────────── */
+.card { border-radius: 20px; padding: 30px; }
+.icon-box { border-radius: 14px; }
+
+.reman-benefit, .move-value, .app-equip-card, .team-card,
+.app-process-step, .cf-side, .split-panel {
+  transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out), border-color 0.35s var(--ease-out);
+}
+.app-equip-card:hover, .reman-benefit:hover, .team-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 22px 42px -22px rgba(15,23,42,0.28);
+  border-color: rgba(0,169,157,0.22);
+}
+
+/* chips de setor / marcas */
+.prod-sector-chip, .chip, .app-hero-chip {
+  border-radius: 999px;
+  transition: 0.25s var(--ease-out);
+}
+.prod-sector-chip:hover, .chip:hover { border-color: var(--teal-light); color: var(--teal-dark); }
+
+/* ───────────── SUBNAV DE PRODUTOS (sticky) ───────────── */
+.prod-subnav {
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  backdrop-filter: blur(14px) saturate(150%);
+  background: rgba(255,255,255,0.82);
+  border-bottom: 1px solid var(--line);
+}
+.prod-subnav-link {
+  font-family: var(--font-display);
+  font-weight: 500;
+  border-radius: 999px;
+  transition: 0.25s var(--ease-out);
+}
+.prod-subnav-link:hover { color: var(--teal-dark); background: var(--teal-pale); }
+
+/* ───────────── FAQ ───────────── */
+.faq-item {
+  border-radius: 16px;
+  transition: border-color 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
+}
+.faq-item summary { font-family: var(--font-display); font-weight: 500; }
+.faq-item[open] {
+  border-color: rgba(0,169,157,0.28);
+  box-shadow: 0 16px 32px -22px rgba(0,131,127,0.4);
+}
+
+/* ───────────── TABELAS DE COMPARAÇÃO ───────────── */
+.cmp-table { border-radius: 16px; overflow: hidden; border: 1px solid var(--line); }
+.cmp-table thead th { font-family: var(--font-display); }
+
+/* ───────────── CTA CARD (mantém escuro, refina motivo) ───────────── */
+.cta-card { border-radius: 28px; }
+.cta-card .section-title { font-weight: 600; }
+
+/* ───────────── PEÇAS (catálogo) ───────────── */
+.part-card {
+  border-radius: 16px;
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
+}
+.part-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -22px rgba(15,23,42,0.26);
+  border-color: rgba(0,169,157,0.2);
+}
+.part-card-image, .part-card-image-placeholder {
+  background-image: var(--duotone-soft),
+    url("/_fallback/peca.jpg");
+  background-size: cover; background-position: center;
+}
+.part-card-image-placeholder { color: transparent; }
+.pecas-gate { border-radius: 22px; }
+.pecas-gate-icon {
+  background: var(--teal-pale);
+  color: var(--teal-dark);
+}
+
+/* ───────────── RITMO GERAL ───────────── */
+.section-title { margin-bottom: 14px; }
+.mb-50 { margin-bottom: 56px; }
