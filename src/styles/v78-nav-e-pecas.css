@@ -1,0 +1,389 @@
+/* ============================================================================
+   v78 — AJUSTES DE NAV NO CELULAR  +  NOVA SEÇÃO DA PÁGINA DE PEÇAS
+
+   Importado DEPOIS do v77-responsive.css, que era o último da fila. A regra da
+   casa continua valendo: este arquivo não redesenha nada do que já existe, ele
+   só corrige dois detalhes da barra no celular e traz o estilo do bloco novo
+   que entrou no lugar do antigo "Encontre a sua máquina".
+
+   ÍNDICE
+     1 . Hambúrguer encostado na borda direita
+     2 . Logo da nav menor no celular
+     3 . Peças — seção "Da placa à peça certa"
+   ========================================================================== */
+
+
+/* ============================================================================
+   1. HAMBÚRGUER ENCOSTADO NA BORDA DIREITA
+
+   Dois problemas somados faziam os traços ficarem longe da lateral:
+
+   a) Abaixo de 560px o v77 esconde `.nav_actions` (`display: none`) para dar
+      espaço. Só que era o `.nav_actions` que carregava o `margin-left: auto`
+      da barra. Sem ele, o hambúrguer — que só tem `margin-left: 14px` — vinha
+      grudado logo depois da logo, no meio da tela. Devolvo o `auto` para o
+      próprio botão nesse intervalo.
+
+   b) O botão tem 44px de largura com 10px de padding interno, para o dedo ter
+      alvo confortável. Os traços têm 24px e ficam centrados, então sobram 10px
+      de ar dentro da caixa, que se somam ao padding da `.nav_in`. O
+      `margin-right` negativo puxa a CAIXA para fora sem encolher o alvo de
+      toque: quem encosta na margem passa a ser o traço, não a caixa invisível.
+   ========================================================================== */
+
+@media (max-width: 980px) {
+  .sep-site .nav_burger {
+    /* compensa exatamente o padding interno do botão */
+    margin-right: -10px;
+  }
+}
+
+@media (max-width: 560px) {
+  /* `.nav_actions` está oculto aqui: o empurrão para a direita passa a ser
+     responsabilidade do próprio botão. */
+  .sep-site .nav_burger {
+    margin-left: auto;
+  }
+}
+
+
+/* ============================================================================
+   2. LOGO DA NAV MENOR NO CELULAR
+
+   A altura da logo vem do `BRAND.heightNav` (assets.ts) e é aplicada como
+   `style=""` inline pelo componente <Logo>, porque a largura precisa
+   acompanhar sozinha. Contra estilo inline, CSS de arquivo só vence com
+   `!important` — é o caso previsto no cabeçalho do v77.
+
+   O seletor é `nav .brand img` de propósito: a logo do painel deslizante
+   (que fica FORA do <nav>) e a do rodapé continuam do tamanho de hoje.
+   ========================================================================== */
+
+@media (max-width: 980px) {
+  .sep-site nav .brand img {
+    height: 21px !important;
+    max-width: 200px !important;
+  }
+  /* fallback SVG, para quando o arquivo da logo não carrega */
+  .sep-site nav .brand svg { width: 22px; height: 22px; }
+}
+
+@media (max-width: 560px) {
+  .sep-site nav .brand img {
+    height: 19px !important;
+    max-width: 168px !important;
+  }
+  .sep-site nav .brand svg { width: 20px; height: 20px; }
+}
+
+@media (max-width: 380px) {
+  /* iPhone SE e afins: a logo cede o resto do espaço para o hambúrguer. */
+  .sep-site nav .brand img {
+    height: 17px !important;
+    max-width: 142px !important;
+  }
+  .sep-site nav .brand svg { width: 18px; height: 18px; }
+}
+
+
+/* ============================================================================
+   3. HEROS — EMPILHAMENTO E LAYOUT NO CELULAR
+
+   3a. HOME: o texto estava ATRÁS do vídeo.
+
+   O componente <HeroVideo> aplica `z-index: 1` inline no <video>, e a HomePage
+   aplica `z-index: 2` inline no `.hero_scrim`. O `.hero_inner`, que carrega o
+   H1 e o parágrafo, é `position: absolute` com z-index automático.
+
+   Na ordem de pintura do CSS, elementos posicionados com z-index automático
+   entram ANTES dos que têm z-index positivo. Ou seja: vídeo (1) e véu (2)
+   passavam por cima do texto (auto). O resultado era o hero abrir só com o
+   vídeo, sem título nenhum — ou com o título lavado, dependendo do quadro.
+
+   A camada correta é esta, e é o que fica valendo:
+
+       -3  .video_fallback   gradiente de reserva
+        1  <video>           o vídeo
+        2  .hero_scrim       o véu verde da marca
+        3  .hero_inner       o texto  ← estava faltando
+        4  .scroll_hint      a seta
+
+   A nav (z-index 50/60) e o menu deslizante (1100/1200) continuam acima de
+   tudo isso, como antes.
+   ========================================================================== */
+
+.sep-home .hero_inner { z-index: 3; }
+.sep-home .scroll_hint { z-index: 4; }
+
+/* Produtos e Serviços montam o fundo com z-index negativo, então o texto já
+   ficava por cima. O z-index explícito aqui é só para as três páginas
+   passarem a seguir a mesma regra e o próximo ajuste não reabrir o problema. */
+.sep-produtos .hero_inner,
+.sep-servicos .hero_inner { z-index: 3; }
+.sep-produtos .scroll_hint,
+.sep-servicos .scroll_hint { z-index: 4; }
+
+
+/* ---------------------------------------------------------------------------
+   3b. PRODUTOS: o hero se partia em dois no celular.
+
+   O `.hero_inner` é `display: flex` com `justify-content: space-between`. No
+   desktop isso é o certo: título à esquerda, texto de apoio à direita. Abaixo
+   de 980px o CSS da página vira a direção para `column` — mas o
+   `space-between` continua valendo, agora no eixo VERTICAL. Como o hero tem a
+   altura da tela inteira, o título grudava no topo e o parágrafo com o botão
+   despencava para o rodapé, com um vão vazio de uns 300px no meio.
+
+   `justify-content: flex-end` junta os dois blocos na base, que é exatamente
+   o alinhamento que a página já usa no desktop (`align-items: flex-end`).
+   ------------------------------------------------------------------------- */
+
+@media (max-width: 980px) {
+  .sep-produtos .hero_inner {
+    justify-content: flex-end;
+    gap: 22px;
+  }
+  /* O parágrafo de apoio deixa de ser uma coluna estreita de 340px. */
+  .sep-produtos .hero_side,
+  .sep-servicos .hero_side { max-width: 100%; }
+}
+
+/* A seta fica no rodapé do hero; o texto precisa de folga para não colidir com
+   ela nem com a barra de endereço do navegador do celular. O `min-height`
+   mantém de fora o celular deitado, onde o v77 já zera esses paddings de
+   propósito para o hero caber. */
+@media (max-width: 980px) and (min-height: 561px) {
+  .sep-home .hero_inner,
+  .sep-produtos .hero_inner,
+  .sep-servicos .hero_inner { padding-bottom: clamp(72px, 12vw, 100px); }
+}
+
+/* Telas baixas: a seta some e o hero devolve o espaço dela ao texto. */
+@media (max-width: 980px) and (max-height: 700px) {
+  .sep-site .scroll_hint { display: none; }
+}
+
+
+/* ---------------------------------------------------------------------------
+   3c. PEÇAS: no celular a página abria pela foto, não pelo título.
+
+   O `.hero_grid` é uma grade de duas colunas com a imagem na PRIMEIRA e o
+   texto na segunda. Vira uma coluna abaixo de 980px, e aí a ordem do HTML
+   manda: o visitante recebia 320px de foto antes de saber em que página está.
+
+   `order` inverte só na visualização. O HTML continua idêntico, então a ordem
+   de leitura do leitor de tela e do buscador não muda.
+   ------------------------------------------------------------------------- */
+
+@media (max-width: 980px) {
+  .sep-pecas .hero_grid .txt { order: 0; }
+  .sep-pecas .hero_grid .hero_img { order: 1; }
+  .sep-pecas .hero { padding-top: clamp(112px, 22vw, 200px); }
+  .sep-pecas .hero .crumbs { margin-bottom: 18px; }
+  .sep-pecas .hero p { max-width: 100%; margin-top: 20px; }
+}
+
+/* Sobre: o par "parágrafo | botões" do hero fica lado a lado até caber, e o
+   `flex-wrap` já existia. Só faltava o espaçamento quando ele quebra. */
+@media (max-width: 780px) {
+  .sep-sobre .hero .sub { gap: 26px; margin-top: 32px; }
+  .sep-sobre .hero .actions { width: 100%; flex-wrap: wrap; }
+}
+
+/* Os botões do hero nunca ficam mais estreitos que o texto que carregam. */
+@media (max-width: 480px) {
+  .sep-site .hero .actions .btn { flex: 1 1 100%; justify-content: center; text-align: center; }
+}
+
+
+/* ============================================================================
+   4. PEÇAS — SEÇÃO "DA PLACA À PEÇA CERTA"
+
+   Substitui o antigo bloco `.finder` (os três selects de marca/linha/modelo) e
+   mantém o mesmo papel na página: é a faixa escura entre "Kits de serviço" e
+   "Os componentes que fornecemos", então o ritmo claro/escuro continua igual
+   ao de hoje.
+
+   Versão limpa: sem cartões, sem molduras, sem caixa dentro de caixa. À
+   esquerda o título com a chamada; à direita três linhas separadas por fio
+   fino, do mesmo jeito que a seção "Sinais de que está na hora" já faz nesta
+   página. Nenhuma cor nova — são os mesmos valores que o `.finder` usava.
+   ========================================================================== */
+
+.sep-pecas .flow {
+  background: var(--dark);
+  color: #fff;
+}
+.sep-pecas .flow_in {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  align-items: start;
+}
+
+/* ---- coluna da esquerda ---- */
+.sep-pecas .flow_txt h2 em { font-style: normal; color: #6fe3d4; }
+.sep-pecas .flow_txt .lead {
+  color: #93a8a2;
+  margin-top: 24px;
+  max-width: 440px;
+}
+.sep-pecas .flow_act {
+  margin-top: 38px;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  flex-wrap: wrap;
+}
+.sep-pecas .flow_ghost { color: #6fe3d4; }
+.sep-pecas .flow_ghost:hover { color: #fff; }
+
+/* ---- coluna da direita: três linhas, só fio fino entre elas ---- */
+.sep-pecas .flow_steps {
+  list-style: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  margin: 0;
+  padding: 0;
+}
+.sep-pecas .flow_steps li {
+  display: grid;
+  grid-template-columns: 62px 1fr;
+  gap: 0 10px;
+  align-items: start;
+  padding: 28px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+.sep-pecas .flow_steps .fnum {
+  font-family: var(--display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  color: #6fe3d4;
+  padding-top: 5px;
+}
+.sep-pecas .flow_steps h3 {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -.5px;
+  line-height: 1.2;
+}
+.sep-pecas .flow_steps p {
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: #93a8a2;
+  margin-top: 8px;
+}
+
+/* ---- responsivo, nos mesmos degraus do v77 ---- */
+@media (max-width: 1200px) {
+  .sep-pecas .flow_in { gap: 60px; }
+}
+
+@media (max-width: 980px) {
+  .sep-pecas .flow_in { grid-template-columns: 1fr; gap: 44px; }
+  .sep-pecas .flow_txt .lead { max-width: 100%; }
+  .sep-pecas .flow_act { margin-top: 28px; gap: 20px; }
+  .sep-pecas .flow_steps li { padding: 22px 0; grid-template-columns: 48px 1fr; }
+  .sep-pecas .flow_steps h3 { font-size: 20px; }
+}
+
+@media (max-width: 480px) {
+  .sep-pecas .flow_act { flex-direction: column; align-items: stretch; gap: 16px; }
+  .sep-pecas .flow_act .btn { width: 100%; text-align: center; }
+  .sep-pecas .flow_ghost { justify-content: flex-start; }
+  .sep-pecas .flow_steps p { font-size: 15.5px; }
+}
+
+
+/* ============================================================================
+   5. TÍTULOS — AS QUEBRAS DE LINHA ESTAVAM COLANDO AS PALAVRAS
+
+   O v77 escondia os `<br>` dos títulos abaixo de 600px, para o texto voltar a
+   fluir sozinho:
+
+       @media (max-width: 600px) { .sep-site h1 br, .sep-site h2 br { display: none } }
+
+   Só que o markup das páginas não tem espaço em volta do `<br>` — ele É a
+   separação entre as palavras:
+
+       <h1>Separação<br />centrífuga<br /><em>industrial.</em></h1>
+
+   Com o `<br>` em `display: none`, o navegador não coloca espaço nenhum no
+   lugar: as três palavras viravam a palavra única "Separaçãocentrífugaindustrial",
+   que não tem onde quebrar e atravessava a tela inteira. O mesmo acontecia na
+   Home ("Separamoso melhordo resto."), em Peças e em Sobre.
+
+   Não existe jeito em CSS de trocar um `<br>` escondido por um espaço — testei
+   `display: inline`, `content` e `::after`, e só o `display: none` mata a
+   quebra, sempre sem repor o espaço. Então a quebra volta a valer.
+
+   E funciona bem: com a tipografia fluida do v77 (`clamp()`), no celular o
+   título já cai para 36–40px, e cada linha desenhada pelo layout original cabe
+   na tela com folga. O título fica com a mesma quebra que o designer escolheu,
+   que é o resultado melhor dos dois.
+   ========================================================================== */
+
+@media (max-width: 600px) {
+  .sep-site h1 br,
+  .sep-site h2 br { display: inline; }
+
+  /* `balance` distribui as linhas de um parágrafo que quebra sozinho. Com as
+     quebras manuais de volta ele briga com elas, então sai. */
+  .sep-site h1,
+  .sep-site h2 { text-wrap: initial; }
+}
+
+
+/* ============================================================================
+   6. SOBRE — MAPA REAL NO LUGAR DO PLACEHOLDER
+
+   O bloco "Perto de quem precisa." mostrava um gradiente com um ponto teal
+   desenhado no CSS (`.pin`) e uma etiqueta. Agora é o mapa do Google de
+   verdade, apontando para a R. Augusto Poltronieri, 179, em Indaiatuba.
+
+   A moldura continua exatamente a mesma: os 500px de altura, o raio de 28px e
+   o `overflow: hidden` já estavam em site/sobre.css e não foram tocados. O
+   gradiente antigo virou o fundo que aparece enquanto o mapa carrega, então a
+   seção nunca pisca em branco.
+   ========================================================================== */
+
+.sep-sobre .loc .map iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  /* o mapa nasce por baixo do véu de carregamento e sobe quando pinta */
+  z-index: 1;
+}
+
+/* Chip discreto no canto, no mesmo lugar e no mesmo estilo da etiqueta que
+   estava ali antes. */
+.sep-sobre .loc .map .map_link {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  z-index: 2;
+  font-family: var(--body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 10px 16px;
+  border-radius: 999px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .16);
+  transition: background .2s ease, color .2s ease;
+}
+.sep-sobre .loc .map .map_link:hover {
+  background: var(--teal);
+  color: #fff;
+}
+
+@media (max-width: 980px) {
+  .sep-sobre .loc .map .map_link { left: 14px; bottom: 14px; font-size: 12.5px; }
+}

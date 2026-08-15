@@ -1,0 +1,180 @@
+/* =========================================================================
+   SEPARI — v55 — Serviços (redesign) + Produtos (brand overrides)
+   Paleta de marca (teal + branco + preto/grafite). Carrega por último.
+   ========================================================================= */
+
+/* ============================================================
+   SERVIÇOS — HERO
+   ============================================================ */
+.sv-hero {
+  position: relative; overflow: hidden; background: var(--paper);
+  padding: clamp(120px, 14vw, 168px) 0 clamp(56px, 8vw, 90px);
+  border-bottom: 1px solid var(--line);
+}
+.sv-hero-grid-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0,131,127,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,131,127,0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 30% 0%, #000, transparent 72%);
+  mask-image: radial-gradient(ellipse 80% 70% at 30% 0%, #000, transparent 72%);
+}
+.sv-hero-inner { position: relative; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: clamp(36px, 6vw, 72px); align-items: center; }
+.sv-hero-title {
+  font-family: var(--font-display); font-weight: 600;
+  font-size: clamp(2.1rem, 4.4vw, 3.4rem); line-height: 1.07; letter-spacing: -0.025em;
+  color: var(--ink); margin-bottom: 22px;
+}
+.sv-hero-lead { font-size: clamp(1rem, 1.3vw, 1.12rem); color: var(--ink-soft); line-height: 1.55; max-width: 560px; margin-bottom: 30px; }
+.sv-hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; }
+
+.sv-steps {
+  background: #fff; border: 1px solid var(--line); border-radius: 18px;
+  padding: 26px 26px 12px; box-shadow: 0 26px 50px -34px rgba(15,23,42,0.32);
+}
+.sv-steps-label {
+  display: block; font-family: var(--font-display);
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--teal-dark); margin-bottom: 6px;
+}
+.sv-step { display: grid; grid-template-columns: auto 1fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.sv-step:last-child { border-bottom: 0; }
+.sv-step-num {
+  width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center;
+  background: var(--teal-pale); color: var(--teal-dark);
+  font-family: var(--font-display); font-weight: 700; font-size: 0.92rem;
+}
+.sv-step h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.02rem; color: var(--ink); margin-bottom: 4px; }
+.sv-step p { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.45; }
+@media (max-width: 900px) { .sv-hero-inner { grid-template-columns: 1fr; } .sv-steps { max-width: 460px; } }
+
+/* ============================================================
+   SERVIÇOS — FEATURE (preventiva / revisão)
+   ============================================================ */
+.sv-feature { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(32px, 5vw, 60px); align-items: center; }
+.sv-feature-rev { grid-template-columns: 1.15fr 0.85fr; }
+.sv-feature-media {
+  position: relative; aspect-ratio: 4/3; border-radius: 18px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+  background: var(--paper-2); border: 1px dashed var(--gray-300); color: var(--teal-dark);
+}
+.sv-feature-icon {
+  display: grid; place-items: center; width: 64px; height: 64px; border-radius: 18px;
+  background: #fff; border: 1px solid var(--line); color: var(--teal-dark);
+}
+.sv-feature-path { font-size: 0.78rem; color: var(--text-muted); }
+.sv-feature-path code { color: var(--teal-dark); background: rgba(0,169,157,0.08); padding: 3px 8px; border-radius: 6px; font-size: 0.75rem; }
+.sv-tag {
+  display: inline-block; font-family: var(--font-display);
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--teal-dark); background: var(--teal-pale); padding: 5px 12px; border-radius: 999px; margin-bottom: 16px;
+}
+.sv-feature-text .section-title { text-align: left; }
+.sv-feature-text p { color: var(--ink-soft); line-height: 1.55; }
+.sv-checklist { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.sv-checklist li { display: flex; align-items: center; gap: 11px; font-size: 0.96rem; color: var(--ink); }
+.sv-check { flex-shrink: 0; width: 22px; height: 22px; border-radius: 7px; display: grid; place-items: center; background: rgba(0,169,157,0.1); color: var(--teal-dark); }
+@media (max-width: 860px) {
+  .sv-feature, .sv-feature-rev { grid-template-columns: 1fr; }
+  .sv-feature-rev .sv-feature-media { order: -1; }
+}
+
+/* ============================================================
+   SERVIÇOS — TABELA COMPARATIVA
+   ============================================================ */
+.sv-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 16px; }
+.sv-table { width: 100%; border-collapse: collapse; min-width: 620px; background: #fff; }
+.sv-table th, .sv-table td { padding: 16px 18px; text-align: center; border-bottom: 1px solid var(--line); }
+.sv-table th { font-family: var(--font-display); font-weight: 600; font-size: 0.9rem; color: var(--ink); background: var(--paper-2); }
+.sv-table th span { display: block; font-weight: 500; font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0; text-transform: none; margin-top: 2px; }
+.sv-table th.left, .sv-table td.left { text-align: left; font-weight: 500; color: var(--ink); }
+.sv-table td.left { font-size: 0.93rem; }
+.sv-table th.hl { background: var(--teal); color: #fff; }
+.sv-table th.hl span { color: rgba(255,255,255,0.8); }
+.sv-table td.hl { background: rgba(0,169,157,0.05); }
+.sv-table tr:last-child td { border-bottom: 0; }
+.sv-table .ok { color: var(--teal); }
+.sv-table .no { color: var(--gray-300); }
+
+/* ============================================================
+   SERVIÇOS — CAMPO & OFICINA
+   ============================================================ */
+.sv-cf { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.sv-cf-panel { background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 32px 30px; transition: 0.35s var(--ease-out); }
+.sv-cf-panel:hover { border-color: var(--teal-light); transform: translateY(-4px); box-shadow: 0 26px 50px -30px rgba(0,131,127,0.4); }
+.sv-cf-panel-dark { background: linear-gradient(160deg, #0c2a2a 0%, #07191b 100%); border-color: rgba(0,169,157,0.2); }
+.sv-cf-head { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+.sv-cf-icon { display: grid; place-items: center; width: 50px; height: 50px; border-radius: 14px; background: var(--teal-pale); color: var(--teal-dark); }
+.sv-cf-panel-dark .sv-cf-icon { background: rgba(94,234,212,0.14); color: #5eead4; }
+.sv-cf-kicker { font-family: var(--font-display); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal-dark); }
+.sv-cf-panel-dark .sv-cf-kicker { color: #5eead4; }
+.sv-cf-head h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.3rem; color: var(--ink); }
+.sv-cf-panel-dark .sv-cf-head h3 { color: #fff; }
+.sv-cf-lead { font-size: 0.96rem; color: var(--ink-soft); line-height: 1.5; margin-bottom: 20px; }
+.sv-cf-panel-dark .sv-cf-lead { color: rgba(255,255,255,0.78); }
+.sv-cf-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 11px; }
+.sv-cf-list li { display: flex; align-items: center; gap: 10px; font-size: 0.93rem; color: var(--ink); }
+.sv-cf-list li svg { color: var(--teal); flex-shrink: 0; }
+.sv-cf-panel-dark .sv-cf-list li { color: rgba(255,255,255,0.9); }
+.sv-cf-panel-dark .sv-cf-list li svg { color: #5eead4; }
+@media (max-width: 800px) { .sv-cf { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   SERVIÇOS — BENEFÍCIOS (sem vermelho)
+   ============================================================ */
+.sv-benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.sv-benefit { height: 100%; background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 30px 28px; transition: 0.35s var(--ease-out); }
+.sv-benefit-icon { display: inline-grid; place-items: center; width: 54px; height: 54px; border-radius: 15px; margin-bottom: 18px; background: var(--teal-pale); color: var(--teal-dark); border: 1px solid rgba(0,169,157,0.16); }
+.sv-benefit h4 { font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; color: var(--ink); margin-bottom: 10px; }
+.sv-benefit p { font-size: 0.93rem; color: var(--ink-soft); line-height: 1.55; }
+.sv-benefit:hover { border-color: var(--teal-light); transform: translateY(-5px); box-shadow: 0 26px 48px -28px rgba(0,131,127,0.4); }
+.sv-benefit:hover .sv-benefit-icon { background: var(--teal); border-color: var(--teal); color: #fff; }
+@media (max-width: 860px) { .sv-benefits { grid-template-columns: 1fr; max-width: 520px; margin: 0 auto; } }
+
+/* =========================================================================
+   PRODUTOS (Equipamentos) — overrides de marca
+   ========================================================================= */
+
+/* APLICAÇÕES — fotos reais + marca (ignora cores de categoria) */
+.app-showcase-card { border-color: var(--line) !important; }
+.app-showcase-card-media { position: relative; overflow: hidden; background: #07191b !important; }
+.app-showcase-card-img {
+  position: absolute; inset: 0; z-index: 0;
+  background-image: var(--app-photo), var(--app-photo-fb);
+  background-size: cover, cover; background-position: center, center;
+  transform: scale(1.05); transition: transform 0.6s var(--ease-out);
+}
+.app-showcase-card-media::after {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(180deg, rgba(7,25,27,0.35) 0%, rgba(0,98,96,0.72) 100%);
+}
+.app-showcase-card-icon,
+.app-showcase-card-index { position: relative; z-index: 2; color: #fff !important; }
+.app-showcase-card-icon { background: rgba(255,255,255,0.14) !important; backdrop-filter: blur(2px); }
+.app-showcase-card:hover .app-showcase-card-img { transform: scale(1.12); }
+.app-showcase-card:hover { border-color: var(--teal-light) !important; }
+.app-showcase-card-tag { color: var(--teal-dark) !important; background: var(--teal-pale) !important; }
+.app-showcase-card-cta { color: var(--teal-dark) !important; }
+
+/* PLACEHOLDERS — mostram só o caminho (sem preencher imagem) */
+.equip-image-frame {
+  background: var(--paper-2) !important;
+  border: 1px dashed var(--gray-300) !important;
+  display: flex; align-items: center; justify-content: center;
+}
+.equip-image-frame::before, .equip-image-frame::after { display: none !important; }
+.equip-image-frame-placeholder {
+  display: block !important; position: static !important;
+  font-size: 0.84rem; color: var(--text-muted); opacity: 1 !important;
+}
+.equip-image-frame-placeholder code { color: var(--teal-dark); background: rgba(0,169,157,0.08); padding: 3px 9px; border-radius: 6px; margin-left: 4px; font-size: 0.8rem; }
+.equip-image-frame-tag { z-index: 2; }
+
+/* tabela recon — dash neutro de marca */
+.icon-dash { color: var(--gray-300) !important; }
+.icon-x { color: var(--gray-300); }
+.icon-check { color: var(--teal) !important; }
+
+/* placeholders de imagem mais compactos */
+.equip-image-frame { aspect-ratio: 16 / 8; min-height: 180px; max-height: 360px; }

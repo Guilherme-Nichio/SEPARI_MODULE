@@ -1,0 +1,67 @@
+/* =========================================================================
+   SEPARI — v59 — polimento de tipografia (mais clean/moderno)
+   Entrelinha mais enxuta e ritmo de texto mais firme.
+   ========================================================================= */
+
+body { line-height: 1.45; letter-spacing: -0.011em; }
+
+p { line-height: 1.5; }
+
+.text-lg { line-height: 1.5 !important; }
+
+/* parágrafos de seções e cartões: entrelinha mais curta */
+.sb-mv-text,
+.sv-feature-text p,
+.sv-cf-lead,
+.pcx-machine-desc,
+.pcx-part-body p,
+.pg-p,
+.pc-machine-desc,
+.equip-hero-lead,
+.sb-hero-lead,
+.sv-hero-lead,
+.card p,
+.split-panel p,
+.reman-benefit p,
+.reman-card p { line-height: 1.5; }
+
+/* títulos um pouco mais firmes */
+h1, h2, h3, .section-title, .hero-title { letter-spacing: -0.025em; }
+
+/* leads centralizados de seção: largura de leitura e entrelinha curtas */
+.max-width-text { line-height: 1.5; }
+
+/* ===========================================================
+   ImageSlot — imagem real do /public, placeholder some quando há imagem
+   =========================================================== */
+.imgslot { position: relative; overflow: hidden; border-radius: inherit; }
+.imgslot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.imgslot-tag {
+  position: absolute; top: 14px; left: 14px; z-index: 3;
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+  color: #5eead4; background: rgba(6,24,26,0.72); padding: 5px 11px; border-radius: 999px;
+  border: 1px solid rgba(0,169,157,0.3);
+}
+.imgslot.is-empty {
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,131,127,0.04);
+}
+.imgslot-ph { font-size: 0.78rem; color: var(--text-muted); text-align: center; padding: 0 16px; }
+.imgslot-ph code { color: var(--teal-dark); background: rgba(0,169,157,0.1); padding: 2px 8px; border-radius: 6px; }
+
+/* variante escura (caixas de automação) */
+.sp-media.imgslot { height: 190px; margin-bottom: 26px; border-radius: 0; }
+.sp-media.imgslot.is-empty { background: rgba(0,169,157,0.05); border-bottom: 1px solid rgba(255,255,255,0.1); }
+.sp-media.imgslot.is-empty .imgslot-ph { color: rgba(255,255,255,0.6); }
+.sp-media.imgslot.is-empty .imgslot-ph code { color: #5eead4; background: rgba(0,169,157,0.14); }
+
+/* estoque (Produtos) */
+.equip-stock-img { max-width: 920px; height: 380px; margin: 0 auto 48px; border-radius: 20px; border: 1.5px dashed var(--gray-300); }
+.equip-stock-img.is-loaded { border: 1px solid var(--line); }
+.equip-stock-img img { border-radius: 19px; }
+
+/* hero de Serviços (PNG transparente) */
+.sv-hero-art .imgslot { width: 100%; max-width: 460px; aspect-ratio: 1/1; }
+.sv-hero-art .imgslot img { object-fit: contain; }
+.sv-hero-art .imgslot.is-empty { border: 1.5px dashed var(--gray-300); border-radius: 24px; }

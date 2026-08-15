@@ -1,0 +1,50 @@
+/* ============================================================================
+   src/styles/site/_layout-fixes.css
+
+   Correções de layout que vieram do ato de escopar o CSS. Importado por
+   ÚLTIMO no main.jsx, depois das páginas e do scrim.
+
+   ── 1. overflow-x e position: sticky ──────────────────────────────────────
+   No HTML original a regra era  body { overflow-x: hidden }.  Ao escopar, ela
+   virou  .sep-servicos { overflow-x: hidden }  — ou seja, saiu do <body> e foi
+   parar numa <div>.
+
+   A especificação de CSS diz que, se um eixo do overflow não é `visible`, o
+   outro passa a computar como `auto`. Numa div isso cria um container de
+   rolagem, e todo `position: sticky` descendente passa a grudar NELE em vez de
+   na janela. Como a div não rola, o sticky nunca gruda.
+
+   Foi isso que quebrou o bloco "O caminho do seu equipamento": ele tem 560vh
+   de altura e depende de  .steps_pin { position: sticky; top: 0 }  para
+   segurar a tela enquanto as 5 etapas passam. Sem sticky, o scroll atravessa
+   tudo de uma vez.
+
+   O navegador trata overflow no <body> de modo especial, propagando para a
+   viewport — por isso funcionava no arquivo original e só quebrou aqui.
+
+   Solução: tirar o overflow da div e devolvê-lo para onde ele sempre esteve.
+   ========================================================================== */
+
+.sep-home,
+.sep-produtos,
+.sep-pecas,
+.sep-servicos,
+.sep-sobre {
+  overflow-x: visible;
+  overflow-y: visible;
+}
+
+/* o corte horizontal volta para a raiz, como era no <body> original.
+   `clip` corta sem criar container de rolagem, então não afeta o sticky. */
+html.sep-route,
+html.sep-route body {
+  overflow-x: clip;
+}
+
+/* Rede de segurança para navegador sem suporte a overflow: clip. */
+@supports not (overflow: clip) {
+  html.sep-route,
+  html.sep-route body {
+    overflow-x: hidden;
+  }
+}

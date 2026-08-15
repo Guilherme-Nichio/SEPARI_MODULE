@@ -1,0 +1,886 @@
+/* ============================================================================
+   v77 — RESPONSIVIDADE
+   Importado por ÚLTIMO no main.jsx, depois de tudo (inclusive da pasta site/).
+
+   REGRA DE OURO DESTE ARQUIVO: ele não muda o design, só faz o design existente
+   caber em qualquer tela. Nada é removido, nenhuma cor/fonte/espaçamento de
+   marca é redefinido. Todas as funcionalidades continuam acessíveis em todos
+   os tamanhos — inclusive as que hoje sumiam no celular.
+
+   Por que ele funciona sendo o último: o projeto empilha CSS por versão e quem
+   vem depois vence no empate de especificidade. Os seletores abaixo repetem a
+   mesma especificidade dos originais (ex.: `.sep-home .hero h1`), então
+   sobrescrevem inclusive as regras que estão dentro dos @media das páginas.
+   `!important` só aparece onde é a única saída: contra `style=""` inline.
+
+   ÍNDICE
+     0 . Fundamentos globais
+     1 . Site novo — menu mobile (hambúrguer + drawer)
+     2 . Site novo — tipografia fluida
+     3 . Site novo — ritmo vertical e containers
+     4 . Site novo — heros
+     5 . Site novo — grades intermediárias (tablet)
+     6 . Site novo — telas pequenas
+     7 . Site novo — tabelas comparativas
+     8 . Plataforma legada — containers, formulários, tabelas, modais
+     9 . Admin
+    10 . Toque, movimento, orientação e safe-area
+   ========================================================================== */
+
+
+/* ============================================================================
+   0. FUNDAMENTOS GLOBAIS
+   ========================================================================== */
+
+/* Impede o "zoom automático" de texto do iOS ao girar o aparelho. */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Nenhum elemento pode furar a largura da tela e criar scroll horizontal.
+   `clip` corta sem criar container de rolagem, então não quebra os
+   `position: sticky` que o projeto usa (ver site/_layout-fixes.css). */
+html, body {
+  overflow-x: clip;
+}
+@supports not (overflow: clip) {
+  html, body { overflow-x: hidden; }
+}
+
+/* Mídia nunca estoura o container.
+   `:where()` tem especificidade ZERO de propósito: é uma rede de segurança que
+   qualquer regra do projeto sobrescreve sem esforço. */
+:where(img, video, canvas, svg, iframe, embed, object) {
+  max-width: 100%;
+}
+:where(img, video) {
+  height: auto;
+}
+
+/* O site novo depende de `max-width: none` na mídia (site/_base.css) porque as
+   páginas foram desenhadas como HTML solto. Devolvo isso aqui, já que a regra
+   acima é global. As larguras dentro do .sep-site são controladas pelos
+   containers, não pela mídia. */
+.sep-site img,
+.sep-site svg {
+  max-width: none;
+}
+.sep-site .wrap img {
+  max-width: 100%;
+}
+
+/* Palavras muito longas (códigos de peça, e-mails, URLs) quebram em vez de
+   empurrar o layout. */
+:where(p, h1, h2, h3, h4, h5, h6, li, td, th, dd, dt, figcaption, label) {
+  overflow-wrap: break-word;
+}
+
+/* Filhos de grid/flex não encolhem abaixo do conteúdo — a causa nº 1 de
+   estouro horizontal em layouts de grade. */
+:where(.container, .wrap, main, .panel, .card, .admin-main) > * {
+  min-width: 0;
+}
+
+
+/* ============================================================================
+   1. SITE NOVO — MENU MOBILE
+
+   O CSS de cada página escondia `.nav_links` abaixo de 980px e não colocava
+   nada no lugar: no celular era impossível navegar para Peças, Produtos,
+   Serviços ou Sobre. Aqui entram o botão hambúrguer e o painel deslizante que
+   a SiteNav.tsx passou a renderizar, com os mesmos links e as mesmas ações.
+   ========================================================================== */
+
+/* ---- botão hambúrguer: escondido no desktop ---- */
+.sep-site .nav_burger {
+  display: none;
+  margin-left: 14px;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  border: none;
+  background: transparent;
+  color: inherit;          /* branco sobre hero escuro, tinta depois do scroll */
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  border-radius: 10px;
+}
+.sep-site .nav_burger span {
+  display: block;
+  height: 2px;
+  width: 24px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform .25s ease, opacity .2s ease;
+}
+.sep-site .nav_burger.is_open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.sep-site .nav_burger.is_open span:nth-child(2) { opacity: 0; }
+.sep-site .nav_burger.is_open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ---- véu atrás do painel ---- */
+.sep-site .nav_scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  background: rgba(6, 21, 19, 0.5);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s ease, visibility .3s ease;
+}
+.sep-site .nav_scrim.is_open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ---- painel ----
+   `visibility: hidden` enquanto fechado tira os links do foco do teclado e da
+   leitura do leitor de tela: um menu fechado não deve ser tabulável. */
+.sep-site .nav_drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1200;
+  width: min(360px, 88vw);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg, #fff);
+  color: var(--ink, #0b0d0c);
+  box-shadow: -18px 0 50px -20px rgba(0, 0, 0, .45);
+  transform: translateX(100%);
+  visibility: hidden;
+  transition: transform .32s cubic-bezier(.22, .61, .36, 1), visibility .32s;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-right: env(safe-area-inset-right);
+}
+.sep-site .nav_drawer.is_open {
+  transform: translateX(0);
+  visibility: visible;
+}
+
+.sep-site .nav_drawer_head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 22px;
+  border-bottom: 1px solid var(--line, #e9e9e6);
+}
+.sep-site .nav_drawer_head .brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--ink, #0b0d0c);
+}
+.sep-site .nav_drawer_close {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 auto;
+  border: none;
+  background: transparent;
+  color: var(--muted, #6b7570);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.sep-site .nav_drawer_close:hover {
+  background: var(--soft, #f5f7f5);
+  color: var(--ink, #0b0d0c);
+}
+
+.sep-site .nav_drawer_links {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 22px 4px;
+}
+.sep-site .nav_drawer_links a {
+  font-family: var(--display);
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -.6px;
+  color: var(--ink, #0b0d0c);
+  padding: 15px 0;
+  border-bottom: 1px solid var(--line, #e9e9e6);
+  transition: color .2s ease, padding-left .2s ease;
+}
+.sep-site .nav_drawer_links a:hover {
+  color: var(--teal_deep, #0e7c70);
+  padding-left: 6px;
+}
+
+.sep-site .nav_drawer_actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px 22px 8px;
+  margin-top: auto;
+}
+/* Os botões herdam .btn da página. Só ajusto o que o contexto do painel pede:
+   largura cheia, e a borda do "Entrar" visível sobre fundo claro (na barra ela
+   era branca, porque lá o fundo é o hero escuro). */
+.sep-site .nav_drawer_actions .btn {
+  width: 100%;
+  text-align: center;
+  min-height: 50px;
+}
+.sep-site .nav_drawer_actions .btn_enter {
+  background: transparent;
+  border: 1.5px solid var(--ink, #0b0d0c);
+  color: var(--ink, #0b0d0c);
+}
+.sep-site .nav_drawer_actions .btn_solid {
+  background: var(--teal, #14b8a6);
+  color: #fff;
+}
+
+.sep-site .nav_drawer_foot {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 22px;
+  font-family: var(--body);
+  font-size: 14px;
+  color: var(--muted, #6b7570);
+}
+.sep-site .nav_drawer_foot a { color: inherit; }
+.sep-site .nav_drawer_foot a:hover { color: var(--teal_deep, #0e7c70); }
+
+/* ---- ativação do menu ---- */
+@media (max-width: 980px) {
+  .sep-site .nav_burger { display: flex; }
+
+  /* A barra fica com marca + CTA principal + hambúrguer. O "Entrar" e os
+     links continuam disponíveis, dentro do painel. */
+  .sep-site .nav_actions .btn_enter { display: none; }
+  .sep-site .nav_actions { margin-left: auto; gap: 8px; }
+}
+
+@media (max-width: 560px) {
+  /* Sem espaço para o CTA na barra: tudo vai para o painel. */
+  .sep-site .nav_actions { display: none; }
+}
+
+/* Acima do breakpoint o painel não existe, nem escondido. */
+@media (min-width: 981px) {
+  .sep-site .nav_drawer,
+  .sep-site .nav_scrim { display: none; }
+}
+
+
+/* ============================================================================
+   2. SITE NOVO — TIPOGRAFIA FLUIDA
+
+   O original ia de 96px direto para 54px no breakpoint de 980. Entre 360px e
+   1440px de tela isso significa texto grande demais no celular pequeno e um
+   salto seco no tablet. `clamp()` interpola: o valor máximo é exatamente o
+   tamanho original do desktop, então o design em telas grandes fica idêntico.
+
+   O letter-spacing acompanha: título grande pede aperto, título pequeno não.
+   Em clamp() com negativos, o "mínimo" é o mais negativo.
+   ========================================================================== */
+
+/* ---- HOME ---- */
+.sep-home .hero h1 {
+  font-size: clamp(40px, 7.4vw, 96px);
+  letter-spacing: clamp(-3.5px, -0.26vw, -1.1px);
+}
+.sep-home h2 {
+  font-size: clamp(30px, 4.6vw, 62px);
+  letter-spacing: clamp(-2.5px, -0.18vw, -.9px);
+}
+.sep-home .split h2 { font-size: clamp(28px, 3.9vw, 52px); }
+.sep-home .cta_split h2 {
+  font-size: clamp(30px, 4.5vw, 60px);
+  letter-spacing: clamp(-2.5px, -0.18vw, -.9px);
+}
+.sep-home .lead { font-size: clamp(16px, 1.35vw, 20px); }
+.sep-home .hero_side p { font-size: clamp(16px, 1.3vw, 18.5px); }
+
+/* ---- PRODUTOS ---- */
+.sep-produtos .hero h1 {
+  font-size: clamp(38px, 7.2vw, 94px);
+  letter-spacing: clamp(-3.5px, -0.26vw, -1.1px);
+}
+.sep-produtos h2 {
+  font-size: clamp(29px, 4.4vw, 58px);
+  letter-spacing: clamp(-2.4px, -0.17vw, -.9px);
+}
+.sep-produtos .cta h2 {
+  font-size: clamp(32px, 5.4vw, 74px);
+  letter-spacing: clamp(-3px, -0.21vw, -1px);
+}
+
+/* ---- PEÇAS ---- */
+.sep-pecas .hero h1 {
+  font-size: clamp(36px, 6.5vw, 84px);
+  letter-spacing: clamp(-3.2px, -0.24vw, -1px);
+}
+.sep-pecas h2 {
+  font-size: clamp(29px, 4.4vw, 60px);
+  letter-spacing: clamp(-2.5px, -0.18vw, -.9px);
+}
+.sep-pecas .cta h2 {
+  font-size: clamp(32px, 5.2vw, 72px);
+  letter-spacing: clamp(-3px, -0.21vw, -1px);
+}
+.sep-pecas .maint .num { font-size: clamp(48px, 5.8vw, 80px); }
+
+/* ---- SERVIÇOS ---- */
+.sep-servicos .hero h1 {
+  font-size: clamp(38px, 7vw, 92px);
+  letter-spacing: clamp(-3.5px, -0.26vw, -1.1px);
+}
+.sep-servicos h2 {
+  font-size: clamp(30px, 4.6vw, 62px);
+  letter-spacing: clamp(-2.6px, -0.19vw, -.9px);
+}
+.sep-servicos .cta h2 {
+  font-size: clamp(32px, 5.5vw, 76px);
+  letter-spacing: clamp(-3px, -0.21vw, -1px);
+}
+.sep-servicos .hero p { font-size: clamp(16px, 1.35vw, 19px); }
+.sep-servicos .steps_media .badge { font-size: clamp(56px, 8.6vw, 120px); }
+
+/* ---- SOBRE ---- */
+.sep-sobre .hero h1 {
+  font-size: clamp(38px, 7.4vw, 96px);
+  letter-spacing: clamp(-3.6px, -0.27vw, -1.1px);
+}
+.sep-sobre h2 {
+  font-size: clamp(29px, 4.4vw, 60px);
+  letter-spacing: clamp(-2.5px, -0.18vw, -.9px);
+}
+.sep-sobre .cta h2 {
+  font-size: clamp(32px, 5.6vw, 78px);
+  letter-spacing: clamp(-3px, -0.21vw, -1px);
+}
+.sep-sobre .manifesto blockquote { font-size: clamp(22px, 3vw, 40px); }
+
+/* Alguns h2 são alcançados por seletores mais específicos dentro dos @media
+   originais (ex.: `.sep-produtos .spot .txt h2`, que é 0-3-1). Sem repetir a
+   mesma especificidade aqui, esses títulos ignorariam o clamp abaixo de 980px
+   e voltariam ao valor fixo — dando um salto de tamanho exatamente no
+   breakpoint. Estas regras mantêm a escala contínua em todas as telas. */
+.sep-produtos .spot .txt h2,
+.sep-produtos .bowl h2,
+.sep-produtos .detail h2,
+.sep-produtos .avail h2 {
+  font-size: clamp(29px, 4.4vw, 58px);
+  letter-spacing: clamp(-2.4px, -0.17vw, -.9px);
+}
+.sep-pecas .maint h2 {
+  font-size: clamp(29px, 4.4vw, 60px);
+  letter-spacing: clamp(-2.5px, -0.18vw, -.9px);
+}
+.sep-servicos .split h2 {
+  font-size: clamp(28px, 4vw, 54px);
+  letter-spacing: clamp(-2.4px, -0.17vw, -.9px);
+}
+.sep-sobre .story h2,
+.sep-sobre .loc h2,
+.sep-sobre .purpose .col h2 {
+  font-size: clamp(29px, 4.4vw, 60px);
+  letter-spacing: clamp(-2.5px, -0.18vw, -.9px);
+}
+
+/* Os títulos do site novo usam <br> para controlar a quebra no desktop.
+   Em telas estreitas essas quebras forçadas criam linhas órfãs de duas
+   palavras, então o texto volta a fluir naturalmente. */
+@media (max-width: 600px) {
+  .sep-site h1 br,
+  .sep-site h2 br { display: none; }
+  .sep-site h1,
+  .sep-site h2 { text-wrap: balance; }
+}
+
+
+/* ============================================================================
+   3. SITE NOVO — RITMO VERTICAL E CONTAINERS
+   ========================================================================== */
+
+/* Respiro lateral progressivo, com a margem de segurança do notch em paisagem. */
+.sep-site .wrap {
+  padding-left: max(clamp(16px, 2.2vw, 24px), env(safe-area-inset-left));
+  padding-right: max(clamp(16px, 2.2vw, 24px), env(safe-area-inset-right));
+}
+
+/* Altura das seções acompanha a tela: 150px no desktop, ~64px no celular. */
+.sep-home section,
+.sep-produtos section,
+.sep-pecas section,
+.sep-servicos section,
+.sep-sobre section {
+  padding-top: clamp(64px, 9.5vw, 150px);
+  padding-bottom: clamp(64px, 9.5vw, 150px);
+}
+
+/* Barra de navegação: o padding encolhe junto. */
+.sep-site nav .nav_in {
+  padding-left: max(clamp(16px, 2.2vw, 24px), env(safe-area-inset-left));
+  padding-right: max(clamp(16px, 2.2vw, 24px), env(safe-area-inset-right));
+  padding-top: clamp(14px, 1.8vw, 24px);
+  padding-bottom: clamp(14px, 1.8vw, 24px);
+}
+.sep-site nav.scrolled .nav_in {
+  padding-top: clamp(11px, 1.2vw, 15px);
+  padding-bottom: clamp(11px, 1.2vw, 15px);
+}
+/* A nav é fixa: em iPhone com notch ela precisa descer abaixo da ilha. */
+.sep-site nav { padding-top: env(safe-area-inset-top); }
+
+/* O espaço entre a marca e os links some antes dos links sumirem. */
+@media (max-width: 1200px) {
+  .sep-site .nav_links { margin-left: 30px; gap: 24px; }
+}
+
+
+/* ============================================================================
+   4. SITE NOVO — HEROS
+
+   Dois problemas de celular:
+
+   a) `height: 100vh` — no mobile, 100vh é a altura da tela SEM a barra de
+      endereço, que só some depois que o usuário rola. Resultado: o hero nasce
+      mais alto que a tela e corta o rodapé do texto. `100svh` (small viewport
+      height) usa a altura com a barra visível, que é o estado inicial.
+
+   b) `min-height: 640px` — num celular deitado (altura ~375px) isso força um
+      hero quase duas vezes maior que a tela. `min()` limita ao que existe.
+   ========================================================================== */
+
+.sep-home .hero,
+.sep-produtos .hero,
+.sep-servicos .hero {
+  height: 100vh;          /* reserva para navegador antigo */
+  height: 100svh;
+  min-height: min(640px, 100svh);
+}
+
+/* O texto do hero respeita a barra fixa e nunca encosta na borda. */
+@media (max-width: 980px) {
+  .sep-home .hero_inner {
+    padding-top: clamp(96px, 20vw, 150px);
+    padding-bottom: 80px;
+    justify-content: center;
+  }
+  .sep-produtos .hero_inner,
+  .sep-servicos .hero_inner {
+    padding-bottom: clamp(56px, 9vw, 90px);
+    padding-top: 110px;
+  }
+  .sep-home .hero_side { max-width: 100%; padding-top: 0; }
+  .sep-pecas .hero { padding: clamp(120px, 24vw, 200px) 0 clamp(64px, 12vw, 140px); }
+  .sep-sobre .hero { padding: clamp(120px, 24vw, 200px) 0 clamp(56px, 10vw, 130px); }
+}
+
+/* A seta de "role para baixo" atrapalha quando a tela é baixa demais. */
+@media (max-height: 520px) {
+  .sep-site .scroll_hint { display: none; }
+}
+
+
+/* ============================================================================
+   5. SITE NOVO — GRADES INTERMEDIÁRIAS (TABLET)
+
+   O original só tinha 980px: uma grade de 5 colunas ficava com 5 colunas até
+   981px e virava 2 (ou 1) logo abaixo. Aqui entram os degraus que faltavam.
+   ========================================================================== */
+
+/* ---- 1200px: as grades mais densas perdem uma coluna ---- */
+@media (max-width: 1200px) {
+  .sep-home .seg_grid,
+  .sep-produtos .seg_grid { grid-template-columns: repeat(3, 1fr); }
+  .sep-home .steps { grid-template-columns: repeat(2, 1fr); gap: 34px; }
+  .sep-produtos .recon_grid { grid-template-columns: repeat(2, 1fr); }
+  .sep-sobre .evo_grid { grid-template-columns: repeat(2, 1fr); }
+  .sep-pecas .brand_grid { grid-template-columns: repeat(3, 1fr); }
+
+  /* Os "gaps" de 90–100px viram desproporcionais quando a coluna encolhe. */
+  .sep-home .split,
+  .sep-produtos .spot,
+  .sep-produtos .detail,
+  .sep-produtos .bowl,
+  .sep-servicos .split,
+  .sep-sobre .story,
+  .sep-sobre .loc,
+  .sep-pecas .hero_grid,
+  .sep-pecas .maint { gap: clamp(40px, 5vw, 90px); }
+}
+
+/* ---- 1024px: cartões de 3 colunas viram 2 ---- */
+@media (max-width: 1024px) {
+  .sep-pecas .kits_grid,
+  .sep-pecas .comp_grid,
+  .sep-produtos .lvl_cards,
+  .sep-sobre .team_grid { grid-template-columns: repeat(2, 1fr); }
+  .sep-servicos .prot_grid { gap: 44px 40px; }
+  .sep-produtos .rrow { grid-template-columns: 240px 1fr; gap: 32px; }
+  .sep-sobre .vrow { grid-template-columns: 220px 1fr; gap: 28px; }
+}
+
+/* ---- 980px: o breakpoint original. Só complemento o que faltou ---- */
+@media (max-width: 980px) {
+  /* O rodapé de 4 colunas ia direto para 1, deixando uma coluna de links
+     altíssima. Em tablet, 2 colunas usam melhor o espaço. */
+  .sep-site .foot_top { grid-template-columns: repeat(2, 1fr); gap: 36px 30px; }
+
+  /* Campo de busca de máquina: o botão precisa de linha própria. */
+  .sep-pecas .finder_grid { grid-template-columns: 1fr; }
+  .sep-pecas .finder_grid .btn { width: 100%; }
+}
+
+/* ---- 760px: rodapé e grades de 2 colunas viram lista ---- */
+@media (max-width: 760px) {
+  .sep-site .foot_top { grid-template-columns: 1fr; gap: 34px; }
+  .sep-pecas .kits_grid,
+  .sep-pecas .comp_grid,
+  .sep-produtos .lvl_cards,
+  .sep-produtos .recon_grid,
+  .sep-sobre .team_grid { grid-template-columns: 1fr; }
+  .sep-produtos .rrow,
+  .sep-sobre .vrow { grid-template-columns: 1fr; gap: 12px; }
+
+  .sep-site .foot_bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    text-align: left;
+  }
+}
+
+/* ---- alturas de mídia acompanham a largura ---- */
+@media (max-width: 980px) {
+  .sep-home .split .visual { height: clamp(220px, 46vw, 320px); }
+  .sep-home .svc_tile { height: clamp(320px, 68vw, 460px); }
+  .sep-home .cta_img { height: clamp(240px, 52vw, 360px); }
+  .sep-home .seg_card { height: clamp(140px, 30vw, 200px); }
+  .sep-produtos .seg_card { height: clamp(140px, 30vw, 200px); }
+  .sep-produtos .spot .visual,
+  .sep-produtos .bowl .visual,
+  .sep-produtos .detail .dimg { height: clamp(230px, 48vw, 340px); }
+  .sep-pecas .hero_img { height: clamp(220px, 46vw, 320px); }
+  .sep-servicos .shape { height: clamp(230px, 48vw, 340px); }
+  .sep-servicos .duo_tile { height: clamp(300px, 64vw, 440px); }
+  .sep-servicos .steps_media { height: clamp(210px, 44vw, 300px); }
+  .sep-sobre .story .shape { height: clamp(230px, 48vw, 340px); }
+  .sep-sobre .loc .map { height: clamp(220px, 46vw, 320px); }
+}
+
+
+/* ============================================================================
+   6. SITE NOVO — TELAS PEQUENAS
+   ========================================================================== */
+
+@media (max-width: 600px) {
+  /* Blocos com fundo próprio: o padding interno precisa encolher junto. */
+  .sep-produtos .avail { padding: clamp(28px, 7vw, 44px) clamp(18px, 5vw, 26px); border-radius: 22px; }
+  .sep-produtos .buyback { padding: clamp(32px, 8vw, 50px) clamp(18px, 5vw, 26px); }
+  .sep-pecas .finder_box { padding: clamp(20px, 5.5vw, 28px); }
+
+  /* Botões lado a lado não cabem: viram pilha de largura cheia.
+     `.actions` é o grupo das seções internas, `.btns` o das seções CTA. */
+  .sep-site .actions,
+  .sep-site .cta .btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .sep-site .actions .btn,
+  .sep-site .cta .btns .btn {
+    flex: 1 1 220px;
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* Cabeçalhos que eram "título à esquerda, texto à direita". */
+  .sep-home .setores .head { gap: 18px; }
+  .sep-home .setores .head .lead { max-width: 100%; }
+}
+
+@media (max-width: 480px) {
+  .sep-home .seg_grid,
+  .sep-produtos .seg_grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .sep-pecas .brand_grid { grid-template-columns: repeat(2, 1fr); }
+  .sep-sobre .evo_grid { grid-template-columns: 1fr; gap: 26px; }
+  .sep-home .steps { grid-template-columns: 1fr; gap: 28px; }
+  .sep-servicos .prot_grid { grid-template-columns: 1fr; gap: 34px; }
+  .sep-servicos .prot_item { grid-template-columns: 42px 1fr; gap: 16px; }
+
+  /* A marca na barra encolhe para o hambúrguer caber com folga. */
+  .sep-site .brand { font-size: 19px; letter-spacing: .6px; }
+}
+
+@media (max-width: 380px) {
+  /* Aparelhos pequenos (iPhone SE): uma coluna e nada mais. */
+  .sep-home .seg_grid,
+  .sep-produtos .seg_grid,
+  .sep-pecas .brand_grid { grid-template-columns: 1fr; }
+  .sep-site .nav_drawer_links a { font-size: 22px; padding: 13px 0; }
+}
+
+
+/* ============================================================================
+   7. SITE NOVO — TABELAS COMPARATIVAS
+
+   As páginas já colocavam `overflow-x: auto` no `.cmp` em 980px, mas sem
+   largura mínima na tabela: as colunas se espremiam até o texto virar uma
+   palavra por linha em vez de rolar. Aqui a tabela mantém largura legível e
+   quem rola é o container.
+   ========================================================================== */
+
+@media (max-width: 980px) {
+  .sep-produtos .cmp,
+  .sep-servicos .cmp {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+  .sep-produtos .cmp table,
+  .sep-servicos .cmp table { min-width: 560px; }
+
+  .sep-produtos .cmp th, .sep-produtos .cmp td,
+  .sep-servicos .cmp th, .sep-servicos .cmp td {
+    padding: 14px 16px;
+    font-size: 14px;
+  }
+}
+
+
+/* ============================================================================
+   8. PLATAFORMA LEGADA — CONTAINERS, FORMULÁRIOS, TABELAS, MODAIS
+   ========================================================================== */
+
+.container,
+.container-narrow {
+  padding-left: max(clamp(16px, 2.2vw, 24px), env(safe-area-inset-left));
+  padding-right: max(clamp(16px, 2.2vw, 24px), env(safe-area-inset-right));
+}
+
+/* ---- formulários ---- */
+@media (max-width: 768px) {
+  /* Campo com fonte < 16px faz o Safari do iPhone dar zoom sozinho ao focar,
+     e o usuário fica com a página deslocada. 16px é o mínimo que evita isso. */
+  .form-input,
+  .form-select,
+  .form-textarea,
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="date"],
+  select,
+  textarea {
+    font-size: 16px;
+    max-width: 100%;
+  }
+
+  /* Pares de campos lado a lado viram pilha. */
+  .form-row { grid-template-columns: 1fr; }
+}
+
+/* ---- tabelas de dados ----
+   O projeto já envolve as tabelas nesses wrappers; aqui eles ganham rolagem
+   real e a tabela ganha largura mínima para não se espremer. */
+.data-table-wrapper,
+.table-wrap,
+.table-scroll,
+.sv-table-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
+@media (max-width: 768px) {
+  .data-table { min-width: 620px; }
+  .cmp-table  { min-width: 560px; }
+  .sv-table   { min-width: 560px; }
+
+  .data-table th,
+  .data-table td { padding: 12px 14px; font-size: 0.9rem; white-space: nowrap; }
+}
+
+/* ---- modais ----
+   `90vh` no celular vira mais que a tela (mesma questão do hero); e um modal
+   colado nas bordas precisa de respiro. */
+.modal-overlay {
+  padding: max(12px, env(safe-area-inset-left));
+  align-items: flex-start;
+}
+.modal,
+.modal-body {
+  max-height: 90vh;
+  max-height: 88svh;
+}
+@media (max-width: 600px) {
+  .modal-overlay { padding: 10px; align-items: flex-end; }
+  .modal,
+  .modal-body {
+    max-width: 100%;
+    max-height: 92svh;
+    border-radius: 18px;
+  }
+  .modal-footer {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+  .modal-footer .btn { width: 100%; justify-content: center; }
+}
+
+/* ---- botões ---- */
+@media (max-width: 600px) {
+  .btn-lg { width: 100%; justify-content: center; }
+  .cta-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .cta-buttons .btn { flex: 1 1 220px; justify-content: center; }
+}
+
+/* ---- utilidades de espaçamento do legado ---- */
+@media (max-width: 600px) {
+  .section-title { font-size: clamp(26px, 6.4vw, 38px); }
+  .mega-title { font-size: clamp(24px, 6vw, 36px); }
+}
+
+
+/* ============================================================================
+   9. ADMIN
+
+   O painel já colapsa a barra lateral em 1024px (v44). O que faltava era o
+   conteúdo: várias telas montam a grade por `style=""` inline, e style inline
+   vence qualquer folha de estilo. `!important` é a única forma de alcançá-las
+   — e por isso está restrito ao admin e só abaixo de 900px.
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .admin-shell [style*="grid-template-columns"],
+  .admin-main  [style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+  /* O `gap` de 24px entre blocos empilhados vira espaço morto. */
+  .admin-shell .admin-form-grid,
+  .admin-main  .admin-form-grid { gap: 14px !important; }
+}
+
+@media (max-width: 1024px) {
+  /* A barra lateral vira gaveta: o conteúdo recupera a largura toda. */
+  .admin-main { width: 100%; }
+  .admin-topbar {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-topbar-right {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  /* Filtros e buscas ocupam a linha inteira em vez de espremer. */
+  .search-bar { width: 100%; }
+  .search-bar input { width: 100%; }
+}
+
+/* A gaveta lateral do admin também respeita o notch. */
+.admin-sidebar {
+  padding-top: env(safe-area-inset-top) !important;
+  padding-bottom: env(safe-area-inset-bottom) !important;
+}
+
+
+/* ============================================================================
+   10. TOQUE, MOVIMENTO, ORIENTAÇÃO E SAFE-AREA
+   ========================================================================== */
+
+/* Em aparelho sem mouse, `:hover` fica "grudado" depois do toque: o cartão
+   continua levantado até o usuário tocar em outro lugar. Nesses aparelhos os
+   efeitos de hover que movem o layout são desligados; cor e sombra ficam. */
+@media (hover: none) {
+  .sep-site .btn:hover,
+  .sep-site .seg_card:hover .bgimg,
+  .sep-site .card:hover,
+  .btn:hover,
+  .card:hover {
+    transform: none;
+  }
+  .sep-site .btn_ghost:hover { gap: 8px; }
+  .sep-produtos .rrow:hover,
+  .sep-sobre .vrow:hover { padding-left: 0; }
+}
+
+/* Alvos de toque: 44px é o mínimo recomendado para o dedo acertar sem erro. */
+@media (pointer: coarse) {
+  .sep-site .nav_drawer_links a,
+  .sep-site .nav_burger,
+  .sep-site .nav_drawer_close,
+  .btn,
+  .btn-sm,
+  .modal-close,
+  .admin-nav-item {
+    min-height: 44px;
+  }
+  .btn-xs { min-height: 36px; }
+}
+
+/* Celular deitado: a tela tem pouca altura, então o hero e as seções encolhem
+   para o conteúdo não exigir três rolagens só para passar do topo. */
+@media (max-height: 560px) and (orientation: landscape) {
+  .sep-home .hero,
+  .sep-produtos .hero,
+  .sep-servicos .hero {
+    height: auto;
+    min-height: 100svh;
+    padding: 92px 0 48px;
+  }
+  .sep-home .hero_inner,
+  .sep-produtos .hero_inner,
+  .sep-servicos .hero_inner {
+    position: relative;
+    inset: auto;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .sep-home section,
+  .sep-produtos section,
+  .sep-pecas section,
+  .sep-servicos section,
+  .sep-sobre section {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
+  .sep-site .nav_drawer { padding-top: 8px; }
+  .sep-site .nav_drawer_links a { font-size: 19px; padding: 9px 0; }
+  .sep-site .nav_drawer_actions { padding-top: 14px; }
+}
+
+/* Quem pediu menos movimento no sistema não recebe a animação do painel.
+   O menu continua funcionando: ele aparece, só não desliza. */
+@media (prefers-reduced-motion: reduce) {
+  .sep-site .nav_drawer,
+  .sep-site .nav_scrim,
+  .sep-site .nav_burger span {
+    transition: none;
+  }
+}

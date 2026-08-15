@@ -1,0 +1,131 @@
+/* ============================================================================
+   src/styles/site/_legacy-collisions.css
+
+   Colisões de NOME DE CLASSE entre o CSS da plataforma antiga e o design novo.
+
+   A camada de isolamento (_base.css) neutraliza seletores de ELEMENTO
+   (h1, p, button, table...). Faltou o outro caso: quando as duas folhas usam
+   a MESMA classe. Aí o CSS legado, com especificidade (0,1,0), perde para
+   `.sep-home .hero` (0,2,0) nas propriedades que a página declara — mas
+   qualquer propriedade que a página NÃO declara passa direto.
+
+   Varri as duas folhas e são exatamente três classes em comum:
+
+     .hero    background, padding, display, align-items, min-height
+     .panel   background, border, border-radius, margin-bottom, overflow
+     .btn     padding, border, border-radius, display, gap, font-*
+
+   Cada uma causou um bug real:
+
+   .hero  -> `background: var(--white)` vazava e pintava uma parede branca
+             opaca no hero. Como o vídeo e o scrim usavam z-index NEGATIVO,
+             os dois pintavam atrás dessa parede. O vídeo carregava, decodifi-
+             cava, tocava, aparecia no Network — e ficava invisível.
+             Também vazava padding-top: 130px nos heros de altura cheia.
+
+   .panel -> os 5 painéis de texto do bloco "O caminho do seu equipamento"
+             ganhavam fundo branco, borda cinza e margem. Era o "lado direito
+             bugado" em Serviços.
+
+   .btn   -> padding e border próprios competindo com os botões do design novo.
+
+   Importado por ÚLTIMO no main.jsx.
+   ========================================================================== */
+
+/* ── .hero ────────────────────────────────────────────────────────────────
+   Zera tudo o que vazava. As páginas que precisam de padding próprio
+   (Peças, Sobre) declaram o seu e vencem por especificidade.               */
+.sep-home .hero,
+.sep-produtos .hero,
+.sep-servicos .hero,
+.sep-pecas .hero,
+.sep-sobre .hero {
+  background: transparent;
+  display: block;
+  align-items: initial;
+  isolation: isolate; /* contém as camadas do hero neste elemento */
+}
+
+.sep-home .hero,
+.sep-produtos .hero,
+.sep-servicos .hero {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* ── Reempilhamento do hero, agora sem z-index negativo ───────────────────
+   O arranjo original (vídeo -2, scrim -1) faz as camadas pintarem ATRÁS do
+   fundo dos ancestrais, e foi isso que o vazamento do .hero explorou. Com
+   valores positivos dentro do `isolation: isolate` acima, nenhum background
+   herdado alcança mais elas.
+
+   Ordem final:  fallback 0  ·  vídeo 1  ·  scrim 2  ·  texto 3            */
+.sep-home .hero .video_fallback,
+.sep-produtos .hero .video_fallback,
+.sep-servicos .hero .video_fallback {
+  z-index: 0;
+}
+
+.sep-home .hero video,
+.sep-produtos .hero video,
+.sep-servicos .hero video,
+.sep-produtos .hero .bg,
+.sep-servicos .hero .bg {
+  z-index: 1;
+}
+
+.sep-home .hero::after,
+.sep-produtos .hero::after,
+.sep-servicos .hero::after {
+  z-index: 2;
+}
+
+.sep-home .hero_inner,
+.sep-produtos .hero_inner,
+.sep-servicos .hero_inner,
+.sep-home .scroll_hint,
+.sep-produtos .scroll_hint,
+.sep-servicos .scroll_hint {
+  z-index: 3;
+}
+
+/* ── .panel ───────────────────────────────────────────────────────────────
+   Os painéis das etapas são camadas de texto sobrepostas, controladas por
+   opacidade. Fundo, borda e margem do legado quebravam a sobreposição.     */
+.sep-servicos .steps_text .panel {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+}
+
+.sep-servicos .steps_text .panel:not(.on) {
+  margin-bottom: 0;
+}
+
+/* ── .btn ─────────────────────────────────────────────────────────────────
+   O design novo define .btn por completo; aqui só se anula o que o legado
+   acrescenta e a página não sobrescreve.                                   */
+.sep-home .btn,
+.sep-produtos .btn,
+.sep-pecas .btn,
+.sep-servicos .btn,
+.sep-sobre .btn {
+  justify-content: center;
+  text-transform: none;
+  box-shadow: none;
+  min-width: 0;
+  min-height: 0;
+  line-height: normal;
+}
+
+/* ── containers que só tinham etiqueta ────────────────────────────────────
+   .visual, .cta_img e .pic recebem a camada de imagem do componente <Tag>.
+   Já são position:relative com overflow:hidden no CSS de página; isto é
+   apenas garantia, caso alguma regra legada altere isso. */
+.sep-home .visual,
+.sep-home .cta_img,
+.sep-pecas .part .pic {
+  position: relative;
+  overflow: hidden;
+}

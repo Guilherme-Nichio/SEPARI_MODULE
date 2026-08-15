@@ -1,0 +1,28 @@
+COMO ADICIONAR AS IMAGENS DOS SETORES (APLICAÇÕES)
+===================================================
+
+As subpáginas de "Setores que atendemos" (em /aplicacoes/<setor>) mostram, na
+galeria, um placeholder com o CAMINHO da imagem — igual ao padrão da Home e das
+páginas de produto. Isso só indica onde a foto vai entrar.
+
+Para colocar a imagem real, basta soltar o arquivo aqui, nesta pasta
+(public/aplicacoes/), usando exatamente o nome indicado no placeholder.
+Assim que o arquivo existir, o placeholder some sozinho e a foto aparece.
+
+NOMES ESPERADOS (2 imagens de galeria por setor):
+
+  laticinios-1.jpg            laticinios-2.jpg
+  cervejarias-1.jpg           cervejarias-2.jpg
+  sumos-e-bebidas-1.jpg       sumos-e-bebidas-2.jpg
+  marinha-e-naval-1.jpg       marinha-e-naval-2.jpg
+  biocombustiveis-1.jpg       biocombustiveis-2.jpg
+  farmaceutica-1.jpg          farmaceutica-2.jpg
+  oleo-e-gas-1.jpg            oleo-e-gas-2.jpg
+  mineracao-1.jpg             mineracao-2.jpg
+  geracao-de-energia-1.jpg    geracao-de-energia-2.jpg
+  fluidos-industriais-1.jpg   fluidos-industriais-2.jpg
+
+Observações:
+- O formato sugerido é .jpg na proporção 16:10 (ex.: 800x500).
+- Se quiser usar outro formato/nome, ajuste os caminhos em
+  src/data/applications.jsx (constante APP_GALLERY / objeto APP_MEDIA).
