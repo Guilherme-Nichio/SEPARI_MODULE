@@ -42,10 +42,10 @@ export default function SobrePage() {
           <div className="wrap hero_inner" style={{ position: 'relative', zIndex: 3 }}>
             <div className="hero_head">
               <div className="crumbs"><Link to={R.home}>Início</Link> / Sobre</div>
-              <h1>Separamos o essencial.<br /><em>Entregamos confiança.</em></h1>
+              <h1>Unir soluções para<br /><em>separar com eficiência.</em></h1>
             </div>
             <div className="hero_side">
-              <p>Engenharia leal ao seu processo, não ao fabricante. Desde 2018, mantendo centrífugas industriais e marítimas girando.</p>
+              <p>Somos leais ao seu processo de produção, não ao fabricante. Desde 2018, mantendo centrífugas, decanters e purificadores rodando.</p>
               <div className="actions">
                 <a className="btn btn_solid" {...external} href={R.whatsapp}>Falar com especialista</a>
               </div>
@@ -57,9 +57,10 @@ export default function SobrePage() {
         <section>
           <div className="wrap story sep_reveal">
             <div className="txt">
-              <h2>O parceiro técnico<br />por trás do giro.</h2>
-              <p>Fundada em 2018, a Separi cresceu para se tornar um fornecedor global de peças de alta qualidade e componentes recondicionados para separadores marinhos e industriais.</p>
-              <p>Valorizamos o contato pessoal e a expertise técnica. Nossos engenheiros estão sempre disponíveis para manter a sua operação girando, sem interrupções.</p>
+              <h2>O parceiro técnico em preventivas e no serviço emergencial quando você mais precisar.</h2>
+              <p>Fundada em 2018, a Separi cresceu para se tornar um fornecedor global de peças de alta qualidade e centrífugas novas remanufaturadas.
+</p>
+              <p>Valorizamos o contato pessoal e a troca de conhecimento técnico. Nosso time, estará sempre disponível para manter a sua produção rodando, sem interrupções.</p>
             </div>
             <div className="shape"><Bg slot="sobreOficina" className="img" showLabel /></div>
           </div>
@@ -111,37 +112,15 @@ export default function SobrePage() {
               <p className="lead" style={{ "marginTop": "20px" }}>De uma empresa local a um parceiro com atuação internacional.</p>
             </div>
             <div className="evo_grid sep_reveal">
-              <div className="evo_item"><div className="yr">2018</div><h4>Fundação</h4><p>Nascemos com foco em serviço de alta qualidade para separadores navais e industriais.</p></div>
-              <div className="evo_item"><div className="yr">2020</div><h4>Expansão</h4><p>Novos segmentos e oficina ampliada, atendendo laticínios, cervejarias e óleo e gás.</p></div>
-              <div className="evo_item"><div className="yr">2023</div><h4>Sede em Indaiatuba</h4><p>Estrutura moderna com balanceamento dinâmico de rotores em um só lugar.</p></div>
-              <div className="evo_item"><div className="yr">Hoje</div><h4>Atuação global</h4><p>Envio internacional de peças de precisão e equipamentos próprios Separi.</p></div>
+              <div className="evo_item"><div className="yr">2018</div><h4>Fundação</h4><p>Nascemos com foco em peças de reposição de alta qualidade, sendo uma alternativa aos grandes fabricantes. </p></div>
+              <div className="evo_item"><div className="yr">2020</div><h4>Expansão</h4><p>Novos segmentos e centro de reparos ampliado.</p></div>
+              <div className="evo_item"><div className="yr">2023</div><h4>Sede em Indaiatuba</h4><p>Estrutura fábril moderna, sua máquina remanufaturada do início ao fim em nosso centro de reparos. </p></div>
+              <div className="evo_item"><div className="yr">Hoje</div><h4>Atuação global</h4><p>Início das exportações e venda de equipamentos novos.</p></div>
             </div>
           </div>
         </section>
 
-        {/* EQUIPE */}
-        <section className="team">
-          <div className="wrap">
-            <div className="head sep_reveal">
-              <h2>Quem mantém tudo girando.</h2>
-              <p className="lead" style={{ "marginTop": "20px" }}>Engenheiros e técnicos formados na escola dos próprios fabricantes.</p>
-            </div>
-            <div className="team_grid sep_reveal">
-              <div className="member">
-                <Bg slot="equipeDirecao" className="pic" />
-                <div className="cap"><div className="role">Direção</div><h4>Hugo Rafacho</h4></div>
-              </div>
-              <div className="member">
-                <Bg slot="equipeEngenharia" className="pic" />
-                <div className="cap"><div className="role">Engenharia</div><h4>Técnicos certificados</h4></div>
-              </div>
-              <div className="member">
-                <Bg slot="equipeAtendimento" className="pic" />
-                <div className="cap"><div className="role">Atendimento</div><h4>Suporte especializado</h4></div>
-              </div>
-            </div>
-          </div>
-        </section>
+
 
         {/* LOCALIZAÇÃO */}
         <section>
