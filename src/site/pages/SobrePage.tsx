@@ -69,7 +69,7 @@ export default function SobrePage() {
         {/* MANIFESTO */}
         <section className="manifesto">
           <div className="wrap sep_reveal">
-            <blockquote>Separar o essencial do supérfluo e entregar soluções em que a sua operação pode <em>confiar de olhos fechados.</em></blockquote>
+            <blockquote>Menos complicação. Mais resultado. Soluções práticas, peças confiáveis e suporte técnico para manter sua operação rodando.</em></blockquote>
           </div>
         </section>
 
