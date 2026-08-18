@@ -46,7 +46,7 @@ export default function ProdutosPage() {
           <div className="wrap hero_inner" style={{ zIndex: 3 }}>
             <div className="htxt">
               <div className="crumbs"><a href="separi-home.html">Início</a> / Produtos</div>
-              <h1>Separação<br />centrífuga<br /><em>industrial.</em></h1>
+              <h1> centrífugas, decanter, purificadores<br /><em>industrial.</em></h1>
             </div>
             <div className="hero_side">
               <p>Máquinas novas, recondicionadas, bowls e automação. Em um só fornecedor.</p>
@@ -85,7 +85,7 @@ export default function ProdutosPage() {
                 <div className="cap">
                  
                   <h3>Separadoras de discos</h3>
-                  <p>Clarificação e separação líquido a líquido de alta rotação, com bowl autolimpante para desnate, recuperação e purificação.</p>
+                  <p>Clarificação e separação líquido a líquido de alta rotação, com tambor autolimpante para desnate, recuperação e purificação.</p>
                   <span className="more">Ver separadoras →</span>
                 </div>
               </a>
@@ -93,7 +93,7 @@ export default function ProdutosPage() {
                 <Bg slot="prodCentrifugas" className="img" />
                 <div className="cap">
                 
-                  <h3>Centrífugas e decanters</h3>
+                  <h3>Decanters</h3>
                   <p>Desidratação e espessamento contínuos para materiais com alto teor de sólidos em suspensão.</p>
                   <span className="more">Ver centrífugas →</span>
                 </div>
@@ -107,7 +107,7 @@ export default function ProdutosPage() {
           <div className="wrap detail sep_reveal">
             <div className="dtxt">
               <div className="over">Separadoras de discos</div>
-              <h2>Separação de alta precisão, disco a disco.</h2>
+              <h2>Separação com alta eficiência.</h2>
               <p>Uma pilha de discos cônicos gira em alta rotação para separar líquidos de densidades diferentes e remover sólidos finos com pureza elevada. É a tecnologia por trás de desnatadeiras, clarificadoras e purificadores.</p>
               <ul>
                 <li>Purificador: remove água e finos do óleo, como em combustível marítimo</li>
