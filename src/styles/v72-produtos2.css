@@ -1,0 +1,340 @@
+/* =========================================================================
+   SEPARI — v72 — Produtos v2 (carregado por último)
+   1. Subnav fixa alinhada de verdade abaixo da navbar (sem sobreposição)
+   2. Hero geral de produtos + grade de categorias (CTAs para as subabas)
+   3. Linha recondicionada em linhas horizontais (imagem ← / info + specs →)
+   4. Bowls + Locação na mesma seção (faixa compacta)
+   5. Automação e controles com visual mais rico (banda escura)
+   ========================================================================= */
+
+/* ───────────────────────── 1. SUBNAV / ANCORAGEM ─────────────────────────
+   Navbar rolada = barra fina (~33px) + pill (76px) ≈ 109px no desktop e
+   ~98px no mobile. A subnav fixava em 84px e o topo dela entrava por baixo
+   da pill. Ponto de fixação corrigido + folga para as âncoras. */
+html { scroll-padding-top: 186px; }
+
+.prod-subnav {
+  top: 112px !important;
+  z-index: 500 !important; /* navbar (1000) e seus dropdowns sempre acima */
+}
+.prod-subnav-track { padding: 12px 0; }
+section[id] { scroll-margin-top: 130px; }
+.prod-subnav ~ section[id] { scroll-margin-top: 186px !important; }
+
+@media (max-width: 768px) {
+  html { scroll-padding-top: 170px; }
+  .prod-subnav { top: 100px !important; }
+  .prod-subnav ~ section[id] { scroll-margin-top: 170px !important; }
+}
+
+/* ─────────────────── 2. HERO — VISÃO GERAL DE PRODUTOS ───────────────────
+   OBS: desde o v51 os heros internos (.page-intro) são CLAROS (!important).
+   Então o hero de Produtos segue o tema claro do resto do site: título em
+   tinta escura e grade de categorias em cartões brancos. */
+.page-intro-equipamentos {
+  padding: clamp(150px, 16vw, 200px) 0 clamp(56px, 7vw, 84px) !important;
+}
+
+.phero-head { max-width: 780px; }
+.phero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.3rem, 4.6vw, 3.5rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 20px 0 18px;
+}
+.phero-title em {
+  font-style: normal;
+  background: linear-gradient(90deg, var(--teal) 0%, var(--teal-dark) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.phero-lead {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  max-width: 620px;
+}
+.phero-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+
+.phero-cats {
+  margin-top: clamp(46px, 6vw, 66px);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.phero-cat {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--line);
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.3s var(--ease-out), border-color 0.3s, box-shadow 0.3s;
+}
+.phero-cat:hover {
+  transform: translateY(-4px);
+  border-color: var(--teal-light);
+  box-shadow: 0 24px 46px -30px rgba(0, 131, 127, 0.45);
+}
+.phero-cat-photo {
+  display: block;
+  aspect-ratio: 16 / 9;
+  background-color: #eef4f3;
+  background-image: var(--p);
+  background-size: cover, cover;
+  background-position: center, center;
+  filter: saturate(0.94);
+  transition: filter 0.35s var(--ease-out);
+}
+.phero-cat:hover .phero-cat-photo { filter: saturate(1.05); }
+.phero-cat-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 18px 18px;
+  flex: 1;
+}
+.phero-cat-body h3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.04rem;
+  color: var(--ink);
+  margin: 0;
+}
+.phero-cat-body h3 svg {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  transition: color 0.25s, transform 0.25s var(--ease-out);
+}
+.phero-cat:hover .phero-cat-body h3 svg {
+  color: var(--teal-dark);
+  transform: translate(2px, -2px);
+}
+.phero-cat-body p {
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin: 0;
+}
+@media (max-width: 960px) { .phero-cats { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) {
+  .phero-cats { grid-template-columns: 1fr; }
+  .phero-cat-photo { aspect-ratio: 16 / 8; }
+}
+
+/* ─────────────── 3. LINHA RECONDICIONADA — LINHAS HORIZONTAIS ───────────── */
+.rgl { max-width: 980px; margin: 0 auto; }
+.rgl .rg-filters { justify-content: center; margin-bottom: 26px; }
+.rgl-list { display: flex; flex-direction: column; gap: 16px; }
+
+.rgl-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 290px 1fr;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.3s var(--ease-out), border-color 0.3s, box-shadow 0.3s;
+}
+.rgl-row:hover {
+  transform: translateY(-3px);
+  border-color: var(--teal-light);
+  box-shadow: 0 24px 46px -32px rgba(0, 131, 127, 0.45);
+}
+.rgl-media {
+  display: block;
+  min-height: 100%;
+  background-color: #f1f5f4;
+  background-image: var(--p);
+  background-size: cover, cover;
+  background-position: center, center;
+}
+.rgl-body {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 24px 56px 24px 28px;
+}
+.rgl-brand {
+  font-family: var(--font-display);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--teal-dark);
+}
+.rgl-model {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.32rem;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0;
+}
+.rgl-note { font-size: 0.93rem; line-height: 1.55; color: var(--ink-soft); margin: 0; }
+.rgl-specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 34px;
+  margin-top: 10px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.rgl-spec { display: flex; flex-direction: column; gap: 2px; }
+.rgl-spec-k {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.rgl-spec-v { font-size: 0.88rem; font-weight: 600; color: var(--ink); }
+.rgl-go {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: var(--text-muted);
+  transition: color 0.25s, transform 0.25s var(--ease-out);
+}
+.rgl-row:hover .rgl-go { color: var(--teal-dark); transform: translate(2px, -2px); }
+
+.rgl-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 30px;
+}
+.rgl-cta-link { font-size: 0.9rem; font-weight: 600; color: var(--ink-soft); }
+.rgl-cta-link:hover { color: var(--teal-dark); text-decoration: underline; }
+
+@media (max-width: 720px) {
+  .rgl-row { grid-template-columns: 1fr; }
+  .rgl-media { aspect-ratio: 16 / 9; min-height: 0; }
+  .rgl-body { padding: 20px 22px 22px; }
+  .rgl-go { top: auto; bottom: 20px; }
+}
+
+/* ───────────────── 5. AUTOMAÇÃO E CONTROLES (banda escura) ─────────────── */
+.auto2 {
+  background:
+    radial-gradient(90% 70% at 85% 0%, rgba(0, 169, 157, 0.14) 0%, transparent 60%),
+    linear-gradient(160deg, #06181a 0%, #0b2b28 55%, #06181a 100%);
+  color: #fff;
+}
+.auto2-head {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(24px, 5vw, 64px);
+  align-items: end;
+  margin-bottom: clamp(30px, 5vw, 46px);
+}
+.auto2-head .section-title { color: #fff; margin: 0; }
+.auto2-head p {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+.auto2-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.auto2-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: transform 0.3s var(--ease-out), border-color 0.3s, background 0.3s;
+}
+.auto2-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(0, 169, 157, 0.5);
+  background: rgba(0, 169, 157, 0.08);
+}
+.auto2-media {
+  display: block;
+  aspect-ratio: 16 / 8;
+  background-image: var(--p);
+  background-size: cover, cover;
+  background-position: center, center;
+}
+.auto2-body { padding: 24px 26px 26px; }
+.auto2-body h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.25rem;
+  letter-spacing: -0.01em;
+  color: #fff;
+  margin: 0 0 8px;
+}
+.auto2-body > p {
+  font-size: 0.93rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.68);
+  margin: 0 0 16px;
+}
+.auto2-list { list-style: none; display: flex; flex-direction: column; gap: 9px; margin: 0; padding: 0; }
+.auto2-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+.auto2-list li svg { flex-shrink: 0; margin-top: 2px; color: #5eead4; }
+
+.auto2-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.03);
+  overflow: hidden;
+}
+.auto2-cell {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 20px 22px;
+}
+.auto2-cell + .auto2-cell { border-left: 1px solid rgba(255, 255, 255, 0.1); }
+.auto2-cell svg { flex-shrink: 0; color: #5eead4; }
+.auto2-cell strong {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #fff;
+}
+.auto2-cell span { font-size: 0.8rem; color: rgba(255, 255, 255, 0.6); }
+.auto2-cta { margin-top: 28px; text-align: center; }
+
+@media (max-width: 860px) {
+  .auto2-head { grid-template-columns: 1fr; align-items: start; }
+  .auto2-grid { grid-template-columns: 1fr; }
+  .auto2-strip { grid-template-columns: 1fr; }
+  .auto2-cell + .auto2-cell {
+    border-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}

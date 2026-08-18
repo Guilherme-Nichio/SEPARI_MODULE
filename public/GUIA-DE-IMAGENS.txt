@@ -1,0 +1,113 @@
+==========================================================================
+GUIA DE IMAGENS — SITE SEPARI (sem fallbacks)
+==========================================================================
+
+Não existem mais imagens de fallback. Cada lugar do site aponta para UM
+caminho fixo. Enquanto o arquivo não existir, aparece só o caminho (ou o
+ícone padrão). Assim que você solta o arquivo em /public com o NOME EXATO
+abaixo, a imagem entra sozinha — sem mexer no código.
+
+Dica: PNG com fundo transparente para máquinas/ícones; JPG para fotos.
+
+--------------------------------------------------------------------------
+1) LOGO E MARCA
+--------------------------------------------------------------------------
+/public/logo.png                        Logo principal (cabeçalho/rodapé)
+
+--------------------------------------------------------------------------
+2) HOME
+--------------------------------------------------------------------------
+/public/home/recond.jpg                 Hero — cena "Recondicionamento"
+/public/home/pecas.jpg                  Hero — cena "Catálogo de peças"
+/public/home/campo.jpg                  Hero — cena "Serviço de campo"
+/public/home/setores.jpg                Hero — cena "Setores atendidos"
+/public/destaques/qualidade-oem.jpg     Card de destaque 1
+/public/destaques/entrega-latam.jpg     Card de destaque 2
+/public/destaques/marcas.jpg            Card de destaque 3
+/public/destaques/engenharia.jpg        Card de destaque 4
+/public/produtos/ch700.png              Bloco "Máquina nova"
+/public/separi-oficina.jpg              Bloco "Oficina"
+/public/separi-bowl.jpg                 Bloco "Bowl"
+
+--------------------------------------------------------------------------
+3) MENU (miniaturas do mega-menu Produtos)
+--------------------------------------------------------------------------
+/public/menu/separadoras.jpg
+/public/menu/centrifugas.jpg
+/public/menu/setores.jpg
+/public/menu/automacao.jpg
+/public/menu/maquinas.jpg
+/public/menu/bowls.jpg
+(sem o arquivo, a miniatura simplesmente não aparece)
+
+--------------------------------------------------------------------------
+4) PRODUTOS
+--------------------------------------------------------------------------
+/public/produtos/hero.jpg               Foto grande do hero de Produtos
+/public/produtos/bowl.jpg               Card "Bowls" + seção Bowls
+/public/produtos/painel.jpg             Card/seção "Automação"
+/public/produtos/vfd.jpg                Seção "Automação" (VFD)
+/public/produtos/ch700.png              Seção "Máquinas Separi"
+/public/produtos/separadoras-hero.jpg   Página Separadoras (hero)
+/public/produtos/centrifugas-hero.jpg   Página Centrífugas (hero)
+/public/produtos/reman/<marca-modelo>.png  Fotos da linha recondicionada
+
+--------------------------------------------------------------------------
+5) MÁQUINAS SEPARI (/maquinas)
+--------------------------------------------------------------------------
+/public/maquinas/separi-compacta.jpg    Vitrine — porte compacto
+/public/maquinas/separi-media.jpg       Vitrine — porte médio
+/public/maquinas/separi-grande.jpg      Vitrine — alta capacidade
+/public/maquinas/serie-marine.jpg       Painel da Série Marine
+/public/maquinas/serie-mineral.jpg      Painel da Série Mineral
+/public/maquinas/serie-vegetable.jpg    Painel da Série Food-Oil
+/public/maquinas/serie-environmental.jpg Painel da Série Enviro
+/public/maquinas/serie-chemical.jpg     Painel da Série Chem
+/public/maquinas/serie-fermentation.jpg Painel da Série Bio
+/public/maquinas/serie-dairy.jpg        Painel da Série Dairy
+
+--------------------------------------------------------------------------
+6) SOBRE
+--------------------------------------------------------------------------
+/public/sobre/hero.jpg                  Foto grande do hero
+/public/equipe/direcao.jpg              Card equipe — Direção
+/public/equipe/engenharia.jpg           Card equipe — Engenharia
+/public/equipe/atendimento.jpg          Card equipe — Atendimento
+
+--------------------------------------------------------------------------
+7) SERVIÇOS
+--------------------------------------------------------------------------
+/public/servicos/hero.jpg               Hero
+/public/servicos-video.mp4              Vídeo institucional
+/public/servicos/video-poster.jpg       Poster do vídeo
+/public/servicos/preventiva.jpg         Seção Preventiva
+/public/servicos/revisao.jpg            Seção Revisão geral
+/public/servicos/jornada-chegada.jpg    Jornada — etapa 1
+/public/servicos/jornada-desmontagem.jpg Jornada — etapa 2
+/public/servicos/jornada-orcamento.jpg  Jornada — etapa 3
+/public/servicos/jornada-execucao.jpg   Jornada — etapa 4
+/public/servicos/jornada-entrega.jpg    Jornada — etapa 5
+/public/oficina/balanceamento.jpg       Oficina — balanceamento
+/public/oficina/ndt.jpg                 Oficina — inspeção NDT
+/public/oficina/runin.jpg               Oficina — run-in
+/public/oficina/usinagem.jpg            Oficina — usinagem
+/public/oficina/bowls.jpg               Oficina — bowls de troca
+/public/oficina/certificado.jpg         Oficina — certificado
+
+--------------------------------------------------------------------------
+8) SETORES / APLICAÇÕES
+--------------------------------------------------------------------------
+/public/aplicacoes/sector-<slug>.jpg    Foto do setor (usada em todo o site)
+/public/aplicacoes/<slug>-hero.jpg      Foto do hero da página do setor
+/public/aplicacoes/<slug>.mp4           Vídeo do hero (opcional)
+
+Slugs: laticinios, cervejarias, sumos-e-bebidas, marinha-e-naval, oleos,
+farmaceutica, oleo-e-gas, mineracao, geracao-de-energia, fluidos-industriais
+
+--------------------------------------------------------------------------
+9) PEÇAS
+--------------------------------------------------------------------------
+/public/pecas/cat-disc-stack.jpg        Card "Separadora de discos"
+/public/pecas/cat-decanter.jpg          Card "Decanter"
+/public/pecas/cat-chamber.jpg           Card "Bowl de câmaras"
+/public/pecas/<slug>.png                Foto de cada peça no explorador

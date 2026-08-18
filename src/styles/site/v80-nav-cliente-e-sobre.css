@@ -1,0 +1,191 @@
+/* ============================================================================
+   v80 — NAV DO SITE NA ÁREA DO CLIENTE  +  HERO DE VÍDEO NA PÁGINA SOBRE
+
+   Este arquivo passa a ser o ÚLTIMO import de CSS do projeto, depois do v79.
+   Motivo é sempre o mesmo da casa: as regras abaixo repetem a especificidade
+   das originais e vencem pela ordem da cascata, inclusive dentro dos @media
+   do v77/v78 — sem precisar de !important onde não havia.
+
+   ÍNDICE
+     1 . Barra do site nas páginas pós-login do cliente
+     2 . Botão "Sair" na barra do cliente
+     3 . Sobre — primeira seção com vídeo de fundo
+     4 . Sobre — nav branca sobre o vídeo
+     5 . Responsivo
+   ========================================================================== */
+
+
+/* ============================================================================
+   1. BARRA DO SITE NAS PÁGINAS PÓS-LOGIN DO CLIENTE
+
+   O componente PlatformNav envolve o <SiteNav /> em `.sep-site .sep-catalogo`
+   justamente para herdar, sem cópia, o estilo da barra escura sobre fundo
+   claro (v79) e o do menu deslizante do celular (v77/v78).
+
+   Só faltam três ajustes, que são os efeitos colaterais de usar `.sep-site`
+   fora de uma página inteira do site novo.
+   ========================================================================== */
+
+.sep-plat-nav {
+  /* `.sep-site` reserva 100vh de altura mínima, porque lá ele embrulha a
+     página toda. Aqui embrulha só a barra, que é `position: fixed`. */
+  min-height: 0;
+
+  /* `.sep-catalogo` pinta fundo branco: numa faixa de altura zero isso é
+     inofensivo, mas deixo explícito para o dia em que alguém mexer. */
+  background: transparent;
+
+  /* `.sep-site` tem `isolation: isolate`, o que cria contexto de empilhamento
+     próprio. Sem elevar o contêiner, o z-index 60 do <nav> só vale DENTRO
+     dele, e qualquer conteúdo posicionado da página passaria por cima. */
+  position: relative;
+  z-index: 1000;
+
+  /* o painel deslizante é `fixed` e precisa poder escapar da faixa */
+  overflow: visible;
+}
+
+/* O <nav> é fixo, logo não ocupa altura nenhuma no fluxo. Antes quem reservava
+   o espaço era o `padding-top: 136px` do ClientNav, medido para a altura da
+   barra antiga (faixa verde + navbar flutuante). Agora o espaço é deste
+   espaçador, e a conta é a altura real da barra do site:
+   24px de padding + 48px do botão + 24px de padding = 96px. */
+.plat_nav_spacer { height: 96px; }
+
+/* O ClientNav vem logo depois e não precisa mais reservar nada. O !important
+   responde ao !important do v43/v63 — é empate técnico, não escalada. */
+.plat_nav_spacer + .client-nav { padding-top: 0 !important; }
+
+/* Rota da área do cliente sem o ClientNav (visitante no catálogo legado): o
+   <main> é o irmão seguinte e o conteúdo já não precisa do recuo antigo. */
+.plat_nav_spacer + main .dashboard,
+.plat_nav_spacer + main .peca-page { padding-top: 24px !important; }
+
+
+/* ============================================================================
+   2. BOTÃO "SAIR" NA BARRA DO CLIENTE
+
+   O logout existia só no menu de usuário da navbar antiga. Com a barra do
+   site no lugar dela, ele passou para o ClientNav (páginas da plataforma) e
+   para a `.cli_bar` (catálogo novo). Nenhuma função se perdeu.
+   ========================================================================== */
+
+.client-nav-signout {
+  margin-left: auto;
+  background: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-family: inherit;
+}
+.client-nav-signout:hover {
+  background: rgba(239, 68, 68, 0.08);
+  color: var(--danger);
+}
+
+.sep-catalogo .cli_side { display: flex; align-items: center; gap: 18px; flex-shrink: 0; }
+.sep-catalogo .cli_out {
+  background: none; border: none; cursor: pointer;
+  font-family: var(--body); font-size: 14.5px; font-weight: 500;
+  color: var(--muted); white-space: nowrap; transition: color .2s;
+}
+.sep-catalogo .cli_out:hover { color: var(--ink); }
+
+
+/* ============================================================================
+   3. SOBRE — PRIMEIRA SEÇÃO COM VÍDEO DE FUNDO
+
+   A abertura era editorial: fundo branco, título preto, `padding: 190px 0`.
+   Agora é o mesmo hero da Home — tela cheia, vídeo por baixo, véu verde e
+   texto branco. O vídeo e o véu vão inline no SobrePage.tsx (idênticos aos da
+   HomePage); aqui fica só a caixa e a tipografia.
+   ========================================================================== */
+
+.sep-sobre .hero {
+  position: relative;
+  height: 100vh;
+  min-height: 660px;
+  width: 100%;
+  overflow: hidden;
+  padding: 0;
+}
+
+.sep-sobre .hero_inner {
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 60px;
+  padding-top: 150px;
+  color: #fff;
+}
+
+.sep-sobre .hero .crumbs { color: rgba(255, 255, 255, 0.72); margin-bottom: 26px; }
+.sep-sobre .hero .crumbs a:hover { color: #fff; }
+
+/* o clamp do v77 continua mandando no tamanho; aqui só a cor muda */
+.sep-sobre .hero h1 { color: #fff; max-width: 1100px; }
+.sep-sobre .hero h1 em { color: #6fe3d4; }
+
+.sep-sobre .hero_side { max-width: 380px; padding-top: 14px; }
+.sep-sobre .hero_side p {
+  font-family: var(--body);
+  font-size: 18.5px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #fff;
+  opacity: .96;
+  max-width: 380px;
+}
+.sep-sobre .hero .actions { display: flex; gap: 14px; margin-top: 26px; }
+
+
+/* ============================================================================
+   4. SOBRE — NAV BRANCA SOBRE O VÍDEO
+
+   Mesmo comportamento da Home: branca enquanto está sobre o hero, escura
+   depois de 40px de rolagem. A troca da logo (clara/escura) é feita no
+   SiteNav.tsx, pelo mapa DARK_HERO.
+   ========================================================================== */
+
+.sep-sobre nav {
+  color: #fff;
+  transition: background .35s ease, color .35s ease, box-shadow .35s ease;
+}
+.sep-sobre nav.scrolled { color: var(--ink); }
+.sep-sobre nav .btn_enter { background: transparent; border: 1.5px solid #fff; color: #fff; }
+.sep-sobre nav.scrolled .btn_enter { border-color: var(--ink); color: var(--ink); }
+.sep-sobre nav .btn_solid { color: #fff; }
+
+
+/* ============================================================================
+   5. RESPONSIVO
+   ========================================================================== */
+
+@media (max-width: 980px) {
+  /* o título e o texto empilham, como na Home */
+  .sep-sobre .hero_inner {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 26px;
+    padding-top: 110px;
+    padding-bottom: 60px;
+  }
+  .sep-sobre .hero_side { max-width: 100%; padding-top: 0; }
+  .sep-sobre .hero_side p { max-width: 100%; font-size: 17px; }
+  .sep-sobre .hero .actions { flex-wrap: wrap; margin-top: 22px; }
+  /* repete o valor da seção 3 para vencer o clamp do v77 dentro do @media */
+  .sep-sobre .hero { padding: 0; }
+}
+
+@media (max-width: 560px) {
+  /* abaixo deste ponto o v77 esconde `.nav_actions`: a barra fica mais baixa */
+  .plat_nav_spacer { height: 88px; }
+}
+
+/* Tela baixa (celular deitado): 100vh vira uma faixa apertada demais para o
+   título grande. Solta a altura e deixa o conteúdo mandar. */
+@media (max-height: 560px) {
+  .sep-sobre .hero { height: auto; min-height: 0; padding: 120px 0 70px; }
+  .sep-sobre .hero_inner { height: auto; }
+}

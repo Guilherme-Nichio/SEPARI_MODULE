@@ -1,0 +1,263 @@
+GUIA DE MÍDIA — SEPARI
+==========================================================================
+
+Onde colocar os arquivos: public/media/<pasta>/
+A URL final tira o 'public'. public/media/home/cta.jpg  ->  /media/home/cta.jpg
+
+Depois de copiar o arquivo, abra src/site/assets.ts e preencha o 'src' do
+slot correspondente. Enquanto o src estiver null, o site mostra o gradiente
+placeholder de sempre — nada quebra.
+
+Formatos: JPG para foto, PNG só se precisar de fundo transparente, SVG para
+a logo. Exporte com o DOBRO da dimensão indicada (retina) e comprima antes
+de subir: acima de 300 KB por imagem já pesa no carregamento.
+
+==========================================================================
+
+── EQUIPE
+   /media/equipe/atendimento.jpg
+       exibido em 440×440 px  ·  proporção 1:1  ·  exportar 2x
+       alt: Equipe de atendimento
+       slot no assets.ts: IMG.equipeAtendimento
+
+   /media/equipe/direcao.jpg
+       exibido em 440×440 px  ·  proporção 1:1  ·  exportar 2x
+       alt: Hugo Rafacho, direção
+       slot no assets.ts: IMG.equipeDirecao
+
+   /media/equipe/engenharia.jpg
+       exibido em 440×440 px  ·  proporção 1:1  ·  exportar 2x
+       alt: Equipe de engenharia
+       slot no assets.ts: IMG.equipeEngenharia
+
+── HOME
+   /media/home/bowl.jpg
+       exibido em 700×520 px  ·  proporção 4:3  ·  exportar 2x
+       alt: Bowl de centrífuga
+       slot no assets.ts: IMG.homeBowl
+
+   /media/home/cta.jpg
+       exibido em 700×560 px  ·  proporção 5:4  ·  exportar 2x
+       alt: Equipe Separi em operação
+       slot no assets.ts: IMG.homeCta
+
+   /media/home/oficina.jpg
+       exibido em 700×520 px  ·  proporção 4:3  ·  exportar 2x
+       alt: Oficina de recondicionamento
+       slot no assets.ts: IMG.homeOficina
+
+   /media/home/produto.png
+       exibido em 700×520 px  ·  proporção 4:3  ·  exportar 2x
+       alt: Separadora de discos
+       slot no assets.ts: IMG.homeProduto
+
+   /media/home/servico-campo.jpg
+       exibido em 700×780 px  ·  proporção 9:16  ·  exportar 2x
+       alt: Serviço de campo
+       slot no assets.ts: IMG.homeSvcCampo
+
+   /media/home/servico-oficina.jpg
+       exibido em 700×780 px  ·  proporção 9:16  ·  exportar 2x
+       alt: Oficina técnica
+       slot no assets.ts: IMG.homeSvcOficina
+
+── PECAS
+   /media/pecas/agua-operacao.jpg
+       exibido em 460×260 px  ·  proporção 16:9  ·  exportar 2x
+       alt: Sistema de água
+       slot no assets.ts: IMG.pecasAgua
+
+   /media/pecas/bowl.jpg
+       exibido em 460×260 px  ·  proporção 16:9  ·  exportar 2x
+       alt: Bowl / rotor
+       slot no assets.ts: IMG.pecasBowl
+
+   /media/pecas/disc-stack.jpg
+       exibido em 460×260 px  ·  proporção 16:9  ·  exportar 2x
+       alt: Conjunto de discos
+       slot no assets.ts: IMG.pecasDiscos
+
+   /media/pecas/gravity-disc.jpg
+       exibido em 460×260 px  ·  proporção 16:9  ·  exportar 2x
+       alt: Disco de gravidade
+       slot no assets.ts: IMG.pecasGravidade
+
+   /media/pecas/hero.jpg
+       exibido em 640×580 px  ·  proporção 1:1  ·  exportar 2x
+       alt: Peças para centrífugas
+       slot no assets.ts: IMG.pecasHero
+
+   /media/pecas/rolamentos.jpg
+       exibido em 460×260 px  ·  proporção 16:9  ·  exportar 2x
+       alt: Rolamentos
+       slot no assets.ts: IMG.pecasRolamentos
+
+   /media/pecas/vedacoes.jpg
+       exibido em 460×260 px  ·  proporção 16:9  ·  exportar 2x
+       alt: Vedações e O-rings
+       slot no assets.ts: IMG.pecasVedacoes
+
+── PRODUTOS
+   /media/produtos/bowl.jpg
+       exibido em 700×560 px  ·  proporção 5:4  ·  exportar 2x
+       alt: Bowl para locação
+       slot no assets.ts: IMG.prodBowl
+
+   /media/produtos/centrifuga-detalhe.jpg
+       exibido em 700×540 px  ·  proporção 4:3  ·  exportar 2x
+       alt: Detalhe de decanter
+       slot no assets.ts: IMG.prodCentDetalhe
+
+   /media/produtos/centrifugas.jpg
+       exibido em 760×480 px  ·  proporção 16:10  ·  exportar 2x
+       alt: Centrífugas e decanters
+       slot no assets.ts: IMG.prodCentrifugas
+
+   /media/produtos/hero.jpg
+       exibido em 1920×1080 px  ·  proporção 16:9  ·  exportar 2x
+       alt: Separação centrífuga industrial
+       slot no assets.ts: IMG.prodHero
+
+   /media/produtos/separadora-detalhe.jpg
+       exibido em 700×540 px  ·  proporção 4:3  ·  exportar 2x
+       alt: Detalhe de separadora
+       slot no assets.ts: IMG.prodSepDetalhe
+
+   /media/produtos/separadoras.jpg
+       exibido em 760×480 px  ·  proporção 16:10  ·  exportar 2x
+       alt: Separadoras de discos
+       slot no assets.ts: IMG.prodSeparadoras
+
+   /media/produtos/separi-maquina.jpg
+       exibido em 700×560 px  ·  proporção 5:4  ·  exportar 2x
+       alt: Máquina Separi
+       slot no assets.ts: IMG.prodMaquina
+
+── SEGMENTOS
+   /media/segmentos/bebidas.jpg
+       exibido em 280×210 px  ·  proporção 4:3  ·  exportar 2x
+       alt: Produção de sumos e bebidas
+       slot no assets.ts: IMG.segBebidas
+
+   /media/segmentos/cervejaria.jpg
+       exibido em 280×210 px  ·  proporção 4:3  ·  exportar 2x
+       alt: Cervejaria industrial
+       slot no assets.ts: IMG.segCervejaria
+
+   /media/segmentos/energia.jpg
+       exibido em 280×210 px  ·  proporção 4:3  ·  exportar 2x
+       alt: Geração de energia
+       slot no assets.ts: IMG.segEnergia
+
+   /media/segmentos/farmaceutica.jpg
+       exibido em 280×210 px  ·  proporção 4:3  ·  exportar 2x
+       alt: Indústria farmacêutica
+       slot no assets.ts: IMG.segFarma
+
+   /media/segmentos/fluidos.jpg
+       exibido em 280×210 px  ·  proporção 4:3  ·  exportar 2x
+       alt: Fluidos industriais
+       slot no assets.ts: IMG.segFluidos
+
+   /media/segmentos/laticinios.jpg
+       exibido em 280×210 px  ·  proporção 4:3  ·  exportar 2x
+       alt: Planta de laticínios
+       slot no assets.ts: IMG.segLaticinios
+
+   /media/segmentos/mineracao.jpg
+       exibido em 280×210 px  ·  proporção 4:3  ·  exportar 2x
+       alt: Operação de mineração
+       slot no assets.ts: IMG.segMineracao
+
+   /media/segmentos/naval.jpg
+       exibido em 280×210 px  ·  proporção 4:3  ·  exportar 2x
+       alt: Aplicação marinha e naval
+       slot no assets.ts: IMG.segNaval
+
+   /media/segmentos/oleo-gas.jpg
+       exibido em 280×210 px  ·  proporção 4:3  ·  exportar 2x
+       alt: Setor de óleo e gás
+       slot no assets.ts: IMG.segOleoGas
+
+   /media/segmentos/oleos.jpg
+       exibido em 280×210 px  ·  proporção 4:3  ·  exportar 2x
+       alt: Processamento de óleos
+       slot no assets.ts: IMG.segOleos
+
+── SERVICOS
+   /media/servicos/campo.jpg
+       exibido em 700×560 px  ·  proporção 5:4  ·  exportar 2x
+       alt: Atendimento em campo
+       slot no assets.ts: IMG.svcCampo
+
+   /media/servicos/etapa-chegada.jpg
+       exibido em 760×460 px  ·  proporção 16:10  ·  exportar 2x
+       alt: Chegada do equipamento
+       slot no assets.ts: IMG.etapaChegada
+
+   /media/servicos/etapa-desmontagem.jpg
+       exibido em 760×460 px  ·  proporção 16:10  ·  exportar 2x
+       alt: Desmontagem e inspeção
+       slot no assets.ts: IMG.etapaDesmontagem
+
+   /media/servicos/etapa-execucao.jpg
+       exibido em 760×460 px  ·  proporção 16:10  ·  exportar 2x
+       alt: Aprovação e execução
+       slot no assets.ts: IMG.etapaExecucao
+
+   /media/servicos/etapa-orcamento.jpg
+       exibido em 760×460 px  ·  proporção 16:10  ·  exportar 2x
+       alt: Orçamento técnico
+       slot no assets.ts: IMG.etapaOrcamento
+
+   /media/servicos/etapa-teste.jpg
+       exibido em 760×460 px  ·  proporção 16:10  ·  exportar 2x
+       alt: Teste funcional
+       slot no assets.ts: IMG.etapaTeste
+
+   /media/servicos/oficina.jpg
+       exibido em 700×560 px  ·  proporção 5:4  ·  exportar 2x
+       alt: Oficina em Indaiatuba
+       slot no assets.ts: IMG.svcOficina
+
+   /media/servicos/preventiva.jpg
+       exibido em 700×560 px  ·  proporção 5:4  ·  exportar 2x
+       alt: Manutenção preventiva
+       slot no assets.ts: IMG.svcPreventiva
+
+   /media/servicos/revisao.jpg
+       exibido em 700×560 px  ·  proporção 5:4  ·  exportar 2x
+       alt: Revisão geral
+       slot no assets.ts: IMG.svcRevisao
+
+── SOBRE
+   /media/sobre/oficina.jpg
+       exibido em 700×540 px  ·  proporção 4:3  ·  exportar 2x
+       alt: Oficina Separi
+       slot no assets.ts: IMG.sobreOficina
+
+==========================================================================
+
+── VÍDEOS  (public/media/home/ e public/media/servicos/)
+
+   hero.mp4      1920x1080, H.264, sem áudio, 10 a 15 s em loop, até 6 MB
+   hero.webm     mesma coisa em VP9. Opcional, mas reduz bastante o peso.
+   hero-poster.jpg  1920x1080. É o primeiro quadro; aparece na hora enquanto
+                    o vídeo carrega, e é o que fica em telas com movimento
+                    reduzido ativado.
+
+   Preencher em: VIDEO.homeHero e VIDEO.servicosHero no assets.ts
+
+==========================================================================
+
+── LOGO  (public/media/brand/)
+
+   separa.svg          versão escura, para a nav depois do scroll e fundos claros
+   separi-branco.svg   versão clara, para a nav por cima do vídeo escuro
+
+   Altura de uso: 26 px na nav, 24 px no rodapé. A largura se ajusta sozinha,
+   sem distorcer. Se a sua logo já tem a palavra SEPARI desenhada, marque
+   BRAND.logoIncludesWordmark = true e o texto ao lado some.
+
+   Favicon e imagem de compartilhamento continuam na raiz de public/:
+   public/favicon.png, public/logo.png, public/og-cover.jpg

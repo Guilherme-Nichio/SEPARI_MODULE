@@ -1,0 +1,83 @@
+/* ============================================================
+   V69 — BREATHING / CLEAN PASS (v2, equilibrado)
+   Objetivo: layout mais "clean" sem espremer o conteúdo.
+
+   O problema original: em monitores grandes o container esticava
+   até 1600–1900px (tela cheia). A v1 desta camada corrigiu demais
+   (1180px) e ficou espremido. Esta versão fica no meio-termo:
+   conteúdo confortável (~1240–1400px) com margens laterais reais.
+   ============================================================ */
+
+/* ---------- 1. LARGURA DO CONTEÚDO ---------- */
+.container { max-width: 1240px; padding: 0 28px; }
+.container-narrow { max-width: 940px; padding: 0 28px; }
+.max-width-text { max-width: 720px; }
+
+@media (min-width: 1280px) {
+  .container { max-width: 1280px; }
+}
+@media (min-width: 1440px) {
+  .container { max-width: 1320px; padding: 0 36px; }
+  .bento-grid { max-width: 1248px; }
+}
+@media (min-width: 1920px) {
+  /* antes: 1600px (tela cheia). agora: 1400px com bastante ar dos lados */
+  .container { max-width: 1400px; padding: 0 44px; }
+  .container-narrow { max-width: 980px; }
+  .bento-grid { max-width: 1312px; }
+}
+@media (min-width: 2560px) {
+  /* antes: 1900px */
+  .container { max-width: 1480px; }
+  .bento-grid { max-width: 1392px; }
+}
+
+/* ---------- 2. RITMO VERTICAL ENTRE SEÇÕES ---------- */
+.section-padding { padding: clamp(84px, 11vw, 140px) 0; }
+.section-padding-sm { padding: clamp(60px, 8vw, 92px) 0; }
+@media (min-width: 2560px) {
+  .section-padding { padding: 160px 0; }
+}
+
+/* ---------- 3. RESPIRO NO CABEÇALHO DE SEÇÃO ---------- */
+.eyebrow { margin-bottom: 16px; }
+.section-title { margin-bottom: 20px; }
+
+/* .mb-50 é o espaçador padrão entre o cabeçalho da seção e o
+   conteúdo (usado em ~33 lugares). */
+.mb-50 { margin-bottom: 64px; }
+.mb-30 { margin-bottom: 36px; }
+
+/* ---------- 4. TEXTO ---------- */
+.text-lg { line-height: 1.72; }
+p { line-height: 1.68; }
+
+/* ---------- 5. GRIDS COM MAIS AR ---------- */
+.grid-2 { gap: 52px; }
+.grid-3 { gap: 30px; }
+.grid-4 { gap: 26px; }
+.gap-60 { gap: 64px; }
+.gap-40 { gap: 46px; }
+.bento-grid { gap: 20px; }
+
+/* ---------- 6. FORMULÁRIOS ---------- */
+.form-group { margin-bottom: 20px; }
+.form-row { gap: 16px; }
+
+/* ---------- 7. MOBILE ---------- */
+@media (max-width: 990px) {
+  .grid-2 { gap: 44px; }
+  .gap-60 { gap: 48px; }
+  .mb-50 { margin-bottom: 48px; }
+}
+@media (max-width: 768px) {
+  .container, .container-narrow { padding: 0 20px; }
+  .section-padding { padding: 76px 0; }
+  .section-padding-sm { padding: 52px 0; }
+  .mb-50 { margin-bottom: 42px; }
+  .bento-grid { gap: 14px; }
+}
+@media (max-width: 480px) {
+  .container, .container-narrow { padding: 0 16px; }
+  .section-padding { padding: 60px 0; }
+}

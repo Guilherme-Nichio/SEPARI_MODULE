@@ -1,0 +1,45 @@
+/* =========================================================================
+   SEPARI — v68 HOME FONT TEST (fonte estilo FLS)
+   --------------------------------------------------------------------------
+   Aplica a fonte "flsFont" SOMENTE na home, para comparar com a 'Outfit'.
+   A classe `.home-font-test` é adicionada ao <body> apenas enquanto a
+   página Home está montada (ver src/pages/Home.jsx). Ao sair da home, a
+   tipografia volta ao normal automaticamente.
+
+   COMO USAR A FONTE REAL DA FLS
+   -----------------------------
+   "flsFont" é uma fonte de marca carregada como arquivo local no site da
+   FLS. Para que ela apareça aqui, coloque o(s) arquivo(s) da fonte em:
+       public/fonts/flsFont.woff2   (e, se tiver, flsFont.woff)
+   Assim que o arquivo existir, a home renderiza com a fonte — sem mexer
+   em mais nada. Enquanto o arquivo não estiver lá, o navegador usa o
+   fallback definido abaixo (uma sans neutra), então dá pra notar na hora
+   se a fonte ainda não foi colocada.
+
+   Se você tiver mais de um peso (regular, medium, bold), me avise que eu
+   adiciono um @font-face para cada peso.
+   ========================================================================= */
+
+@font-face {
+  font-family: "flsFont";
+  src: url("/fonts/flsFont.woff2") format("woff2"),
+       url("/fonts/flsFont.woff")  format("woff");
+  font-weight: 100 900;   /* aceita qualquer peso, ajuste se for estático */
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Fonte aplicada apenas na home.
+   Mantém um fallback neutro do sistema para você perceber claramente
+   quando a fonte real ainda não foi colocada em /public/fonts. */
+/* CORREÇÃO v69: o fallback anterior era uma sans do sistema (Arial/Segoe),
+   então como o arquivo flsFont.woff2 NÃO está em /public/fonts, a home
+   inteira renderizava numa fonte diferente do resto do site — era isso
+   que deixava a página com cara "estranha". Agora o fallback é a própria
+   'Outfit' do site: sem o arquivo da fonte, a home fica idêntica às
+   outras páginas; quando você colocar flsFont.woff2, ela assume sozinha. */
+body.home-font-test {
+  --font-sans: "flsFont", 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "flsFont", 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "flsFont", 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}

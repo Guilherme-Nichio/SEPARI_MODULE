@@ -1,0 +1,146 @@
+/* ============================================================================
+   src/styles/site/_hero-scrim.css
+
+   A camada verde translúcida entre o vídeo e o texto do hero.
+
+   POR QUE ELA EXISTE
+   ------------------
+   O véu original era preto neutro e ficava LITERALMENTE transparente no meio:
+
+       background: linear-gradient(180deg, rgba(0,0,0,.4), transparent 45%, ...)
+
+   Com o gradiente de placeholder por baixo isso passa despercebido. Assim que
+   entra um vídeo de verdade, qualquer quadro claro atravessando a faixa dos
+   45% apaga o texto.
+
+   COMO AJUSTAR
+   ------------
+   Mexa só nas variáveis do bloco abaixo. Elas valem para as três páginas.
+
+       --scrim-verde   a cor do véu (verde escuro Separi)
+       --scrim-tinta   o teal que dá o tom da marca
+       --scrim-topo    opacidade no topo
+       --scrim-meio    opacidade no miolo  <- é esta que salva a legibilidade
+       --scrim-base    opacidade na base
+       --scrim-marca   intensidade do tingimento teal
+
+   Quer mais vídeo aparente? Baixe --scrim-meio para 0.30.
+   Texto sumindo? Suba para 0.55.
+   ========================================================================== */
+
+.sep-home,
+.sep-produtos,
+.sep-servicos {
+  --scrim-verde: 6, 46, 42;      /* #062e2a, verde profundo da marca */
+  --scrim-tinta: 20, 184, 166;   /* #14b8a6, teal Separi */
+  --scrim-topo: 0.82;
+  --scrim-meio: 0.44;
+  --scrim-base: 0.72;
+  --scrim-marca: 0.32;
+}
+
+/* --- HOME: titulo no topo (hero_inner tem padding-top: 150px) ------------- */
+.sep-home .hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(var(--scrim-verde), var(--scrim-topo)) 0%,
+      rgba(var(--scrim-verde), var(--scrim-meio)) 42%,
+      rgba(var(--scrim-verde), var(--scrim-meio)) 62%,
+      rgba(var(--scrim-verde), var(--scrim-base)) 100%
+    ),
+    linear-gradient(
+      142deg,
+      rgba(var(--scrim-tinta), var(--scrim-marca)) 0%,
+      rgba(var(--scrim-tinta), calc(var(--scrim-marca) * 0.45)) 44%,
+      rgba(var(--scrim-verde), 0) 78%
+    );
+}
+
+/* --- SERVICOS e PRODUTOS: texto na base (padding-bottom: 90px) ------------ */
+.sep-servicos .hero::after,
+.sep-produtos .hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(var(--scrim-verde), 0.62) 0%,
+      rgba(var(--scrim-verde), var(--scrim-meio)) 34%,
+      rgba(var(--scrim-verde), 0.62) 68%,
+      rgba(var(--scrim-verde), 0.9) 100%
+    ),
+    linear-gradient(
+      142deg,
+      rgba(var(--scrim-tinta), var(--scrim-marca)) 0%,
+      rgba(var(--scrim-tinta), calc(var(--scrim-marca) * 0.45)) 46%,
+      rgba(var(--scrim-verde), 0) 78%
+    );
+}
+
+/* --- telas pequenas: o texto ocupa quase toda a altura -------------------- */
+@media (max-width: 780px) {
+  .sep-home,
+  .sep-produtos,
+  .sep-servicos {
+    --scrim-meio: 0.62;
+    --scrim-topo: 0.84;
+    --scrim-base: 0.88;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Empilhamento do hero, para referencia de quem for mexer:
+
+     .hero                position: relative; overflow: hidden
+       - <video>          z-index: -2   <- o video
+       - .video_fallback  z-index: -2   <- gradiente de reserva, atras dele
+       - ::after          z-index: -1   <- ESTA camada
+       - .hero_inner      position: absolute, z-index auto  <- o texto, por cima
+
+   Os z-index negativos funcionam porque .sep-site tem `isolation: isolate`,
+   criando um contexto de empilhamento proprio: eles ficam atras do conteudo do
+   hero, mas nunca escapam para tras da pagina.
+   ------------------------------------------------------------------------- */
+
+/* ============================================================================
+   CORREÇÃO DE EMPILHAMENTO DO HERO
+
+   O CSS original agrupa o <video> e o .video_fallback na mesma regra, os dois
+   com z-index: -2:
+
+       .hero video, .hero .video_fallback { ...; z-index: -2 }
+
+   Empatados no z-index, quem vence é quem vem por último no DOM — e o
+   fallback vem depois do vídeo. Como ele termina num linear-gradient opaco,
+   ele tapa o vídeo inteiro. O bug fica invisível enquanto não existe vídeo,
+   porque aí o fallback é a única coisa na tela.
+
+   Aqui o fallback desce para -3. Ele continua sendo o fundo quando não há
+   vídeo, e passa a ficar atrás dele quando há.
+
+   Camadas finais:
+       -3  .video_fallback   gradiente de reserva
+       -2  <video>           o vídeo
+       -1  ::after           o véu verde da marca
+     auto  .hero_inner       o texto
+   ========================================================================== */
+
+.sep-home .hero .video_fallback,
+.sep-servicos .hero .video_fallback,
+.sep-produtos .hero .video_fallback {
+  z-index: -3;
+}
+
+/* Em Produtos e Serviços o hero também aceita imagem de fundo (.bg).
+   Ela é alternativa ao vídeo, então fica na mesma camada dele. */
+.sep-servicos .hero .bg,
+.sep-produtos .hero .bg {
+  z-index: -2;
+}

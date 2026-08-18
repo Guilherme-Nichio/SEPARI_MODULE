@@ -1,0 +1,180 @@
+/* =========================================================================
+   SEPARI — v71 — Sem "tags", setores com foto, TOC flutuante e Peças
+   1) .eyebrow deixa de ser um chip/pill e vira um rótulo tipográfico quieto
+      (nada no site lê mais como "tag")
+   2) SectorStrip: setores de Separadoras/Centrífugas com foto duotone teal
+   3) sv-toc (menu flutuante de Serviços): vidro claro, na linguagem da navbar
+   4) Peças: abas viram filtros com sublinhado (menos "botões"), cards polidos
+   ========================================================================= */
+
+/* ───────────────────────────────────────────────────────────────
+   1. EYEBROW → rótulo tipográfico (sem borda, sem fundo, sem pill)
+   ─────────────────────────────────────────────────────────────── */
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 0; border: 0; background: none; border-radius: 0;
+  font-size: 0.74rem; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--teal-dark);
+  margin-bottom: 16px;
+}
+.eyebrow::before {
+  content: ''; width: 26px; height: 2px; border-radius: 2px;
+  background: var(--teal);
+}
+.eyebrow svg { display: none; }
+.eyebrow.on-dark { color: #5eead4; border: 0; background: none; }
+.eyebrow.on-dark::before { background: #5eead4; }
+
+/* ───────────────────────────────────────────────────────────────
+   2. SECTORSTRIP — setores com foto (Separadoras / Centrífugas)
+   ─────────────────────────────────────────────────────────────── */
+.secstrip {
+  display: grid;
+  grid-template-columns: repeat(var(--n, 5), 1fr);
+  gap: 16px;
+}
+.secstrip-card {
+  position: relative; display: block; height: 210px;
+  border-radius: 16px; overflow: hidden;
+  background: var(--teal-darker); isolation: isolate;
+}
+.secstrip-photo {
+  position: absolute; inset: 0; z-index: 1;
+  background-image: var(--p);
+  background-size: cover; background-position: center;
+  filter: grayscale(0.6) contrast(1.06) brightness(0.82) saturate(0.85);
+  transition: filter .6s var(--ease-out), transform .7s var(--ease-out);
+}
+.secstrip-veil {
+  position: absolute; inset: 0; z-index: 2;
+  background: linear-gradient(165deg, rgba(0,98,96,0.58) 0%, rgba(0,45,44,0.88) 100%);
+  transition: opacity .6s var(--ease-out);
+}
+.secstrip-card:hover .secstrip-photo { filter: none; transform: scale(1.05); }
+.secstrip-card:hover .secstrip-veil { opacity: 0.18; }
+.secstrip-foot {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 3;
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 16px;
+  background: linear-gradient(to top, rgba(3,16,16,0.85) 0%, rgba(3,16,16,0.12) 70%, transparent 100%);
+}
+.secstrip-name {
+  font-family: var(--font-display); font-weight: 600; font-size: 0.98rem;
+  color: #fff; letter-spacing: -0.01em; line-height: 1.2;
+}
+.secstrip-go {
+  flex: 0 0 auto; width: 28px; height: 28px; display: grid; place-items: center;
+  border-radius: 999px; color: #fff; border: 1px solid rgba(255,255,255,0.45);
+  transition: .3s var(--ease-out);
+}
+.secstrip-card:hover .secstrip-go { background: #fff; color: var(--teal-dark); border-color: #fff; }
+@media (max-width: 1024px) { .secstrip { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 640px)  { .secstrip { grid-template-columns: repeat(2, 1fr); } .secstrip-card { height: 170px; } }
+
+/* ───────────────────────────────────────────────────────────────
+   3. SV-TOC — menu flutuante de Serviços em vidro claro
+   (substitui a caixa azul escura do v64 pela linguagem da navbar)
+   ─────────────────────────────────────────────────────────────── */
+.sv-toc {
+  background: rgba(255, 255, 255, 0.82);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  backdrop-filter: blur(20px) saturate(170%);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 18px 14px;
+  box-shadow: 0 24px 55px -32px rgba(8, 30, 30, 0.35);
+  width: clamp(180px, 12vw, 210px);
+}
+.sv-toc-label {
+  color: var(--text-muted);
+  padding-left: 12px; margin-bottom: 12px;
+}
+.sv-toc ul { position: relative; list-style: none; margin: 0; padding: 0; }
+.sv-toc ul::before { display: none; }
+.sv-toc-link {
+  display: flex; align-items: center; gap: 10px; width: 100%;
+  background: none; border: 0; cursor: pointer; text-align: left;
+  padding: 9px 12px; border-radius: 12px;
+  transition: background .25s var(--ease-out);
+}
+.sv-toc-link:hover { background: var(--teal-pale); }
+.sv-toc-dot {
+  flex: 0 0 auto; width: 7px; height: 7px; border-radius: 50%;
+  background: transparent; border: 1.5px solid var(--gray-300, #cbd5d5);
+  box-shadow: none;
+  transition: .25s var(--ease-out);
+}
+.sv-toc-text {
+  font-size: 0.85rem; font-weight: 550; color: var(--text-light);
+  transition: color .25s var(--ease-out);
+}
+.sv-toc-link:hover .sv-toc-text { color: var(--teal-dark); }
+.sv-toc-link:hover .sv-toc-dot { border-color: var(--teal); }
+.sv-toc-link.is-active {
+  background: linear-gradient(90deg, rgba(0,169,157,0.14), rgba(0,169,157,0.05));
+}
+.sv-toc-link.is-active .sv-toc-dot {
+  background: var(--teal-dark); border-color: var(--teal-dark);
+  box-shadow: 0 0 0 4px rgba(0,169,157,0.18);
+}
+.sv-toc-link.is-active .sv-toc-text { color: var(--teal-dark); font-weight: 700; }
+
+/* ───────────────────────────────────────────────────────────────
+   4. PEÇAS — menos botões, mais catálogo
+   ─────────────────────────────────────────────────────────────── */
+/* abas de máquina: de pills soltas para filtros com sublinhado animado */
+.pcx-tabs {
+  gap: 30px; margin-bottom: 44px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0;
+}
+.pcx-tab {
+  position: relative;
+  background: none !important; border: 0 !important; border-radius: 0;
+  padding: 0 2px 14px;
+  color: var(--ink-soft); box-shadow: none !important;
+}
+.pcx-tab::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px;
+  background: var(--teal-dark);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .3s var(--ease-out);
+}
+.pcx-tab:hover { color: var(--teal-dark); }
+.pcx-tab.active { color: var(--teal-dark) !important; }
+.pcx-tab.active::after { transform: scaleX(1); }
+
+/* descrição da máquina ativa: centralizada e mais leve */
+.pcx-machine-tag {
+  font-size: 0.74rem; font-weight: 700; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--teal-dark);
+  text-align: center; margin-bottom: 8px;
+}
+.pcx-machine-desc {
+  text-align: center; color: var(--text-light);
+  max-width: 640px; margin: 0 auto 44px; line-height: 1.7;
+}
+
+/* cards de peça: hairline + elevação suave, imagem com respiro */
+.pcx-part {
+  border: 1px solid var(--line); border-radius: 18px;
+  background: #fff; overflow: hidden;
+  transition: box-shadow .35s var(--ease-out), transform .35s var(--ease-out);
+}
+.pcx-part:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 26px 50px -30px rgba(0, 60, 58, 0.35);
+}
+.pcx-part-img.imgslot { border-radius: 0; border: 0; border-bottom: 1px solid var(--line); }
+.pcx-part-body h3 { letter-spacing: -0.01em; }
+
+/* comparativo OEM × equivalente: bordas e sombras alinhadas ao resto */
+.pcx-compare-card {
+  border-radius: 20px;
+  box-shadow: 0 24px 50px -34px rgba(8, 30, 30, 0.3);
+}
+.pcx-compare-badge {
+  border-radius: 999px;
+  letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.72rem;
+}

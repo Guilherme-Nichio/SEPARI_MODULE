@@ -1,0 +1,463 @@
+/* =========================================================================
+   SEPARI — v73 — Peças v2 (carregado por último)
+   Novas seções da página de Peças (visitante), inspiradas em catálogos de
+   spare parts por tipo de equipamento:
+   1. Grade "Peças por tipo de equipamento" (navegação por categoria)
+   2. "Qual é o tipo da sua máquina?" — escada por teor de sólidos
+   3. Ampla seleção de peças (lista A–Z) + faixa de logística
+   ========================================================================= */
+
+/* ───────────────── 1. GRADE DE CATEGORIAS ───────────────── */
+.pcx-cats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.pcx-cat {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  text-align: left;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--line);
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+  transition: transform 0.3s var(--ease-out), border-color 0.3s, box-shadow 0.3s;
+}
+.pcx-cat:hover {
+  transform: translateY(-4px);
+  border-color: var(--teal-light);
+  box-shadow: 0 24px 46px -30px rgba(0, 131, 127, 0.45);
+}
+.pcx-cat-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: #eef4f3;
+  background-image: var(--p);
+  background-size: cover, cover;
+  background-position: center, center;
+  filter: saturate(0.94);
+  transition: filter 0.35s var(--ease-out);
+}
+.pcx-cat:hover .pcx-cat-photo { filter: saturate(1.05); }
+.pcx-cat-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 18px 18px;
+  flex: 1;
+}
+.pcx-cat-body h3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.04rem;
+  color: var(--ink);
+  margin: 0;
+}
+.pcx-cat-body h3 svg {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  transition: color 0.25s, transform 0.25s var(--ease-out);
+}
+.pcx-cat:hover .pcx-cat-body h3 svg {
+  color: var(--teal-dark);
+  transform: translateX(3px);
+}
+.pcx-cat-body p {
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin: 0;
+}
+@media (max-width: 960px) { .pcx-cats { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .pcx-cats { grid-template-columns: 1fr; } }
+
+/* ───────────────── 2. TIPOS DE MÁQUINA (escada de sólidos) ───────────────── */
+.pcx-types-band {
+  background:
+    radial-gradient(90% 70% at 12% 0%, rgba(0, 169, 157, 0.14) 0%, transparent 60%),
+    linear-gradient(160deg, #06181a 0%, #0b2b28 55%, #06181a 100%);
+  color: #fff;
+}
+.pcx-types-head {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(24px, 5vw, 64px);
+  align-items: end;
+  margin-bottom: clamp(30px, 5vw, 46px);
+}
+.pcx-types-head .section-title { color: #fff; margin: 0; }
+.pcx-types-head p {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+.pcx-types {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.pcx-types > .reveal { display: flex; height: 100%; }
+.pcx-types > .reveal > * { width: 100%; height: 100%; }
+.pcx-type {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  padding: 22px 22px 24px;
+  transition: transform 0.3s var(--ease-out), border-color 0.3s, background 0.3s;
+}
+.pcx-type:hover {
+  transform: translateY(-3px);
+  border-color: rgba(0, 169, 157, 0.5);
+  background: rgba(0, 169, 157, 0.08);
+}
+.pcx-type-sub {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+.pcx-type h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.18rem;
+  letter-spacing: -0.01em;
+  color: #fff;
+  margin: 0;
+}
+.pcx-type-meter {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+  margin-top: 4px;
+}
+.pcx-type-meter-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #5eead4 0%, #00a99d 100%);
+}
+.pcx-type-solids {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #5eead4;
+}
+.pcx-type p {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.72);
+  margin: 0;
+  flex: 1;
+}
+.pcx-type-go {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  align-self: flex-start;
+  margin-top: 8px;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: #5eead4;
+  transition: gap 0.25s var(--ease-out), color 0.25s;
+}
+.pcx-type-go:hover { gap: 11px; color: #fff; }
+.pcx-types-note {
+  margin: 26px auto 0;
+  max-width: 640px;
+  text-align: center;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.66);
+}
+.pcx-types-note a { color: #5eead4; font-weight: 600; }
+.pcx-types-note a:hover { color: #fff; text-decoration: underline; }
+@media (max-width: 1060px) { .pcx-types { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 860px) { .pcx-types-head { grid-template-columns: 1fr; align-items: start; } }
+@media (max-width: 560px) { .pcx-types { grid-template-columns: 1fr; } }
+
+/* ───────────────── 3. SELEÇÃO A–Z + LOGÍSTICA ───────────────── */
+.pcx-az {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px clamp(24px, 4vw, 56px);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.pcx-az-col {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.pcx-az-col li {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+.pcx-az-col li svg {
+  flex-shrink: 0;
+  margin-top: 3px;
+  color: var(--teal);
+}
+@media (max-width: 860px) { .pcx-az { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .pcx-az { grid-template-columns: 1fr; } }
+
+.pcx-logistics {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px clamp(20px, 3vw, 40px);
+  justify-content: space-between;
+  max-width: 1000px;
+  margin: clamp(36px, 5vw, 52px) auto 0;
+  padding: 22px 26px;
+  background: var(--bg-subtle, #f7faf9);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+.pcx-logistics-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.pcx-logistics-item svg { flex-shrink: 0; color: var(--teal); }
+.pcx-logistics-item strong {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+.pcx-logistics-item span {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+@media (max-width: 860px) {
+  .pcx-logistics { flex-direction: column; align-items: stretch; }
+  .pcx-logistics .btn { justify-content: center; }
+}
+
+/* ───────────────── 4. KITS DE SERVIÇO (Geral / Tambor / Monte seu kit) ───── */
+.kit3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.kit3 > .reveal { display: flex; height: 100%; }
+.kit3 > .reveal > * { width: 100%; height: 100%; }
+.kit3-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 28px 26px 30px;
+  transition: transform 0.3s var(--ease-out), border-color 0.3s, box-shadow 0.3s;
+}
+.kit3-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--teal-light);
+  box-shadow: 0 24px 46px -30px rgba(0, 131, 127, 0.4);
+}
+.kit3-icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  background: var(--teal-pale);
+  color: var(--teal-dark);
+  margin-bottom: 4px;
+}
+.kit3-card h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.28rem;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0;
+}
+.kit3-card > p {
+  font-size: 0.93rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin: 0;
+}
+.kit3-list {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 14px 0 0;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.kit3-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 0.88rem;
+  color: var(--ink);
+  font-weight: 500;
+}
+.kit3-list li svg { flex-shrink: 0; margin-top: 2px; color: var(--teal); }
+
+/* card destacado: monte seu kit */
+.kit3-card-featured {
+  background: linear-gradient(160deg, #0c2a2a 0%, #06181a 100%);
+  border-color: rgba(0, 169, 157, 0.35);
+}
+.kit3-card-featured:hover { border-color: rgba(0, 169, 157, 0.65); }
+.kit3-card-featured .kit3-icon { background: rgba(0, 169, 157, 0.18); color: #5eead4; }
+.kit3-card-featured h3 { color: #fff; }
+.kit3-card-featured > p { color: rgba(255, 255, 255, 0.74); }
+.kit3-ctas {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 16px;
+}
+.kit3-cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: #5eead4;
+  transition: color 0.25s;
+}
+.kit3-cta-link:hover { color: #fff; text-decoration: underline; }
+@media (max-width: 960px) { .kit3 { grid-template-columns: 1fr; max-width: 560px; } }
+
+/* ───────────────── 5. OFERTA — cards limpos como links ───────────────── */
+.pcx-part-link {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s var(--ease-out), border-color 0.3s, box-shadow 0.3s;
+}
+.pcx-part-link:hover {
+  transform: translateY(-3px);
+  border-color: var(--teal-light);
+  box-shadow: 0 20px 40px -28px rgba(0, 131, 127, 0.4);
+}
+.pcx-part-link .pcx-part-body h3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.pcx-part-link .pcx-part-body h3 svg {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  transition: color 0.25s, transform 0.25s var(--ease-out);
+}
+.pcx-part-link:hover .pcx-part-body h3 svg {
+  color: var(--teal-dark);
+  transform: translateX(3px);
+}
+.pcx-oferta-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 34px;
+}
+.pcx-oferta-cta-link {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.pcx-oferta-cta-link:hover { color: var(--teal-dark); text-decoration: underline; }
+/* sem os botões antigos, o corpo do card não precisa mais do respiro extra */
+.pcx-part-link .pcx-part-body { padding-bottom: 22px; }
+
+/* ───────────────── 6. RÉGUA DE SÓLIDOS + medidores animados ───────────────── */
+.pcx-types-scale {
+  max-width: 560px;
+  margin: 0 auto clamp(24px, 4vw, 34px);
+  text-align: center;
+}
+.pcx-types-scale-label {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 10px;
+}
+.pcx-types-scale-bar {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 12px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #5eead4;
+}
+.pcx-types-scale-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(94, 234, 212, 0.25) 0%, #5eead4 45%, #00a99d 100%);
+}
+.pcx-types-scale-bar span { position: relative; }
+.pcx-types-scale-bar span::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.55);
+}
+.pcx-types-scale-bar span:first-child::before { left: 1px; transform: none; }
+.pcx-types-scale-bar span:last-child::before { left: auto; right: 1px; transform: none; }
+
+/* o preenchimento anima quando o card entra na tela (classe .is-visible do Reveal) */
+.pcx-type-meter-fill {
+  width: 0;
+  transition: width 1.1s var(--ease-out) 0.25s;
+}
+.reveal.is-visible .pcx-type-meter-fill { width: var(--w, 0%); }

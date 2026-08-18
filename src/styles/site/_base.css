@@ -1,0 +1,116 @@
+/* ============================================================================
+   CAMADA DE ISOLAMENTO — src/styles/site/_base.css
+
+   As páginas novas (Home, Produtos, Peças, Serviços, Sobre) foram desenhadas
+   como HTML solto, sem o CSS da plataforma por baixo. Como o Vite injeta TODO
+   o CSS importado de forma global, as ~24.500 linhas de CSS legado ficam
+   presentes na página e vazam para dentro do design novo.
+
+   Este arquivo devolve, dentro de `.sep-site`, exatamente os valores default
+   do navegador que as páginas tinham quando eram HTML puro. Precisa ser
+   importado ANTES dos CSS de página (home.css, produtos.css, ...), porque a
+   especificidade empata e quem vem depois vence.
+
+   O que está sendo neutralizado, regra por regra (auditado no CSS legado):
+     globals.css  * { font-family: var(--font-sans) }      <- pega TUDO
+     globals.css  p { margin-bottom: 12px }
+     globals.css  h1..h6 { font-weight: 800; letter-spacing; line-height; color }
+     v66/v67      h1..h6 { font-family: var(--font-display); font-weight: 600 }
+     globals.css  table { border-collapse: collapse }
+     globals.css  button { font: inherit }
+     v51..v69     body { line-height; letter-spacing; font-weight }
+     v6x          html { font-size: 17px / 19px; scroll-padding-top: 132..186px }
+
+   A classe `.reveal` do design novo foi renomeada para `.sep_reveal` porque o
+   legado tem `.reveal { transform: none !important }`, e !important não pode
+   ser vencido por especificidade.
+   ========================================================================== */
+
+/* --- raiz: só vale enquanto uma rota do site novo está montada -------------- */
+html.sep-route {
+  font-size: 16px;            /* anula html { font-size: 17px / 19px } do legado */
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;   /* altura da nav fixa do design novo */
+}
+
+/* --- o container das páginas novas ---------------------------------------- */
+.sep-site {
+  /* devolve os defaults que o <body> tinha no HTML original */
+  line-height: normal;
+  letter-spacing: normal;
+  font-weight: 400;
+  text-rendering: auto;
+  min-height: 100vh;
+  position: relative;
+  isolation: isolate;
+}
+
+/* mata o `* { font-family: var(--font-sans) }` do globals.css.
+   Herança sozinha não resolve: uma declaração direta sempre vence herança. */
+.sep-site,
+.sep-site *,
+.sep-site *::before,
+.sep-site *::after {
+  font-family: inherit;
+}
+
+/* títulos: defaults de navegador. O CSS de cada página redefine por cima. */
+.sep-site h1,
+.sep-site h2,
+.sep-site h3,
+.sep-site h4,
+.sep-site h5,
+.sep-site h6 {
+  font-weight: bold;
+  letter-spacing: normal;
+  line-height: normal;
+  color: inherit;
+}
+
+/* parágrafos: o design novo zera margens no próprio reset (`* { margin: 0 }`),
+   mas o legado tem `p { margin-bottom: 12px }`, que é mais específico. */
+.sep-site p {
+  margin: 0;
+  line-height: inherit;
+  letter-spacing: inherit;
+  font-weight: inherit;
+}
+
+.sep-site a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.sep-site button {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+}
+
+/* tabelas: default do navegador. produtos.css e servicos.css pedem
+   `border-collapse: collapse` explicitamente onde precisam. */
+.sep-site table {
+  border-collapse: separate;
+  border-spacing: 2px;
+}
+
+.sep-site img,
+.sep-site svg {
+  display: inline;
+  max-width: none;
+}
+
+/* vídeo de fundo é sempre bloco posicionado; `inline` deixava um baseline
+   gap e atrapalhava o object-fit em alguns navegadores */
+.sep-site video {
+  display: block;
+  max-width: none;
+}
+
+/* a plataforma antiga renderiza Navbar/ClientNav/Footer próprios.
+   Em rota do site novo eles não são montados, mas se algum CSS legado
+   tentar reservar espaço no topo, isto garante que não sobra offset. */
+body:has(.sep-site) > main {
+  padding-top: 0;
+  margin-top: 0;
+}

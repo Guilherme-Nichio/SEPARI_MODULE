@@ -1,0 +1,567 @@
+/* ============================================================================
+   v81 — AVISO "EM CONSTRUÇÃO", CENTRIFUGUINHA E FECHAMENTO DA RESPONSIVIDADE
+
+   Importado por ÚLTIMO no main.jsx, depois do v79 e do v80. Segue a mesma
+   regra dos arquivos anteriores: não redesenha nada que já existe, só
+   acrescenta o que é novo e tapa os buracos que sobraram.
+
+   ÍNDICE
+     1 . Aviso "estamos trabalhando nessa plataforma" (modal, bloco e página)
+     2 . A centrifuguinha girando
+     3 . Botões e links travados enquanto a plataforma não está no ar
+     4 . Heros com vídeo — as quatro páginas, em qualquer tela
+     5 . Tipografia fluida das páginas novas (estoque, segmentos, catálogo)
+     6 . Últimos ajustes de responsividade
+   ========================================================================== */
+
+
+/* ============================================================================
+   1. O AVISO
+
+   ATENÇÃO À ESPECIFICIDADE: o modal é renderizado pelo EmBreveProvider, que
+   mora no App.jsx — ou seja, FORA de `.sep-site`. Todo o CSS de botão deste
+   projeto está escopado por página (`.sep-pecas .btn`, `.sep-home .btn`…),
+   então um `.btn` solto aqui dentro não herdaria estilo nenhum e sairia como
+   botão cru do navegador. Por isso os botões do aviso são estilizados aqui,
+   por completo, sem depender de nada.
+   ========================================================================== */
+
+.sep-embreve_scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 4000;                 /* acima da nav fixa (que fica na casa dos 100) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  padding-top: max(20px, env(safe-area-inset-top));
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
+  background: rgba(4, 22, 20, 0.62);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  animation: sep-embreve-fade .22s ease both;
+  overflow-y: auto;              /* celular deitado: o aviso rola em vez de cortar */
+}
+
+@keyframes sep-embreve-fade {
+  from { opacity: 0 }
+  to   { opacity: 1 }
+}
+
+.sep-embreve_modal {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  margin: auto;
+  background: #fff;
+  border-radius: 24px;
+  padding: 46px 40px 36px;
+  text-align: center;
+  box-shadow: 0 30px 80px rgba(4, 22, 20, .34);
+  animation: sep-embreve-up .28s cubic-bezier(.2, .7, .3, 1) both;
+}
+
+@keyframes sep-embreve-up {
+  from { opacity: 0; transform: translateY(16px) scale(.97) }
+  to   { opacity: 1; transform: none }
+}
+
+.sep-embreve_modal h2 {
+  font-family: var(--display, 'Space Grotesk', sans-serif);
+  font-size: clamp(24px, 4.6vw, 31px);
+  font-weight: 600;
+  letter-spacing: -1px;
+  line-height: 1.12;
+  color: var(--ink, #0b1f1c);
+  margin: 22px 0 0;
+}
+
+.sep-embreve_modal p {
+  font-family: var(--body, Inter, sans-serif);
+  font-size: 16px;
+  line-height: 1.62;
+  color: var(--muted, #4a5a64);
+  margin: 16px 0 0;
+}
+
+/* botão de fechar, no canto */
+.sep-embreve_x {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted, #4a5a64);
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease;
+}
+.sep-embreve_x:hover { background: rgba(11, 31, 28, .07); color: var(--ink, #0b1f1c); }
+.sep-embreve_x:focus-visible { outline: 2px solid var(--teal, #14b8a6); outline-offset: 2px; }
+
+/* ── versão em bloco: ocupa o lugar da grade do estoque ──────────────────── */
+.sep-embreve_bloco {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 56px 32px 52px;
+  border: 1px solid rgba(11, 31, 28, .1);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(20, 184, 166, .07), transparent 62%),
+    #fff;
+}
+
+.sep-embreve_bloco h3 {
+  font-family: var(--display, 'Space Grotesk', sans-serif);
+  font-size: clamp(23px, 4.2vw, 30px);
+  font-weight: 600;
+  letter-spacing: -.9px;
+  line-height: 1.14;
+  color: var(--ink, #0b1f1c);
+  margin: 20px 0 0;
+}
+
+.sep-embreve_bloco p {
+  font-family: var(--body, Inter, sans-serif);
+  font-size: 16.5px;
+  line-height: 1.65;
+  color: var(--muted, #4a5a64);
+  margin: 16px auto 0;
+  max-width: 500px;
+}
+
+/* ── versão em página inteira: /registro enquanto está bloqueado ─────────── */
+.sep-embreve_pagina {
+  min-height: 78vh;
+  display: flex;
+  align-items: center;
+  padding: clamp(120px, 20vw, 180px) 0 clamp(70px, 12vw, 120px);
+}
+.sep-embreve_pagina .wrap {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 clamp(18px, 4vw, 40px);
+}
+
+/* ── os caminhos de contato, comuns às três versões ──────────────────────── */
+.sep-embreve_acoes,
+.sep-embreve_extra {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 26px;
+}
+.sep-embreve_extra { margin-top: 14px; }
+
+/* Botões desenhados por inteiro aqui — ver a nota no topo desta seção. */
+.sep-embreve_acoes .btn,
+.sep-embreve_extra .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 999px;
+  padding: 15px 30px;
+  font-family: var(--body, Inter, sans-serif);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform .15s ease, background .2s ease, color .2s ease, border-color .2s ease;
+}
+.sep-embreve_acoes .btn_solid,
+.sep-embreve_extra .btn_solid {
+  background: var(--teal, #14b8a6);
+  color: #fff;
+}
+.sep-embreve_acoes .btn_solid:hover,
+.sep-embreve_extra .btn_solid:hover { background: var(--teal_deep, #0e7c70); }
+
+.sep-embreve_acoes .btn_line,
+.sep-embreve_extra .btn_line {
+  background: transparent;
+  border: 1.5px solid rgba(11, 31, 28, .22);
+  color: var(--ink, #0b1f1c);
+}
+.sep-embreve_acoes .btn_line:hover,
+.sep-embreve_extra .btn_line:hover { border-color: var(--teal, #14b8a6); color: var(--teal_deep, #0e7c70); }
+
+.sep-embreve_contatos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+  font-family: var(--body, Inter, sans-serif);
+  font-size: 15px;
+  font-weight: 500;
+}
+.sep-embreve_contatos a {
+  color: var(--teal_deep, #0e7c70);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(20, 184, 166, .32);
+  padding-bottom: 1px;
+}
+.sep-embreve_contatos a:hover { border-bottom-color: currentColor; }
+.sep-embreve_contatos span { color: rgba(11, 31, 28, .3) }
+
+.sep-embreve_nota {
+  font-family: var(--body, Inter, sans-serif);
+  font-size: 13.5px !important;
+  color: rgba(74, 90, 100, .8) !important;
+  margin-top: 20px !important;
+}
+
+.sep-embreve_voltar {
+  margin-top: 26px;
+  border: none;
+  background: transparent;
+  font-family: var(--body, Inter, sans-serif);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--muted, #4a5a64);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.sep-embreve_voltar:hover { color: var(--ink, #0b1f1c); }
+
+
+/* ============================================================================
+   2. A CENTRIFUGUINHA
+
+   Três movimentos independentes, como na máquina real: o conjunto de pratos
+   gira rápido, o anel de sólidos gira devagar no sentido oposto e as
+   gotículas são lançadas para fora pela força centrífuga.
+   ========================================================================== */
+
+.sep-centrifuga {
+  display: inline-block;
+  line-height: 0;
+  color: var(--ink, #0b1f1c);   /* o `currentColor` do SVG sai daqui */
+}
+
+.sep-centrifuga_pratos {
+  transform-origin: 60px 60px;
+  animation: sep-girar .85s linear infinite;
+}
+
+.sep-centrifuga_anel {
+  transform-origin: 60px 60px;
+  animation: sep-girar 6s linear infinite reverse;
+}
+
+.sep-centrifuga_gotas circle {
+  animation: sep-gota 1.6s ease-out infinite;
+}
+
+@keyframes sep-girar {
+  to { transform: rotate(360deg) }
+}
+
+/* A gota nasce no eixo, é atirada para a parede do tambor e some. O `cx`
+   anima junto com a opacidade para o movimento parecer com o de verdade. */
+@keyframes sep-gota {
+  0%        { opacity: 0; transform: translateX(0) }
+  18%       { opacity: .95 }
+  75%       { opacity: .35 }
+  100%      { opacity: 0; transform: translateX(46px) }
+}
+
+/* Dentro do modal, sobre fundo branco, o contorno pede um cinza mais suave. */
+.sep-embreve_modal .sep-centrifuga,
+.sep-embreve_bloco .sep-centrifuga { color: #123b36; }
+
+/* Movimento reduzido: a peça continua desenhada, apenas parada. Quem tem
+   sensibilidade a movimento não perde informação nenhuma. */
+@media (prefers-reduced-motion: reduce) {
+  .sep-centrifuga_pratos,
+  .sep-centrifuga_anel,
+  .sep-centrifuga_gotas circle { animation: none }
+  .sep-centrifuga_gotas { opacity: .5 }
+  .sep-embreve_scrim,
+  .sep-embreve_modal { animation: none }
+}
+
+
+/* ============================================================================
+   3. BOTÕES TRAVADOS
+
+   Enquanto a plataforma do cliente está em construção, os botões que levavam
+   a ela continuam no lugar, com o mesmo texto — só ganham um ar de
+   "desativado" para o visitante entender antes de clicar. Nada é escondido:
+   o clique abre o aviso.
+   ========================================================================== */
+
+.is_embreve {
+  opacity: .72;
+  cursor: help;
+}
+.is_embreve:hover { opacity: .9 }
+
+/* O `is_ink` substitui um `style="color: var(--ink)"` que estava inline num
+   dos botões da página de Peças e que se perdeu ao trocar o <button> pelo
+   componente. Mesma cor, agora em arquivo. */
+.sep-site .btn_line.is_ink { color: var(--ink, #0b1f1c) }
+
+/* No celular, os botões de conta ficam lado a lado no menu deslizante e não
+   podem encolher a ponto de o texto quebrar no meio. */
+@media (max-width: 980px) {
+  .sep-site .nav_drawer_actions .btn { flex: 1 1 140px; justify-content: center }
+}
+
+
+/* ============================================================================
+   4. HEROS COM VÍDEO — HOME, PRODUTOS, SERVIÇOS E SOBRE
+
+   O v77 já tinha resolvido `100vh → 100svh` para Home, Produtos e Serviços.
+   O Sobre ficou de fora porque só virou hero de vídeo no v80, que é importado
+   DEPOIS do v77 e devolveu o `height: 100vh; min-height: 660px`. Sem esta
+   regra, no iPhone o hero do Sobre nasce mais alto que a tela e o botão
+   "Falar com especialista" fica abaixo da dobra.
+   ========================================================================== */
+
+.sep-sobre .hero {
+  height: 100vh;                        /* reserva para navegador antigo */
+  height: 100svh;
+  min-height: min(660px, 100svh);
+}
+
+/* O vídeo cobre exatamente a caixa do hero, seja qual for a proporção da
+   tela. Repetido aqui com a mesma especificidade do inline para garantir que
+   nenhuma regra herdada do CSS legado (que tem `.hero video { z-index: -2 }`
+   em três arquivos) tire o vídeo da frente do gradiente de fallback. */
+.sep-site .sep-herovideo {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.sep-site .sep-herovideo video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  max-width: none;                      /* anula a rede de segurança global */
+}
+
+/* Celular deitado: o hero de tela cheia vira uma faixa de 380px de altura e o
+   título grande não cabe. Solta a altura e deixa o conteúdo mandar — o vídeo
+   acompanha, porque é `object-fit: cover` sobre a caixa real. */
+@media (max-height: 560px) and (orientation: landscape) {
+  .sep-home .hero,
+  .sep-produtos .hero,
+  .sep-servicos .hero,
+  .sep-sobre .hero {
+    height: auto;
+    min-height: 0;
+    padding: 110px 0 70px;
+  }
+  .sep-home .hero_inner,
+  .sep-produtos .hero_inner,
+  .sep-servicos .hero_inner,
+  .sep-sobre .hero_inner {
+    position: relative;
+    height: auto;
+  }
+}
+
+/* Conexão lenta ou vídeo ainda decodificando: o gradiente de fallback fica
+   por baixo, então nunca aparece retângulo preto. */
+.sep-site .hero .video_fallback { z-index: 0 }
+
+
+/* ============================================================================
+   5. TIPOGRAFIA FLUIDA DAS PÁGINAS NOVAS
+
+   O v77 escalou os títulos de Home, Produtos, Peças, Serviços e Sobre com
+   `clamp()`, mas as páginas do v79 (estoque, segmentos e catálogo) nasceram
+   depois e ficaram com o salto seco no breakpoint de 980px: 46px de um lado,
+   tamanho cheio do outro. Aqui elas entram na mesma escala contínua.
+   ========================================================================== */
+
+.sep-estoque .hero h1,
+.sep-segmentos .hero h1 {
+  font-size: clamp(36px, 6.6vw, 84px);
+  letter-spacing: clamp(-3.2px, -.24vw, -1px);
+}
+.sep-estoque h2,
+.sep-segmentos h2,
+.sep-catalogo h2 {
+  font-size: clamp(28px, 4.3vw, 58px);
+  letter-spacing: clamp(-2.4px, -.17vw, -.9px);
+}
+.sep-estoque .det_side h1,
+.sep-catalogo .cat_head h1 {
+  font-size: clamp(30px, 4.4vw, 54px);
+  letter-spacing: clamp(-2.2px, -.16vw, -.9px);
+}
+.sep-estoque .lead,
+.sep-segmentos .lead,
+.sep-catalogo .lead {
+  font-size: clamp(16px, 1.35vw, 21px);
+}
+
+
+/* ============================================================================
+   6. ÚLTIMOS AJUSTES DE RESPONSIVIDADE
+   ========================================================================== */
+
+/* ---- alvos de toque -------------------------------------------------------
+   O padrão de acessibilidade pede 44x44px de área clicável. Os links de
+   navegação do rodapé e das listas ficavam com 20px de altura. */
+@media (pointer: coarse) {
+  .sep-site .foot_col a,
+  .sep-site .nav_drawer_foot a {
+    display: inline-block;
+    padding: 7px 0;
+    min-height: 30px;
+  }
+}
+
+/* ---- grades de segmentos --------------------------------------------------
+   Cinco colunas de cards de setor viravam duas direto no 980. Entre um e
+   outro cabe um degrau de três, que é o que o tablet pede. */
+@media (max-width: 1100px) and (min-width: 761px) {
+  .sep-home .seg_grid,
+  .sep-produtos .seg_grid { grid-template-columns: repeat(3, 1fr) }
+}
+@media (max-width: 480px) {
+  .sep-home .seg_grid,
+  .sep-produtos .seg_grid { grid-template-columns: repeat(2, 1fr); gap: 10px }
+  .sep-home .seg_card .cap,
+  .sep-produtos .seg_card .cap { font-size: 13px }
+}
+
+/* ---- filtros do estoque ---------------------------------------------------
+   O `<select>` do iOS abaixo de 16px faz o Safari dar zoom na página inteira
+   ao receber o foco, e a página não volta ao tamanho sozinha. */
+.sep-estoque select,
+.sep-estoque input[type='search'],
+.sep-catalogo input,
+.sep-catalogo select {
+  font-size: max(16px, 1em);
+}
+
+/* ---- o aviso em telas pequenas -------------------------------------------- */
+@media (max-width: 560px) {
+  .sep-embreve_modal { padding: 42px 24px 30px; border-radius: 20px }
+  .sep-embreve_bloco { padding: 44px 22px 40px; border-radius: 20px }
+  /* empilhados e largos: no polegar, dois botões lado a lado num aparelho de
+     360px sobram 150px cada, e "Falar no WhatsApp" não cabe. */
+  .sep-embreve_acoes .btn,
+  .sep-embreve_extra .btn { width: 100%; }
+  .sep-embreve_contatos { flex-direction: column; gap: 8px }
+  .sep-embreve_contatos span { display: none }
+}
+
+/* Aparelho pequeno de verdade (iPhone SE, 320px): o aviso não pode encostar
+   nas bordas nem estourar a largura. */
+@media (max-width: 380px) {
+  .sep-embreve_scrim { padding: 12px }
+  .sep-embreve_modal { padding: 38px 18px 26px }
+  .sep-embreve_acoes .btn,
+  .sep-embreve_extra .btn { padding: 14px 20px; font-size: 14.5px }
+}
+
+/* ---- rodapé ---------------------------------------------------------------
+   Quatro colunas viravam uma só no 720. Duas colunas usam melhor a largura do
+   celular deitado e do tablet em pé. */
+@media (max-width: 900px) and (min-width: 561px) {
+  .sep-site .foot_top { grid-template-columns: repeat(2, 1fr); gap: 36px }
+}
+
+/* ---- nada pode furar a largura da tela -----------------------------------
+   Rede de segurança final, com especificidade zero para qualquer regra do
+   projeto poder sobrescrever. Vale principalmente para os blocos novos. */
+:where(.sep-embreve_modal, .sep-embreve_bloco) :where(img, video, svg) {
+  max-width: 100%;
+  height: auto;
+}
+
+
+/* ============================================================================
+   7. BARRA DE NAVEGAÇÃO NO CELULAR — ESTOQUE, SEGMENTOS E CATÁLOGO
+
+   O PROBLEMA
+   ----------
+   Estas três páginas nasceram no v79, que é importado DEPOIS do v77 e do v78.
+   Como a especificidade empata (`.sep-estoque .nav_actions` e
+   `.sep-site .nav_actions` são as duas 0-2-0), quem vem por último vence — e
+   por isso o v79 desfazia, só nestas três páginas, três ajustes de celular que
+   as outras cinco páginas recebem normalmente:
+
+     a) `.nav_actions { display: flex }` anulava o `display: none` que o v77
+        aplica abaixo de 560px. Resultado: num aparelho de 360px a barra ficava
+        com logo + botão "Cadastrar" + hambúrguer disputando a mesma linha, tudo
+        espremido e transbordando a largura da tela.
+
+     b) `nav .nav_in { padding: 24px }` — atalho — zerava o padding fluido do
+        v77 (`clamp(16px, 2.2vw, 24px)` + `env(safe-area-inset-*)`). A barra
+        mantinha 24px fixos de cada lado no celular, comendo espaço que faltava
+        para a logo, e perdia a margem de segurança do notch em paisagem.
+
+     c) `.nav_actions { gap: 14px }` mantinha o respiro de desktop entre os
+        botões, quando abaixo de 980px o v77 já tinha reduzido para 8px.
+
+   A CORREÇÃO
+   ----------
+   Devolver os três valores aqui, no arquivo que é o último da fila. Nada de
+   `!important`: basta a ordem da cascata. O desktop não é tocado — as regras
+   abaixo vivem todas dentro de @media.
+   ========================================================================== */
+
+/* (b) padding fluido da barra, igual ao das outras cinco páginas ----------- */
+.sep-estoque nav .nav_in,
+.sep-segmentos nav .nav_in,
+.sep-catalogo nav .nav_in {
+  padding-left: max(clamp(16px, 2.2vw, 24px), env(safe-area-inset-left));
+  padding-right: max(clamp(16px, 2.2vw, 24px), env(safe-area-inset-right));
+  padding-top: clamp(14px, 1.8vw, 24px);
+  padding-bottom: clamp(14px, 1.8vw, 24px);
+}
+.sep-estoque nav.scrolled .nav_in,
+.sep-segmentos nav.scrolled .nav_in,
+.sep-catalogo nav.scrolled .nav_in {
+  padding-top: clamp(11px, 1.2vw, 15px);
+  padding-bottom: clamp(11px, 1.2vw, 15px);
+}
+
+@media (max-width: 980px) {
+  /* (c) mesmo respiro entre os botões das outras páginas */
+  .sep-estoque .nav_actions,
+  .sep-segmentos .nav_actions,
+  .sep-catalogo .nav_actions { gap: 8px; }
+
+  /* Trava de segurança: a barra é uma linha só. Se um texto crescer, o
+     hambúrguer continua na borda em vez de cair para baixo. */
+  .sep-estoque nav .nav_in,
+  .sep-segmentos nav .nav_in,
+  .sep-catalogo nav .nav_in { flex-wrap: nowrap; }
+
+  .sep-estoque .brand,
+  .sep-segmentos .brand,
+  .sep-catalogo .brand { min-width: 0; flex: 0 1 auto; }
+}
+
+@media (max-width: 560px) {
+  /* (a) O CONSERTO PRINCIPAL. Abaixo deste ponto a barra fica só com a marca e
+     o hambúrguer — "Entrar" e "Cadastrar" continuam acessíveis, dentro do
+     painel deslizante, exatamente como nas outras páginas. */
+  .sep-estoque .nav_actions,
+  .sep-segmentos .nav_actions,
+  .sep-catalogo .nav_actions { display: none; }
+}

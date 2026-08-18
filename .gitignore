@@ -1,0 +1,10 @@
+public/media/home/home.mp4
+*.mp4
+node_modules
+dist
+.env
+.env.local
+.vercel
+.DS_Store
+*.log
+.tsbuild/

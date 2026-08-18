@@ -1,0 +1,463 @@
+/* ═══════════════════════════════════════════════════════════════════
+   V76 — LIMPEZA GERAL
+   1. Tipografia padronizada (parágrafos menores)
+   2. Tags/eyebrows escondidas em todo o site
+   3. Home — hero intacto + slots de imagem sem fallback
+   4. Produtos — hero editorial (sem cards em box)
+   5. Sobre — hero statement (sem faixa de números)
+   6. Guia de peças — cartão de ação
+   7. Máquinas Separi (mqx)
+   8. Listas sem ícone (bullets simples)
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ─────────────── 1. TIPOGRAFIA PADRONIZADA ─────────────── */
+.text-lg { font-size: 0.98rem; line-height: 1.7; }
+.info-block-lead,
+.section-intro,
+.sb-manifesto-cols p,
+.sb-mv2-item p,
+.sb-mv2-brand-sub,
+.svx-lead, .abx-lead, .mqx-lead, .pdx-lead, .phero-lead,
+.mnb-lead { font-size: 0.98rem; line-height: 1.7; }
+
+/* ─────────────── 2. TAGS / EYEBROWS FORA ─────────────── */
+.eyebrow,
+.sv-tag, .sv-cf-kicker,
+.pc-cta-kicker,
+.sb-mv2-tag,
+.mnb-hero-eyebrow, .mqx-eyebrow, .abx-eyebrow,
+.pg-hero-card-kicker { display: none !important; }
+
+/* ─────────────── 3. HOME — SLOTS DE IMAGEM ─────────────── */
+/* foto da cena do hero: só o arquivo real, sem fallback; não altera o layout */
+.hero-split-photo-slot {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+.hero-split-panel.has-img .hero-split-pathnote { display: none; }
+.hero-split-panel.has-img::before { opacity: 0.3; }
+.hero-split-scene, .hero-split-dots { z-index: 1; }
+
+.slot-photo {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+.highlight-card-media, .sv-feature-media, .sb-team-media { position: relative; overflow: hidden; }
+.highlight-card-media.has-img .highlight-card-path,
+.sv-feature-media.has-img .sv-feature-path,
+.sb-team-media.has-img .sb-team-path { display: none; }
+
+.info-block-visual { position: relative; overflow: hidden; }
+.info-block-visual > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.info-block-visual.has-img .info-block-visual-placeholder { display: none; }
+
+/* passos numerados (sem ícone) */
+.process-step-symbol {
+  font-weight: 800; font-size: 1.05rem; letter-spacing: 0.04em;
+  color: var(--teal-dark);
+}
+
+/* ─────────────── 4. PRODUTOS — HERO EDITORIAL ─────────────── */
+.pdx-hero {
+  position: relative;
+  padding: 118px 0 64px;
+  background:
+    radial-gradient(900px 420px at 12% -10%, rgba(0, 169, 157, 0.08), transparent 60%),
+    var(--white, #fff);
+}
+.pdx-grid {
+  display: grid; grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+  margin-top: 26px;
+}
+.pdx-title {
+  font-size: clamp(2.3rem, 5.4vw, 4rem);
+  line-height: 1.04; letter-spacing: -0.02em;
+  color: var(--ink, #0f172a);
+}
+.pdx-title em {
+  font-style: italic;
+  background: var(--grad-teal);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.pdx-rule {
+  display: block; width: 64px; height: 2px;
+  background: var(--grad-teal);
+  margin: 22px 0 16px;
+}
+.pdx-lead { color: rgba(15, 23, 42, 0.62); max-width: 420px; }
+
+.pdx-media { position: relative; }
+.pdx-media-img {
+  position: relative; z-index: 1;
+  border-radius: 20px; overflow: hidden;
+  aspect-ratio: 1 / 1; min-height: 300px;
+  box-shadow: 0 40px 80px -44px rgba(0, 63, 62, 0.45);
+}
+.pdx-media-img img { width: 100%; height: 100%; object-fit: cover; }
+.pdx-media-frame {
+  position: absolute; inset: 22px -22px -22px 22px;
+  border: 1.5px solid rgba(0, 169, 157, 0.35);
+  border-radius: 20px;
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  .pdx-hero { padding-top: 96px; }
+  .pdx-grid { grid-template-columns: 1fr; }
+  .pdx-media { margin-right: 22px; }
+  .pdx-media-img { aspect-ratio: 16 / 10; min-height: 220px; }
+}
+
+/* ─────────────── 5. SOBRE — HERO STATEMENT ─────────────── */
+.abx-hero {
+  position: relative;
+  padding: 118px 0 0;
+  background:
+    radial-gradient(1100px 500px at 50% -10%, rgba(0, 169, 157, 0.10), transparent 65%),
+    var(--white, #fff);
+  overflow: hidden;
+}
+.abx-hero-glow {
+  position: absolute; inset: auto 0 0 0; height: 340px;
+  background: linear-gradient(180deg, transparent, rgba(0, 131, 127, 0.05));
+  pointer-events: none;
+}
+.abx-crumbs { justify-content: center; display: flex; gap: 8px; margin-bottom: 30px; }
+.abx-head { text-align: center; max-width: 860px; margin: 0 auto; }
+.abx-title {
+  font-size: clamp(2.4rem, 5.6vw, 4.2rem);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  color: var(--ink, #0f172a);
+  margin-bottom: 20px;
+}
+.abx-title em {
+  font-style: normal;
+  background: var(--grad-teal);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.abx-lead {
+  color: rgba(15, 23, 42, 0.62);
+  max-width: 520px; margin: 0 auto;
+}
+.abx-media {
+  margin: 54px auto 0; max-width: 1040px;
+  border-radius: 22px 22px 0 0; overflow: hidden;
+  aspect-ratio: 21 / 8; min-height: 220px;
+  box-shadow: 0 -18px 60px -30px rgba(0, 98, 96, 0.35);
+}
+.abx-media .imgslot, .abx-media img { width: 100%; height: 100%; object-fit: cover; }
+
+@media (max-width: 860px) {
+  .abx-hero { padding-top: 96px; }
+  .abx-media { aspect-ratio: 16 / 9; }
+}
+
+/* ─────────────── 6. GUIA DE PEÇAS — CARTÃO DE AÇÃO ─────────────── */
+.pg-hero-back {
+  display: inline-flex; align-items: center; gap: 7px;
+  margin-top: 18px; font-size: 0.92rem; font-weight: 600;
+  color: rgba(212, 236, 233, 0.85); text-decoration: none;
+  transition: color 0.2s ease;
+}
+.pg-hero-back:hover { color: #7fe0d6; }
+
+.pg-hero-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(6px);
+  border-radius: 18px;
+  padding: 26px;
+  display: grid; gap: 12px;
+  max-width: 360px; width: 100%;
+  justify-self: end;
+}
+.pg-hero-card h2 { font-size: 1.25rem; color: #fff; letter-spacing: -0.01em; }
+.pg-hero-card p { font-size: 0.92rem; line-height: 1.55; color: rgba(255, 255, 255, 0.72); margin-bottom: 4px; }
+.pg-hero-card .btn { width: 100%; justify-content: center; }
+.pg-hero-card .btn-outline { border-color: rgba(255, 255, 255, 0.35); color: #fff; }
+.pg-hero-card .btn-outline:hover { background: rgba(255, 255, 255, 0.1); border-color: #7fe0d6; color: #fff; }
+
+@media (max-width: 860px) {
+  .pg-hero-inner { grid-template-columns: 1fr; }
+  .pg-hero-card { justify-self: stretch; max-width: none; }
+}
+
+/* listas do guia sem ícone */
+.pg-quality p { padding-left: 0; }
+
+/* ─────────────── 7. MÁQUINAS SEPARI (mqx) ─────────────── */
+.mqx-hero {
+  position: relative;
+  padding: 158px 0 72px;
+  background:
+    radial-gradient(900px 460px at 78% -8%, rgba(0, 169, 157, 0.22), transparent 62%),
+    linear-gradient(165deg, var(--teal-darker) 0%, #012a29 58%, #01201f 100%);
+  color: #fff;
+  overflow: hidden;
+}
+.mqx-hero-glow {
+  position: absolute; inset: 0;
+  background: radial-gradient(640px 300px at 18% 108%, rgba(0, 169, 157, 0.14), transparent 70%);
+  pointer-events: none;
+}
+.mqx-hero-word {
+  position: absolute; top: 96px; left: 50%; transform: translateX(-50%);
+  font-size: clamp(6rem, 20vw, 17rem); font-weight: 800; letter-spacing: 0.06em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.06);
+  user-select: none; pointer-events: none; white-space: nowrap;
+}
+.mqx-hero .container { position: relative; z-index: 1; }
+.mqx-crumbs { margin-bottom: 26px; }
+.mqx-crumbs a { color: rgba(212, 236, 233, 0.72); }
+.mqx-crumbs a:hover { color: #7fe0d6; }
+.mqx-crumbs span { color: rgba(212, 236, 233, 0.55); }
+
+.mqx-hero-head { max-width: 680px; }
+.mqx-title {
+  font-size: clamp(2.6rem, 6.4vw, 4.6rem);
+  line-height: 1.02; letter-spacing: -0.02em;
+  color: #fff; margin-bottom: 16px;
+}
+.mqx-title em {
+  font-style: normal;
+  background: linear-gradient(90deg, #7fe0d6, var(--teal-light));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.mqx-lead {
+  color: rgba(229, 244, 243, 0.78);
+  max-width: 520px; margin-bottom: 26px;
+}
+.mqx-ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.mqx-showcase {
+  display: grid; grid-template-columns: 1fr 1.25fr 1fr;
+  gap: 18px; align-items: end;
+  margin-top: 54px;
+}
+.mqx-machine { display: grid; gap: 10px; margin: 0; }
+.mqx-machine-img {
+  border-radius: 16px; overflow: hidden;
+  aspect-ratio: 3 / 4; min-height: 180px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.mqx-machine-hero .mqx-machine-img { aspect-ratio: 3 / 3.6; }
+.mqx-machine-img img { width: 100%; height: 100%; object-fit: cover; }
+.mqx-machine figcaption {
+  font-size: 0.82rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  color: rgba(229, 244, 243, 0.6); text-align: center;
+}
+
+.mqx-chips {
+  list-style: none; margin: 38px 0 0; padding: 18px 0 0;
+  display: flex; flex-wrap: wrap; gap: 10px 26px; justify-content: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.mqx-chips li {
+  font-size: 0.86rem; font-weight: 600; color: rgba(229, 244, 243, 0.75);
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.mqx-chips li::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--teal-light);
+}
+
+.mqx-sechead { text-align: center; margin-bottom: 44px; }
+.mqx-sechead .section-title { margin-bottom: 0; }
+
+.mqx-how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.mqx-step {
+  position: relative; padding: 26px;
+  border: 1px solid rgba(15, 23, 42, 0.08); border-radius: 16px;
+  background: var(--white, #fff);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.mqx-step:hover { transform: translateY(-4px); box-shadow: 0 20px 44px -26px rgba(0, 98, 96, 0.35); }
+.mqx-step-n {
+  font-size: 0.82rem; font-weight: 800; letter-spacing: 0.1em;
+  color: var(--teal-light);
+}
+.mqx-step h3 { font-size: 1.08rem; margin: 10px 0 8px; letter-spacing: -0.01em; }
+.mqx-step p { font-size: 0.94rem; line-height: 1.55; color: rgba(15, 23, 42, 0.6); }
+
+.mqx-fam { display: grid; grid-template-columns: 330px 1fr; gap: 24px; align-items: stretch; }
+.mqx-fam-tabs { display: grid; gap: 8px; }
+.mqx-fam-tab {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px; border-radius: 13px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: var(--white, #fff);
+  cursor: pointer; text-align: left; width: 100%;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+.mqx-fam-tab:hover { border-color: rgba(0, 169, 157, 0.4); transform: translateX(3px); }
+.mqx-fam-tab.is-active { border-color: var(--teal); background: var(--teal-pale); }
+.mqx-fam-tab-t { display: grid; gap: 1px; min-width: 0; }
+.mqx-fam-tab-tag {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--teal);
+}
+.mqx-fam-tab-name { font-size: 0.94rem; font-weight: 600; color: var(--ink, #0f172a); }
+.mqx-fam-tab-go { margin-left: auto; color: rgba(15, 23, 42, 0.3); flex: 0 0 auto; }
+.mqx-fam-tab.is-active .mqx-fam-tab-go { color: var(--teal-dark); }
+
+.mqx-fam-panel {
+  display: grid; grid-template-columns: 1fr 1.05fr;
+  height: 100%;
+  border-radius: 20px; overflow: hidden;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: var(--white, #fff);
+  box-shadow: 0 24px 60px -34px rgba(0, 98, 96, 0.3);
+  min-height: 0;
+}
+.mqx-fam-media { min-height: 300px; height: 100%; }
+.mqx-fam-media img { width: 100%; height: 100%; object-fit: cover; }
+.mqx-fam-body { padding: 32px; display: grid; gap: 14px; align-content: center; }
+.mqx-fam-badge {
+  display: inline-flex; align-items: center; width: fit-content;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--teal-dark); background: var(--teal-pale);
+  padding: 6px 12px; border-radius: 999px;
+}
+.mqx-fam-body h3 { font-size: 1.5rem; letter-spacing: -0.015em; }
+.mqx-fam-lead { font-size: 0.98rem; line-height: 1.65; color: rgba(15, 23, 42, 0.62); }
+.mqx-fam-specs { list-style: none; display: grid; gap: 8px; margin: 4px 0; padding: 0; }
+.mqx-fam-specs li {
+  position: relative; padding-left: 18px;
+  font-size: 0.93rem; color: rgba(15, 23, 42, 0.72);
+}
+.mqx-fam-specs li::before {
+  content: ''; position: absolute; left: 2px; top: 0.52em;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--teal);
+}
+.mqx-fam-ctas { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; margin-top: 6px; }
+.mqx-fam-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.92rem; font-weight: 600; color: var(--teal-dark); text-decoration: none;
+}
+.mqx-fam-link:hover { color: var(--teal); }
+
+.mqx-journey {
+  list-style: none; padding: 0; margin: 0;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+  counter-reset: mqxj;
+}
+.mqx-journey-step {
+  counter-increment: mqxj;
+  padding: 24px;
+  border: 1px solid rgba(15, 23, 42, 0.08); border-radius: 16px;
+  background: var(--white, #fff);
+}
+.mqx-journey-step::before {
+  content: counter(mqxj, decimal-leading-zero);
+  display: block;
+  font-size: 0.82rem; font-weight: 800; letter-spacing: 0.1em;
+  color: var(--teal-light);
+  margin-bottom: 12px;
+}
+.mqx-journey-step h3 { font-size: 1.02rem; margin-bottom: 6px; letter-spacing: -0.01em; }
+.mqx-journey-step p { font-size: 0.9rem; line-height: 1.55; color: rgba(15, 23, 42, 0.6); }
+
+@media (max-width: 1000px) {
+  .mqx-fam { grid-template-columns: 1fr; }
+  .mqx-fam-tabs { grid-template-columns: 1fr 1fr; }
+  .mqx-journey { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 720px) {
+  .mqx-hero { padding-top: 124px; }
+  .mqx-showcase { grid-template-columns: 1fr; }
+  .mqx-machine-img { aspect-ratio: 16 / 10; }
+  .mqx-how { grid-template-columns: 1fr; }
+  .mqx-fam-tabs { grid-template-columns: 1fr; }
+  .mqx-fam-panel { grid-template-columns: 1fr; }
+  .mqx-journey { grid-template-columns: 1fr; }
+}
+
+/* ─────────────── 8. LISTAS SEM ÍCONE ─────────────── */
+.info-block-bullets li { position: relative; padding-left: 18px; }
+.info-block-bullets li::before {
+  content: ''; position: absolute; left: 2px; top: 0.55em;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--teal);
+}
+.sb-contact li { padding-left: 0; }
+
+/* utilitário que faltava */
+.mb-40 { margin-bottom: 40px; }
+
+/* ─────────────── AJUSTES V77 ─────────────── */
+/* peças: chip de teor de sólidos */
+.pcx-type-solids {
+  display: inline-block; width: fit-content;
+  font-size: 0.75rem; font-weight: 700;
+  color: #5eead4;
+  background: rgba(94, 234, 212, 0.1);
+  border: 1px solid rgba(94, 234, 212, 0.25);
+  padding: 4px 10px; border-radius: 999px;
+  margin: 8px 0 10px;
+}
+
+/* máquinas: painel no mobile volta a crescer livre */
+@media (max-width: 1000px) {
+  .mqx-fam { align-items: start; }
+  .mqx-fam-panel { height: auto; }
+  .mqx-fam-body { align-content: start; }
+}
+
+/* produtos: hero mais equilibrado sem o índice */
+.pdx-grid { align-items: center; }
+.pdx-lead { max-width: 380px; }
+@media (max-width: 900px) {
+  .pdx-title br { display: none; }
+}
+
+/* peças: tipos em coluna única no celular */
+@media (max-width: 620px) {
+  .pcx-types { grid-template-columns: 1fr; }
+}
+
+/* ─────────────── GUIA DE PEÇAS — COMPACTO ─────────────── */
+.pg-page .section-padding { padding: clamp(44px, 6vw, 64px) 0; }
+
+.pg-order-band {
+  padding: clamp(40px, 5vw, 56px) 0;
+  background: var(--bg-subtle, #f6f8f8);
+  border-top: 1px solid rgba(15, 23, 42, 0.06);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+}
+.pg-order-title { text-align: center; margin-bottom: 26px; }
+.pg-steps-row {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  max-width: 980px; margin-left: auto; margin-right: auto;
+}
+.pg-steps-row li { align-items: flex-start; }
+.pg-steps-row li > span { width: 32px; height: 32px; border-radius: 9px; font-size: 0.9rem; }
+@media (max-width: 760px) {
+  .pg-steps-row { grid-template-columns: 1fr; gap: 16px; }
+}
+
+.pg-related-title { margin-bottom: 22px; }
+.pg-related-card { padding: 16px 18px; }
+
+/* ─────────────── MÁQUINAS — TAG DA SÉRIE SEM FUNDO ─────────────── */
+.mqx-fam-badge {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  color: var(--teal-dark);
+  border-bottom: 2px solid var(--teal-light);
+  padding-bottom: 3px;
+}

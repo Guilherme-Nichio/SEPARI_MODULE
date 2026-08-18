@@ -1,0 +1,25 @@
+COLOQUE AQUI O ARQUIVO DA FONTE "flsFont"
+==========================================
+
+A home (e só a home) está configurada para usar a fonte "flsFont"
+para você comparar com a tipografia atual (Outfit).
+
+Coloque o arquivo da fonte nesta pasta com EXATAMENTE este nome:
+
+    flsFont.woff2     (formato preferido, mais leve)
+    flsFont.woff      (opcional, fallback para navegadores antigos)
+
+Assim que o arquivo estiver aqui, a home passa a renderizar com a fonte
+automaticamente — não precisa mexer em mais nada no código.
+
+O encanamento (@font-face) já está pronto em:
+    src/styles/v68-home-font-test.css
+
+Observações
+-----------
+- "flsFont" é a fonte de marca usada no site da FLS (fls.com), carregada
+  lá como arquivo local. Use o arquivo que você tiver licença para usar.
+- Se você tiver vários pesos (Regular, Medium, Bold etc.), me avise que
+  eu adiciono um @font-face por peso, com os nomes certos.
+- Enquanto o arquivo não estiver aqui, a home mostra uma fonte de sistema
+  neutra (fallback), o que ajuda a perceber que a fonte real ainda falta.
