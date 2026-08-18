@@ -1,5 +1,5 @@
-public/media/home/home.mp4
-*.mp4
+
+
 node_modules
 dist
 .env
