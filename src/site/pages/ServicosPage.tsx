@@ -181,7 +181,7 @@ export default function ServicosPage() {
                   <tr><td>Inspeção do tambor e peças</td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td></tr>
                   <tr><td>Troca dos itens de desgaste</td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td></tr>
                   <tr><td>Análise de Vibração</td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td></tr>
-                  <tr><td>Relatório Técnico Detalhado</td><td><span className="yes">✓<</span></td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td></tr>
+                  <tr><td>Relatório Técnico Detalhado</td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td></tr>
                   <tr><td>Inspeção da Transmissão Completa</td><td><span className="no">·</span></td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td></tr>
                   <tr><td>Substituição dos Rolamentos</td><td><span className="no">·</span></td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td></tr>
                   <tr><td>Teste de Líquido Penetrante</td><td><span className="no">·</span></td><td><span className="no">·</span></td><td><span className="yes">✓</span></td></tr>
