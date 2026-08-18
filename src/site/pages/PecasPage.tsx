@@ -128,10 +128,10 @@ export default function PecasPage() {
             <div className="comp_grid sep_reveal">
               <div className="part"><div className="pic"><Tag slot="pecasBowl" /></div><div className="pbody"><h4>Componentes do tambor (rotor)</h4><p>Peças críticas do conjunto que gira em alta rotação — essenciais para o funcionamento e a segurança da máquina.</p></div></div>
               <div className="part"><div className="pic"><Tag slot="pecasDiscos" /></div><div className="pbody"><h4>Jogo de Pratos (Discos)</h4><p>Jogo completo ou discos avulsos para reposição. A quantidade e a configuração dos pratos influenciam diretamente a eficiência da separação e a pressão interna do tambor.</p></div></div>
-              <div className="part"><div className="pic"><Tag slot="pecasGravidade" /></div><div className="pbody"><h4>Disco de gravidade</h4><p>Define a posição da interface no modo purificador.</p></div></div>
+              <div className="part"><div className="pic"><Tag slot="pecasGravidade" /></div><div className="pbody"><h4>Jogo de Rodetes</h4><p>Conjunto que sofre cavitação e desgastes rotineiramente.</p></div></div>
               <div className="part"><div className="pic"><Tag slot="pecasRolamentos" /></div><div className="pbody"><h4>Rolamentos</h4><p>Sustentam os eixos. Principal fonte de vibração quando gastos.</p></div></div>
               <div className="part"><div className="pic"><Tag slot="pecasVedacoes" /></div><div className="pbody"><h4>Vedações e O-rings</h4><p>Itens de desgaste que garantem a estanqueidade do bowl.</p></div></div>
-              <div className="part"><div className="pic"><Tag slot="pecasAgua" /></div><div className="pbody"><h4>Sistema de água</h4><p>Comanda a abertura e o fechamento do bowl autolimpante.</p></div></div>
+              <div className="part"><div className="pic"><Tag slot="pecasAgua" /></div><div className="pbody"><h4>Periféricos</h4><p>Sistema de água de comando, manômetros, válvulas solenóides, válvulas reguladora de pressão, pressostatos, sensores de rotação, sensores de vibração, válvulas de contra-pressão, etc.</p></div></div>
             </div>
             <div className="comp_foot sep_reveal"><BtnPlataforma to={quoteRoute(isAuthenticated)} className="btn btn_solid">Cotar peças com a engenharia</BtnPlataforma></div>
           </div>
@@ -172,9 +172,9 @@ export default function PecasPage() {
           <div className="wrap maint sep_reveal">
             <div className="txt">
               <h2>Quando trocar as peças.</h2>
-              <div className="num">5.000 h</div>
-              <div className="num_sub">ou a cada 12 meses, o que vier primeiro.</div>
-              <p>Respeitar o intervalo de serviço evita parada não planejada e protege o produto. Vedações, gaxetas, O-rings, rolamentos e correia são os primeiros a pedir atenção.</p>
+              <div className="num">2500 a 5000 horas</div>
+              <div className="num_sub">ou a cada 06 ou 12 meses, o que vier primeiro.</div>
+              <p>Respeitar o intervalo de serviço evita parada nao planejada e protege sua centrífuga. Anel de poliamida, vedações, retentores, rolamentos, molas, êmbolos, sapatas e correias são os primeiros a pedir atenção.</p>
             </div>
             <div className="signs">
               <h4>Sinais de que está na hora</h4>
