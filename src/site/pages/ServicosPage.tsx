@@ -44,8 +44,8 @@ export default function ServicosPage() {
           <div className="video_fallback"></div>
           <div className="wrap hero_inner" style={{ zIndex: 3 }}>
             <div className="crumbs"><a href="separi-home.html">Início</a> / Serviços</div>
-            <h1>De volta à<br /><em>rotação de projeto.</em></h1>
-            <p>Preventiva, revisão e recondicionamento por quem se formou na escola dos próprios fabricantes.</p>
+            <h1>De volta à<br /><em>produção.</em></h1>
+            <p>Preventiva, remanufatura completa e emergência — serviço técnico especializado para reduzir parada de máquina e manter sua linha rodando.</p>
           </div>
           <div className="scroll_hint">↓</div>
         </header>
@@ -65,9 +65,13 @@ export default function ServicosPage() {
               <h2>Preventiva.</h2>
               <p className="lead">A rotina que evita a parada. Inspeção regular baseada na condição de operação, antes de o problema aparecer.</p>
               <ul>
-                <li>Inspeção de bowl, vedações e portas</li>
-                <li>Troca de gaxetas no intervalo certo</li>
-                <li>Lubrificação e checagem do rotativo</li>
+                <li>Inspeção de tambor, jogo de rodetes e tubulação</li>
+                <li>Inspeção da transmissão completa</li>
+                <li>Lubrificação</li>
+                <li>Controle da Vibração</li>
+                <li>Testes de Descargas - Parcial e Total</li>
+                <li>Ajuste de Processo (quando necessário)</li>
+                <li>Relatório Técnico</li>
               </ul>
             </div>
             <div className="shape blob"><Bg slot="svcPreventiva" className="img" showLabel /></div>
@@ -79,11 +83,15 @@ export default function ServicosPage() {
           <div className="wrap split rev sep_reveal">
             <div className="txt">
               <h2>Revisão geral.</h2>
-              <p className="lead">A revisão anual completa. Tudo da preventiva, mais uma análise profunda de chassi e estrutura para planejar o futuro.</p>
+              <p className="lead">A revisão em nosso centro de reparos é feita de forma técnica e com procedimentos. Todos os conjuntos são desmontados e avaliados. </p>
               <ul>
                 <li>Desmontagem completa e limpeza</li>
-                <li>Rolamentos, eixos e drives sob controle</li>
-                <li>Teste de desempenho e calibração</li>
+                <li>Ensaio não-destrutivo (líquido penentrante) para analise de trincas e pittings</li>
+                <li>Inspeção dimensional</li>
+                 <li>Avaliação técnica</li>
+                 <li>Montagem e ajustes</li>
+                 <li>Balanceamento e Teste Final</li>
+                 <li>Relatórios e embalagem</li>
               </ul>
             </div>
             <div className="shape"><Bg slot="svcRevisao" className="img" showLabel /></div>
@@ -170,14 +178,16 @@ export default function ServicosPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr><td>Inspeção do bowl e peças</td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td></tr>
-                  <tr><td>Troca de gaxetas e vedações</td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td></tr>
-                  <tr><td>Relatório técnico detalhado</td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td></tr>
-                  <tr><td>Inspeção do chassi e estrutura</td><td><span className="no">·</span></td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td></tr>
-                  <tr><td>Substituição de rolamentos</td><td><span className="no">·</span></td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td></tr>
-                  <tr><td>Testes de calibração</td><td><span className="no">·</span></td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td></tr>
-                  <tr><td>Balanceamento dinâmico</td><td><span className="no">·</span></td><td><span className="no">·</span></td><td><span className="yes">✓</span></td></tr>
-                  <tr><td>Microusinagem e jateamento</td><td><span className="no">·</span></td><td><span className="no">·</span></td><td><span className="yes">✓</span></td></tr>
+                  <tr><td>Inspeção do tambor e peças</td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td></tr>
+                  <tr><td>Troca dos itens de desgaste</td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td></tr>
+                  <tr><td>Análise de Vibração</td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td></tr>
+                  <tr><td>Relatório Técnico Detalhado</td><td><span className="yes">✓<</span></td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td></tr>
+                  <tr><td>Inspeção da Transmissão Completa</td><td><span className="no">·</span></td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td></tr>
+                  <tr><td>Substituição dos Rolamentos</td><td><span className="no">·</span></td><td><span className="yes">✓</span></td><td><span className="yes">✓</span></td></tr>
+                  <tr><td>Teste de Líquido Penetrante</td><td><span className="no">·</span></td><td><span className="no">·</span></td><td><span className="yes">✓</span></td></tr>
+                  <tr><td>Balanceamento Dinâmico</td><td><span className="no">·</span></td><td><span className="no">·</span></td><td><span className="yes">✓</span></td></tr>
+                  <tr><td>Usinagem</td><td><span className="no">·</span></td><td><span className="no">·</span></td><td><span className="yes">✓</span></td></tr>
+                  <tr><td>Teste Final</td><td><span className="no">·</span></td><td><span className="no">·</span></td><td><span className="yes">✓</span></td></tr>
                 </tbody>
               </table>
             </div>
@@ -189,14 +199,14 @@ export default function ServicosPage() {
           <div className="wrap">
             <div className="sep_reveal">
               <h2>Onde você precisar.</h2>
-              <p className="lead" style={{ "maxWidth": "480px", "marginTop": "22px" }}>Na sua planta ou na nossa oficina em Indaiatuba, com a mesma engenharia.</p>
+              <p className="lead" style={{ "maxWidth": "480px", "marginTop": "22px" }}>Na sua planta ou na nossa oficina em Indaiatuba/SP, com a mesma qualidade SEPARI.</p>
             </div>
             <div className="duo sep_reveal">
               <div className="duo_tile">
                 <Bg slot="svcCampo" className="img" />
                 <div className="cap">
                   <h3>Em campo</h3>
-                  <p>Vamos até o seu navio ou planta e resolvemos onde o problema acontece, com o mínimo de parada.</p>
+                  <p>Vamos até sua sua planta ou navio para resolver o seu problema de parada ou realizar as preventivas</p>
                   <a className="more" {...external} href={R.whatsapp}>Agendar visita →</a>
                 </div>
               </div>
@@ -204,7 +214,7 @@ export default function ServicosPage() {
                 <Bg slot="svcOficina" className="img" />
                 <div className="cap">
                   <h3>Na oficina</h3>
-                  <p>Reconstrução completa com balanceamento, microusinagem e teste contínuo antes de voltar ao serviço.</p>
+                  <p>Remanufatura completa com análise dimensionais, balanceamento dinâmico rotação nominal da sua máquina e teste contínuo exaustivo.</p>
                   <a className="more" {...external} href={R.whatsapp}>Enviar equipamento →</a>
                 </div>
               </div>
@@ -217,7 +227,7 @@ export default function ServicosPage() {
           <div className="wrap">
             <div className="head sep_reveal">
               <h2>O que a rotina evita.</h2>
-              <p className="lead" style={{ "marginTop": "22px" }}>Manutenção não é custo, é proteção. Veja o que mantemos longe da sua planta.</p>
+              <p className="lead" style={{ "marginTop": "22px" }}>Manutenção é investimento. É proteção e respeito a sua produção. Veja o que mantemos longe da sua planta.</p>
             </div>
             <div className="prot_grid sep_reveal">
               <div className="prot_item"><div className="dot">✕</div><div><h4>Parada não planejada</h4><p>Inspeção programada e leitura de vibração antecipam a falha antes da quebra.</p></div></div>
@@ -245,7 +255,7 @@ export default function ServicosPage() {
         {/* CTA */}
         <section className="cta">
           <div className="wrap sep_reveal">
-            <h2>Pronto para elevar<br />o seu processo?</h2>
+            <h2>Pronto para manter sua produção em alta?<br /> A nossa equipe está disponivel 24/7 para lhe atender.o seu processo?</h2>
             <p className="lead">A nossa equipe de engenharia está a postos.</p>
             <div className="btns">
               <a className="btn btn_solid" {...external} href={R.whatsapp}>Falar com especialista</a>
